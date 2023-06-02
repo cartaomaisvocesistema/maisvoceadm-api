@@ -1,0 +1,65 @@
+.banner {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    background-color: white;
+}
+
+.bannerlist {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    height: auto;
+    overflow-x: auto;
+}
+
+.bannerlistitem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.bannerlist::-webkit-scrollbar {
+    display: none;
+}
+
+@media screen and (min-width: 1024px) {
+
+    .bannerlist {
+        max-width: 100vw;
+        flex-wrap: wrap;
+    }
+
+    .bannerlistitem {
+        min-width: 300px;
+        height: 150px;
+        margin-right: 10px;
+    }
+
+}
+
+@media screen and (max-width: 1024px) {
+
+    .bannerlist {
+        max-width: 100%;
+        gap: 5px;
+        width: 100%;
+        flex-wrap: nowrap;
+    }
+
+    .bannerlistitem {
+        min-width: 300px;
+        height: 150px;
+    }
+
+}

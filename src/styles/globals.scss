@@ -1,0 +1,133 @@
+@charset "UTF-8";
+/*configurações basicas do browser, margem, cores, fontes...*/
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+:root {
+    --color-primary: black;
+    --color-danger: black;
+    --color-sucess: black;
+    --color-warning: black;
+    --color-white: white;
+    --color-info-dark: black;
+    --color-info-light: white;
+    --color-dark: black;
+    --color-light: white;
+    --color-primary-variant: black;
+    --color-background: white;
+
+    --color-font: #181b3c;
+    --color-a: #181b3c;
+
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.6rem;
+    --border-radius-3: 0.9rem;
+
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+/*funções*/
+/*Configurações genericas de containers, botões, paragrafos, RESPONSIVIDADE...*/
+html {
+    scroll-behavior: smooth;
+    font-size: 0.9rem;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    font-family: Montserrat;
+    color: var(--color-font);
+    background: var(--color-background);
+    line-height: 1.5;
+    user-select: none;
+    /*overflow-x: hidden;*/
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+a {
+    color: var(--color-a);
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.6rem;
+}
+
+h3 {
+    font-size: 0.87rem;
+}
+
+h4 {
+    font-size: 0.8rem;
+}
+
+h4 {
+    font-size: 0.77rem;
+}
+
+small {
+    font-size: 0.75rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    line-height: 1.2;
+}
+
+section {
+    margin-top: 6rem;
+}
+
+section>h2 {
+    text-align: center;
+}
+
+section>p {
+    text-align: center;
+    width: 42%;
+    margin: 0.6rem auto 2.5rem;
+}
+
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #b2b0b4; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8b888d; 
+  }

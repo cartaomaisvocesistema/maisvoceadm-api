@@ -1,0 +1,17 @@
+.formEnter {
+    opacity: 0;
+}
+
+.formEnterActive {
+    opacity: 1;
+    transition: opacity 1s linear;
+}
+
+.formExit {
+    opacity: 1;
+}
+
+.formExitActive {
+    opacity: 0;
+    transition: opacity 1s linear;
+}

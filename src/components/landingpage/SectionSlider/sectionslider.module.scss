@@ -1,0 +1,194 @@
+.sectionslider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 90px;
+    background-color: #D8DFE2;
+    width: 100%;
+    height: auto;
+    padding: 30px 0px;
+    gap: 10%;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sectionsliderleft {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 435px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sectionsliderright {
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    width: 50%;
+    height: 435px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F9F9F9;
+    padding: 20px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sectionslidercontentright {
+    display: flex;
+    width: 100%;
+    height: auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.maisimg {
+    width: 40px;
+    height: 40px;
+}
+
+.sectionslidergroup {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+}
+
+.sectionslidertitle {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.sectionslidertext {
+    font-size: 16px;
+}
+
+.pricegroup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+}
+
+.sectionsliderpricers,
+.sectionsliderpricecents {
+    font-size: 35px;
+    font-weight: 800;
+}
+
+.sectionsliderprice {
+    font-size: 70px;
+    font-weight: 800;
+}
+
+.askcardimg {
+    border-radius: 10px;
+}
+
+.btnaskcard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 400ms ease;
+    gap: 0.3rem;
+    padding: 10px;
+    background: #FF570D;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btnaskcard:hover {
+    background: #d4752d;
+}
+
+
+/*
+  MARCARÇÕES
+  425 - 768 - 1024
+*/
+
+@media screen and (max-width: 1300px) {
+
+    .sectionslider {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        margin-top: 70px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sectionsliderleft {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sectionsliderbanner {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .sectionsliderright {
+        display: flex;
+        flex-direction: column;
+        border-radius: 15px;
+        width: 100%;
+        max-width: 770px;
+        height: auto;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #F9F9F9;
+        padding: 20px;
+        margin: 10px 0px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+
+    .sectionslidercontentright {
+        display: flex;
+        width: 100%;
+        height: auto;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+
+    .sectionslidertitle {
+        font-size: 2rem;
+    }
+
+    .sectionslidertext {
+        font-size: 1rem;
+    }
+
+    .sectionsliderprice {
+        font-size: 3rem;
+    }
+
+}

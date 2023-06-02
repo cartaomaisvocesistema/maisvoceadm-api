@@ -1,0 +1,270 @@
+.logoimg {
+    width: 200px;
+    height: auto;
+}
+
+.paymentimg {
+    width: 100%;
+    height: auto;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+}
+
+.footerline {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+}
+
+.footerall {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+.footerleft {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.footerlefttext1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.footerlefttext2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.ct {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: auto;
+    height: 300px;
+}
+
+.ctstart {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: auto;
+    height: 150px;
+}
+
+.socialitem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    line-height: 19px;
+}
+
+.socialtitle {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 27px;
+    color: #606060;
+}
+
+.socialicon {    
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    color: #606060;
+}
+
+.socialtext {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #606060;
+}
+
+.footercenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.footerright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+ 
+    .logoimg {
+        width: 200px;
+        height: auto;
+    }
+    
+    .paymentimg {
+        width: 100%;
+        height: auto;
+    }
+    
+    .footer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        height: 500px;
+    }
+    
+    .footerleft {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .footerline {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        height: 500px;
+        padding: 20px;
+    }
+    
+    .footerall {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        text-align: justify;
+        width: 100%;
+        gap: 5%;
+        height: 180px;
+        padding: 20px;
+    }
+
+    .footerlefttext1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+    .footerlefttext2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+    .ct {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: auto;
+        height: 300px;
+    }
+    
+    .ctstart {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        width: auto;
+        height: 100%;
+    }
+    
+    .socialitem {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        line-height: 19px;
+        margin: 20px 0px;
+    }
+    
+    .socialtitle {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 27px;
+        color: #606060;
+    }
+    
+    .socialicon {
+        
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+        color: #606060;
+    }
+    
+    .socialtext {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        color: #606060;
+    }
+    
+    .footercenter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        margin-top: 20px;
+    }
+    
+    .footerright {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+}

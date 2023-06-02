@@ -1,0 +1,17 @@
+.slideEnter {
+    opacity: 0.8;
+}
+
+.slideEnter.slideEnterActive {
+    opacity: 1;
+    transition: 100ms linear;
+}
+
+.slideExit {
+    opacity: 1;
+}
+
+.slideExit.slideExitActive {
+    opacity: 0.8;
+    transition: 100ms linear;
+}

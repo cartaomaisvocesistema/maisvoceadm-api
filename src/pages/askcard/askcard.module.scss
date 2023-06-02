@@ -1,0 +1,157 @@
+.askcard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    padding: 20px 0px;
+    margin-top: 80px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+}
+
+.askcardleft {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding-right: 40px;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.askcardbanner {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.askcardright {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.askcardtitle {
+    font-size: 2.0rem;
+}
+
+.askcardtitlename {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.askcardtext {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    text-align: justify;
+    margin: 20px 0px 20px 0px;
+}
+
+.askcardinput {
+    border-radius: 10px;
+    border: 1px solid #d4752d;
+    font-size: 1.3rem;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    color: #181b3c;
+    margin: 20px 0px 20px 0px;
+}
+
+.askcardbtn {
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 400ms ease;
+    gap: 0.3rem;
+    width: 100%;
+    height: 50px;
+    background-color: #f08a3e;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    margin: 20px 0px 20px 0px;
+}
+
+.askcardbtn a {
+    color: white;
+}
+
+.askcardbtn:hover {
+    background: #d4752d;
+}
+
+@media screen and (max-width: 768px) {
+
+    .askcard {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .askcardleft {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        align-items: flex-start;
+        justify-content: space-evenly;
+        padding-right: 0px;
+    }
+
+    .askcardbanner {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin: 10px 0px 0px 0px;
+    }
+
+    .askcardright {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .askcardtitle {
+        font-size: 2rem;
+    }
+
+    .askcardtext {
+        font-size: 1rem;
+    }
+
+    .askcardinput, .askcardbtn, .askcardtext{
+        margin: 10px 0px 10px 0px;
+    }
+
+    .askcardprice {
+        font-size: 3rem;
+    }
+
+    .askcardtitlename {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+}

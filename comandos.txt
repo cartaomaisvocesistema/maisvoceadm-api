@@ -1,0 +1,2 @@
+npm install sass --save -D
+npm i react-icons --save

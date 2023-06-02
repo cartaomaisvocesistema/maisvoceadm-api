@@ -1,0 +1,41 @@
+.maincontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    max-width: 1440px;
+    background-color: #f7f5fa;
+    padding: 0;
+}
+
+.containerleft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: auto;
+    height: 100%;
+    background-color: white;
+}
+
+.containerright {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .maincontainer {
+        border: 0;
+    }
+
+}

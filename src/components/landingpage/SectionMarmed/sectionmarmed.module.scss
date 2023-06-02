@@ -1,0 +1,234 @@
+.maisimg {
+    width: 40px;
+    height: 40px;
+}
+
+.marmedimg {
+    width: 80%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.googlemaps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height:500px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.sectionmarmed {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: #D8DFE2;
+    padding: 0px 0px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    margin: 20px 0px;
+}
+
+.containercontent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+.sectionmarmedtop {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.sectionmarmedbottom {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.sectionmarmedleft {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 400px;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+.sectionmarmedbanner {
+    width: 100%;
+    height: auto;
+}
+
+.sectionmarmedright {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 400px;
+    align-items: center;
+    justify-content: center;
+}
+
+.talksup {
+    font-size: 1rem;
+    padding: 0px 20px;
+}
+
+.talksup:hover {
+    color: #d4752d;
+    cursor: pointer;
+}
+
+.sectionmarmedtitle {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 41px;
+}
+
+.sectionmarmedtitleorange {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 73px;
+    color: #FF570D;
+}
+
+.sectionmarmedtitlename {
+    font-size: 2.2rem;
+    font-weight: bold;
+}
+
+.sectionmarmedtext {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+.groupbutton {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 13%;
+}
+
+.btndescontos {
+    color: white;
+    cursor: pointer;
+    background-color: #FF570D;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    padding: 10px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.talksup {
+    padding: 0px 20px;
+}
+
+.talksup:hover {
+    color: #d4752d;
+    cursor: pointer;
+}
+
+/*
+  MARCARÇÕES
+  425 - 768 - 1024
+*/
+@media screen and (max-width: 768px) {
+
+    .marmedimg {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+    }
+    
+    .sectionmarmedbottom {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        align-items: flex-start;
+        justify-content: space-evenly;
+    }
+
+    .containercontent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .sectionmarmedleft {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: auto;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0px;
+    }
+    
+    .sectionmarmedright {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: auto;
+        align-items: center;
+        justify-content: center;
+    }
+        
+    .groupbutton {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+        min-height: 100px;
+    }
+
+    .btndescontos {
+        width: 100%;
+        text-align: center;
+    }
+
+    .sectionmarmedtitleorange {
+        font-size: 3rem;
+    }
+        
+}
+
+/* FIM DO CSS DA section3 */

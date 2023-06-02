@@ -1,0 +1,17 @@
+.mapEnter {
+    opacity: 0;
+}
+
+.mapEnterActive {
+    opacity: 1;
+    transition: opacity 1s linear;
+}
+
+.mapExit {
+    opacity: 1;
+}
+
+.mapExitActive {
+    opacity: 0;
+    transition: opacity 1s linear;
+}
