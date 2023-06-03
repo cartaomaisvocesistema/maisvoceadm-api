@@ -15,18 +15,26 @@ export default function DashBoard() {
           <div className={styles.container}>
             <div className={styles.containercards}>
               <div className={styles.card}>
-                Usuarios
+                <div className={styles.cardusers}>
+                  Usuarios
+                </div>
               </div>
               <div className={styles.card}>
-                Pagamentos
+                <div className={styles.cardpayments}>
+                  Pagamentos
+                </div>
               </div>
             </div>
             <div className={styles.containercards}>
               <div className={styles.card}>
-                Parceiros
+                <div className={styles.cardpartners}>
+                  Parceiros
+                </div>
               </div>
               <div className={styles.card}>
-                Financeiro
+                <div className={styles.cardfinancial}>
+                  Financeiro
+                </div>
               </div>
             </div>
           </div>
