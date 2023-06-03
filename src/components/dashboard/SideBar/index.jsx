@@ -6,10 +6,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import styles from './sidebar.module.scss';
+import { useRouter } from 'next/router';
 
 export default function SideBar() {
 
     const [isMobile, setIsMobile] = useState(false);
+
+    const router = useRouter();
+
+    // Função para verificar se a rota é a atual
+    const isCurrentRoute = (route) => {
+        return router.pathname === route ? styles.linkactive : styles.link;
+    };
 
     return (<>
         <div className={styles.sidebar}>
@@ -17,47 +25,47 @@ export default function SideBar() {
                 <ul className={styles.sidelinks}
                     onClick={() => setIsMobile(false)}
                 >
-                    <Link href='./' className={styles.link}>
-                        <li className={styles.sideli}>
+                    <Link href='/dashboard/'>
+                        <li className={isCurrentRoute('/dashboard')}>
                             <div className={styles.linkgroup}>
                                 <MdHome className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Início</span>
                             </div>
                         </li>
                     </Link>
-                    <Link href='./profile' className={styles.link}>
-                        <li className={styles.sideli}>
+                    <Link href='/users/'>
+                        <li className={isCurrentRoute('/users')}>
                             <div className={styles.linkgroup}>
                                 <MdPerson className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Usuários</span>
                             </div>
                         </li>
                     </Link>
-                    <Link href='./profile' className={styles.link}>
-                        <li className={styles.sideli}>
+                    <Link href='/payments/'>
+                        <li className={isCurrentRoute('/payments')}>
                             <div className={styles.linkgroup}>
                                 <MdStorefront className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Pagamentos</span>
                             </div>
                         </li>
                     </Link>
-                    <Link href='./profile' className={styles.link}>
-                        <li className={styles.sideli}>
+                    <Link href='./partners'>
+                        <li className={isCurrentRoute('/partners')}>
                             <div className={styles.linkgroup}>
                                 <MdLocalHospital className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Parceiros</span>
                             </div>
                         </li>
                     </Link>
-                    <Link href='./profile' className={styles.link}>
-                        <li className={styles.sideli}>
+                    <Link href='./financial'>
+                        <li className={isCurrentRoute('/financial')}>
                             <div className={styles.linkgroup}>
                                 <MdLocalHospital className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Financeiro</span>
                             </div>
                         </li>
                     </Link>
-                    <Link href='./' className={styles.link}>
+                    <Link href='./' className={isCurrentRoute('/')}>
                         <li className={styles.sidelimenu}>
                             <div className={styles.linkgroup}>
                                 <button
