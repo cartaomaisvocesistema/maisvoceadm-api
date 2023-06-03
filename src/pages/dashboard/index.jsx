@@ -11,13 +11,26 @@ export default function DashBoard() {
   return (
     <>
       <main>
-        {/*<LayoutDashBoard>
+        <LayoutDashBoard>
           <div className={styles.container}>
-            <SectionMain />
-            <SectionBanner />
-            <SectionPartner />
+            <div className={styles.containercards}>
+              <div className={styles.card}>
+                Usuarios
+              </div>
+              <div className={styles.card}>
+                Pagamentos
+              </div>
+            </div>
+            <div className={styles.containercards}>
+              <div className={styles.card}>
+                Parceiros
+              </div>
+              <div className={styles.card}>
+                Financeiro
+              </div>
+            </div>
           </div>
-  </LayoutDashBoard>*/}
+        </LayoutDashBoard>
       </main>
     </>
   )

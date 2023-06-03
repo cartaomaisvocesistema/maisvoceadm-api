@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-{/*import { Inter } from '@next/font/google';*/}
+{/*import { Inter } from '@next/font/google';*/ }
 
 import LayoutLandingPage from '@/layouts/LayoutLandingpage';
 import SectionSlider from '@/components/landingpage/SectionSlider';
@@ -12,8 +12,12 @@ import Footer from '@/components/landingpage/Footer';
 import SectionPartner from '@/components/landingpage/SectionPartner';
 import SectionAskCardChat from '@/components/landingpage/SectionAskCardChat';
 import SectionPrices from '@/components/landingpage/SectionPrices';
+import styles from './home.module.scss';
+import bannerlogin from '../../public/images/logotipo2.png';
+import Image from 'next/image';
+import Link from 'next/link';
 
-{/*const inter = Inter({ subsets: ['latin'] });*/}
+{/*const inter = Inter({ subsets: ['latin'] });*/ }
 
 export default function Home() {
   return (
@@ -26,15 +30,25 @@ export default function Home() {
       </Head>
       <main>
         <LayoutLandingPage>
-          <SectionSlider />
-          <SectionCard />
-          <SectionAskCard />
-          <SectionMarmed />
-          <SectionAskCardV2 />
-          <SectionPartner />
-          <SectionAskCardChat />
-          {/*
-  */}
+          <div className={styles.login}>
+            <div className={styles.container}>
+              <div>
+                <div className={styles.loginright}>
+                  <Image src={bannerlogin} className={styles.loginbanner} alt='banner2' />
+                </div>
+                <span className={styles.titleadmin}>Administrativo</span>
+              </div>
+              <div className={styles.loginleft}>
+                <span className={styles.logintitle}><span className={styles.logintitlename}>Login</span></span>
+                <input className={styles.logininput} type="text" name="username" placeholder="login" required />
+                <input className={styles.logininput} type="text" name="password" placeholder="senha" required />
+                <input type="submit" value="Entrar" className={styles.loginbtn} />
+                <Link className={styles.logintext} href='./'>
+                  Esqueceu a senha?
+                </Link>
+              </div>
+            </div>
+          </div>
         </LayoutLandingPage>
       </main>
     </>

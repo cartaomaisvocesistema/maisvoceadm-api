@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import styles from './navbar.module.scss';
 import logo from '../../../../public/images/logotipo.svg';
+import bannerlogin from '../../../../public/images/logotipo2.png';
 
 export default function NavBar() {
 
@@ -15,26 +16,22 @@ export default function NavBar() {
         <nav className={styles.navbar}>
             <div className={styles.container}>
                 <Link href='./'>
-                    <Image className={styles.logoimg} src={logo} alt='Cartão + Você' />
+                    <Image className={styles.logoimg} src={bannerlogin} alt='Cartão + Você' />
                 </Link>
+                <span className={styles.navlilogo}>ADM</span>
                 <ul className={isMobile ? styles.navlinksmobile : styles.navlinks}
                     onClick={() => setIsMobile(false)}
                 >
-                    <Link href='./'>
+                    <Link href='http://cartaomaisvc.com.br'>
                         <li className={styles.navli}>
-                            Início
+                            Portal Cliente
                         </li>
                     </Link>
-                    <Link href='./contact'>
+                    <Link href='./login'>
                         <li className={styles.navli}>
-                            Contato
+                            Login
                         </li>
                     </Link>
-                    <li className={styles.navli}>
-                        <a className={styles.navlibtn} href='./askcard'>
-                            Peça já o seu!
-                        </a>
-                    </li>
                 </ul>
                 <button
                     className={styles.mobilemenuicon}

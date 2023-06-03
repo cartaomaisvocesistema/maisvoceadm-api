@@ -4,7 +4,7 @@ import styles from './login.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import bannerlogin from '../../../public/images/bannerlogin.png';
+import bannerlogin from '../../../public/images/logotipo2.png';
 import MainContainer from '@/layouts/LayoutLandingpage';
 
 export default function Login() {
@@ -12,6 +12,12 @@ export default function Login() {
         <MainContainer>
             <div className={styles.login}>
                 <div className={styles.container}>
+                    <div>
+                        <div className={styles.loginright}>
+                            <Image src={bannerlogin} className={styles.loginbanner} alt='banner2' />
+                        </div>
+                        <span className={styles.titleadmin}>Administrativo</span>
+                    </div>
                     <div className={styles.loginleft}>
                         <span className={styles.logintitle}><span className={styles.logintitlename}>Login</span></span>
                         <input className={styles.logininput} type="text" name="username" placeholder="login" required />
@@ -20,9 +26,6 @@ export default function Login() {
                         <Link className={styles.logintext} href='./'>
                             Esqueceu a senha?
                         </Link>
-                    </div>
-                    <div className={styles.loginright}>
-                        <Image src={bannerlogin} className={styles.loginbanner} alt='banner2' />
                     </div>
                 </div>
             </div>

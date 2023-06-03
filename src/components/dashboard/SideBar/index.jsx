@@ -13,19 +13,6 @@ export default function SideBar() {
 
     return (<>
         <div className={styles.sidebar}>
-            <div className={styles.sidebartop}>
-                <div className={styles.logo}>
-                    <button
-                        className={styles.mobilemenuicon}
-                        onClick={() => setIsMobile(!isMobile)}
-                    >
-                        {isMobile ? <FaTimes className={styles.mobilemenuicontimes} /> : <FaBars className={styles.mobilemenuiconbars} />}
-                    </button>
-                </div>
-                {/*div className={styles.close} id='closebtn'>
-                    {isMobile ? <FaTimes className={styles.mobilemenuicontimes} /> : <FaBars className={styles.mobilemenuiconbars} />}
-    </div>*/}
-            </div>
             <div className={styles.sidebarcenter}>
                 <ul className={styles.sidelinks}
                     onClick={() => setIsMobile(false)}
@@ -41,8 +28,8 @@ export default function SideBar() {
                     <Link href='./profile' className={styles.link}>
                         <li className={styles.sideli}>
                             <div className={styles.linkgroup}>
-                                <MdLocalHospital className={styles.sideliicon} />
-                                <span className={styles.sidelilabel}>Consultas</span>
+                                <MdPerson className={styles.sideliicon} />
+                                <span className={styles.sidelilabel}>Usuários</span>
                             </div>
                         </li>
                     </Link>
@@ -50,29 +37,35 @@ export default function SideBar() {
                         <li className={styles.sideli}>
                             <div className={styles.linkgroup}>
                                 <MdStorefront className={styles.sideliicon} />
-                                <span className={styles.sidelilabel}>Produtos</span>
+                                <span className={styles.sidelilabel}>Pagamentos</span>
                             </div>
                         </li>
                     </Link>
                     <Link href='./profile' className={styles.link}>
                         <li className={styles.sideli}>
                             <div className={styles.linkgroup}>
-                                <MdPerson className={styles.sideliicon} />
-                                <span className={styles.sidelilabel}>Perfil</span>
+                                <MdLocalHospital className={styles.sideliicon} />
+                                <span className={styles.sidelilabel}>Parceiros</span>
                             </div>
                         </li>
                     </Link>
-                </ul>
-            </div>
-            <div className={styles.sidebarbottom}>
-                <ul className={styles.sidelinks}
-                    onClick={() => setIsMobile(false)}
-                >
-                    <Link href='./logout' className={styles.link}>
+                    <Link href='./profile' className={styles.link}>
                         <li className={styles.sideli}>
                             <div className={styles.linkgroup}>
-                                <MdLogout className={styles.sideliicon} />
-                                <span className={styles.sidelilabel}>Sair</span>
+                                <MdLocalHospital className={styles.sideliicon} />
+                                <span className={styles.sidelilabel}>Financeiro</span>
+                            </div>
+                        </li>
+                    </Link>
+                    <Link href='./' className={styles.link}>
+                        <li className={styles.sidelimenu}>
+                            <div className={styles.linkgroup}>
+                                <button
+                                    className={styles.mobilemenuicon}
+                                    onClick={() => setIsMobile(!isMobile)}
+                                >
+                                    {isMobile ? <FaTimes className={styles.sideliicon} /> : <FaBars className={styles.sideliicon} />}
+                                </button>
                             </div>
                         </li>
                     </Link>

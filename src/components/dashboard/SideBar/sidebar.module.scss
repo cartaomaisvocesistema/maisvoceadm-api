@@ -1,281 +1,87 @@
-@media only screen and (min-width: 1024px) {
-
-    .sidebar {
-        width: 180px;
-        height: 100vh;
-        background-color: white;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-right: 1px solid #ccc;
-    }
-
-    .sidebartop,
-    .sidebarcenter,
-    .sidebarbottom {
-        display: flex;
-        align-items: center;
-        width: 80%;
-        border-bottom: 1px solid #ccc;
-        padding: 10px 0;
-        margin-bottom: 10px;
-    }
-
-    .sidebartop {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .sidebarcenter {
-        padding: 0;
-    }
-
-    .sidebarbottom {
-        justify-content: center;
-    }
-
-    .logoimg {
-        width: 80px;
-        height: auto;
-    }
-
-    .sidelinks {
-        list-style: none;
-        padding: 0;
-        width: 100%;
-    }
-
-    .sideli {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 10px;
-        font-weight: 500;
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .linkgroup {
-        display: flex;
-        flex-direction: row;
-        line-height: 14px;
-        width: 80%;
-        margin: 0 auto;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    .sideliicon {
-        font-size: 24px;
-        margin-right: 10px;
-    }
-
-    .sidelilabel {
-        font-size: 10px;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    .sideli.active,
-    .sideli:hover {
-        background-color: #f08a3e;
-        //background-color: #181b3c;
-        color: white;
-    }
-
-    .mobilemenuicon {
-        display: none;
-    }
-
+/* Estilos para a sidebar */
+.sidebar {
+  background-color: white;
+  width: 340px;
+  height: 100vh;
+  box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/*
-@media only screen and (max-width: 1024px) {
-
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 80px;
-        height: 100%;
-        background-color: white;
-        border-right: 1px solid #ccc;
-    }
-
-    .sidebartop,
-    .sidebarcenter,
-    .sidebarbottom {
-        display: flex;
-        align-items: center;
-        width: 80%;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .sidebartop {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .logoimg {
-        display: none;
-    }
-
-    .sidebartop {
-        padding: 10px;
-    }
-
-    .logoimg {
-        width: 80px;
-        height: auto;
-    }
-
-    .sidelinks {
-        list-style: none;
-        padding: 10px;
-        width: 100%;
-    }
-
-    .sideli {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 10px;
-        font-weight: 500;
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .linkgroup {
-        display: flex;
-        flex-direction: column;
-        line-height: 14px;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .sideliicon {
-        font-size: 24px;
-        margin-right: 0px;
-    }
-
-    .sidelilabel {
-        font-size: 12px;
-    }
-
-    .sideli.active,
-    .sideli:hover {
-        background-color: #181b3c;
-        color: white;
-    }
-
-    .mobilemenuicon {
-        display: none;
-    }
-
-    .mobilemenuicon {
-        display: flex;
-        color: #f08a3e;
-        background: white;
-    }
-
-    .mobilemenuicontimes,
-    .mobilemenuiconbars {
-        font-size: 30px;
-    }
-
+.sidebarcenter,
+.sidebarbottom {
+  margin-bottom: 20px;
 }
-*/
 
-@media only screen and (max-width: 1024px) {
+.sidelinks {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 
-    .sidebar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 50px;
-        background-color: white;
-        border-top: 1px solid #ccc;
-    }
+.sideli {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  padding: 20px;
+}
 
-    .sidebartop,
-    .sidebarbottom {
-        display: none;
-    }
+.sidelimenu {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
 
-    .sidebarcenter {
-        width: 100%;
-        border-bottom: 0px solid #ccc;
-        padding: 0px 0;
-        margin-bottom: 0px;
-    }
+.linkgroup {
+  display: flex;
+  align-items: center;
+}
 
-    .sidelinks {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-evenly;
-        list-style: none;
-        padding: 0;
-        width: 100%;
-    }
+.link {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  transition: color 0.3s, background-color 0.3s;
+  padding: 10px;
+  border-radius: 5px;
+}
 
+.link:hover {
+  color: #555;
+  background-color: rgba(110, 110, 110, 0.1);
+}
 
-    .sideli {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 0px;
-        font-weight: 500;
-        cursor: pointer;
-        padding: 10px;
-        border-radius: 10px;
-    }
+.sideliicon {
+  margin-right: 10px;
+}
 
-    .linkgroup {
-        display: flex;
-        flex-direction: column;
-        line-height: 14px;
-        width: 100%;
-        margin: 0 auto;
-        align-items: center;
-        justify-content: flex-start;
-    }
+.sidelilabel {
+  font-size: 18px;
+}
 
-    .sideliicon {
-        font-size: 24px;
-        margin-right: 0px;
-    }
+/* Estilos para os ícones */
+.sideliicon {
+  font-size: 20px;
+}
 
-    .sidelilabel {
-        font-size: 10px;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
+/* Estilo específico para cada ícone */
+.sideliicon.MdHome {
+  color: #ff6600;
+}
 
-    .mobilemenuicon {
-        display: flex;
-        color: #f08a3e;
-        background: white;
-    }
+.sideliicon.MdLocalHospital {
+  color: #007bff;
+}
 
-    .mobilemenuicontimes,
-    .mobilemenuiconbars {
-        font-size: 30px;
-    }
+.sideliicon.MdStorefront {
+  color: #28a745;
+}
 
+.sideliicon.MdPerson {
+  color: #17a2b8;
+}
+
+.sideliicon.MdLogout {
+  color: #dc3545;
 }
