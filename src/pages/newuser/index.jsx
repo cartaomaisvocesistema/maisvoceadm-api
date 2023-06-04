@@ -5,7 +5,11 @@ import styles from './newuser.module.scss';
 
 export default function NewUser() {
 
-  const [definirSenhaViaEmail, setDefinirSenhaViaEmail] = useState(false);
+  const [definirSenhaViaEmail, setDefinirSenhaViaEmail] = useState(true);
+  const [definirSenhaManualmente, setDefinirSenhaManualmente] = useState(false);
+  const [desativarPrimeiroCheckbox, setDesativarPrimeiroCheckbox] = useState(false);
+  const [desativarSegundoCheckbox, setDesativarSegundoCheckbox] = useState(false);
+
   const [senha, setSenha] = useState("");
   const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
 
@@ -28,6 +32,26 @@ export default function NewUser() {
     // Lógica para enviar os dados do formulário
   };
 
+  const handleDefinirSenhaChange2 = () => {
+    if (desativarPrimeiroCheckbox) {
+      setDefinirSenhaViaEmail(false);
+    } else {
+      setDefinirSenhaViaEmail(!definirSenhaViaEmail);
+    }
+  };
+
+  const handleDesativarPrimeiroCheckboxChange = () => {
+    setDesativarPrimeiroCheckbox(!desativarPrimeiroCheckbox);
+    setDefinirSenhaViaEmail(false);
+    setDesativarSegundoCheckbox(true);
+  };
+
+
+
+
+
+
+  
   return (
     <>
       <main>
@@ -62,7 +86,7 @@ export default function NewUser() {
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="senha">Senha:</label>
                     <div className={styles.checkboxgroup}>
-                      <input
+                      {/* <input
                         type="checkbox"
                         id="definirSenha"
                         name="definirSenha"
@@ -70,6 +94,17 @@ export default function NewUser() {
                         onChange={handleDefinirSenhaChange}
                       />
                       <label className={styles.formlabel} htmlFor="definirSenha">Definir senha via email</label>
+
+                      <input
+                        type="checkbox"
+                        id="desativarPrimeiroCheckbox"
+                        name="desativarPrimeiroCheckbox"
+                        checked={desativarPrimeiroCheckbox}
+                        onChange={handleDesativarPrimeiroCheckboxChange}
+                      />
+                      <label className={styles.formlabel} htmlFor="desativarPrimeiroCheckbox">
+                        Desativar primeiro checkbox
+                      </label> */}
                     </div>
                     <input
                       className={styles.forminputtext}
