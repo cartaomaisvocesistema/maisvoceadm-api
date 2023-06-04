@@ -73,10 +73,12 @@
     height: auto;
     align-items: center;
     justify-content: flex-start;
-    gap: 1%;
+    gap: 3%;
     padding: 20px 0;
   }
-  
+  .checkbox1 {
+    padding: 0 10px;
+  }
   .button[type="submit"] {
     display: flex;
     width: 100%;

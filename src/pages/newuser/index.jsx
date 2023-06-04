@@ -5,18 +5,26 @@ import styles from './newuser.module.scss';
 
 export default function NewUser() {
 
-  const [definirSenhaViaEmail, setDefinirSenhaViaEmail] = useState(true);
-  const [definirSenhaManualmente, setDefinirSenhaManualmente] = useState(false);
-  const [desativarPrimeiroCheckbox, setDesativarPrimeiroCheckbox] = useState(false);
-  const [desativarSegundoCheckbox, setDesativarSegundoCheckbox] = useState(false);
 
-  const [senha, setSenha] = useState("");
-  const [confirmacaoSenha, setConfirmacaoSenha] = useState("");
+  const [statusInicial, setStatusInicial] = useState('2');
 
-  const handleDefinirSenhaChange = (event) => {
-    setDefinirSenhaViaEmail(event.target.checked);
-    setSenha("");
-    setConfirmacaoSenha("");
+  const handleOpcaoChange2 = (event) => {
+    
+  };
+
+
+
+  const [opcaoSelecionada, setOpcaoSelecionada] = useState('email');
+  const [senha, setSenha] = useState('');
+  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
+
+  const handleOpcaoChange = (event) => {
+    const { value } = event.target;
+    setOpcaoSelecionada(value);
+    setStatusInicial(value === 'email' ? '2' : '1');
+    setOpcaoSelecionada(event.target.value);
+    setSenha('');
+    setConfirmacaoSenha('');
   };
 
   const handleSenhaChange = (event) => {
@@ -27,31 +35,8 @@ export default function NewUser() {
     setConfirmacaoSenha(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Lógica para enviar os dados do formulário
-  };
+  const definirSenhaViaEmail = opcaoSelecionada === 'email';
 
-  const handleDefinirSenhaChange2 = () => {
-    if (desativarPrimeiroCheckbox) {
-      setDefinirSenhaViaEmail(false);
-    } else {
-      setDefinirSenhaViaEmail(!definirSenhaViaEmail);
-    }
-  };
-
-  const handleDesativarPrimeiroCheckboxChange = () => {
-    setDesativarPrimeiroCheckbox(!desativarPrimeiroCheckbox);
-    setDefinirSenhaViaEmail(false);
-    setDesativarSegundoCheckbox(true);
-  };
-
-
-
-
-
-
-  
   return (
     <>
       <main>
@@ -62,7 +47,7 @@ export default function NewUser() {
             </div>
             <div className={styles.card}>
               <div className={styles.formcontainer}>
-                <form onSubmit={handleSubmit}>
+                <form>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
                     <input className={styles.forminputtext} type="text" id="nome" name="nome" required />
@@ -86,25 +71,25 @@ export default function NewUser() {
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="senha">Senha:</label>
                     <div className={styles.checkboxgroup}>
-                      {/* <input
-                        type="checkbox"
-                        id="definirSenha"
-                        name="definirSenha"
-                        checked={definirSenhaViaEmail}
-                        onChange={handleDefinirSenhaChange}
-                      />
-                      <label className={styles.formlabel} htmlFor="definirSenha">Definir senha via email</label>
+                      <label >
+                        <input
+                          type="radio"
+                          value="email"
+                          checked={opcaoSelecionada === 'email'}
+                          onChange={handleOpcaoChange}
+                        />
+                        <span className={styles.checkbox1}>Definir senha via Email</span>
+                      </label>
 
-                      <input
-                        type="checkbox"
-                        id="desativarPrimeiroCheckbox"
-                        name="desativarPrimeiroCheckbox"
-                        checked={desativarPrimeiroCheckbox}
-                        onChange={handleDesativarPrimeiroCheckboxChange}
-                      />
-                      <label className={styles.formlabel} htmlFor="desativarPrimeiroCheckbox">
-                        Desativar primeiro checkbox
-                      </label> */}
+                      <label>
+                        <input
+                          type="radio"
+                          value="manual"
+                          checked={opcaoSelecionada === 'manual'}
+                          onChange={handleOpcaoChange}
+                        />
+                        <span className={styles.checkbox1}>Definir senha manualmente</span>
+                      </label>
                     </div>
                     <input
                       className={styles.forminputtext}
@@ -127,14 +112,28 @@ export default function NewUser() {
                       disabled={definirSenhaViaEmail}
                     />
                   </div>
-
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="status">Status:</label>
+                    <select
+                     className={styles.forminputtext}
+                     id="status"
+                     name="status"
+                     required
+                     value={statusInicial}
+                     disabled
+                     onChange={(event) => setStatusInicial(event.target.value)}
+                    >
+                      <option value="">Selecione o status inicial</option>
+                      <option value="1">Ativo</option>
+                      <option value="2">Pendente</option>
+                    </select>
+                  </div>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="tipo">Tipo:</label>
-                    <select className={styles.forminputtext} id="tipo" name="tipo" required>
+                    <select className={styles.forminputtext} id="tipo" name="tipo" required defaultValue="1" enabled>
                       <option value="">Selecione o tipo</option>
-                      <option value="1">Opção 1</option>
-                      <option value="2">Opção 2</option>
-                      <option value="3">Opção 3</option>
+                      <option value="1">Cliente</option>
+                      <option value="2">Administrador</option>
                     </select>
                   </div>
 
