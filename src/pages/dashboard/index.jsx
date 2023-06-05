@@ -23,7 +23,7 @@ export default function DashBoard() {
                   <span className={styles.cardtitle}>Usuários</span>
                   <div className={styles.ctactives}>
                     <div className={styles.dotsgreen}></div>
-                    <span>75 ativos</span>
+                    <span className={styles.cardtitle}>75 ativos</span>
                   </div>
                 </div>
               </div>
@@ -32,7 +32,7 @@ export default function DashBoard() {
                   <span className={styles.cardtitle}>Pagamentos</span>
                   <div className={styles.ctactives}>
                     <div className={styles.dotsorange}></div>
-                    <span>28 pendentes</span>
+                    <span className={styles.cardtitle}>28 pendentes</span >
                   </div>
                 </div>
               </div>
@@ -43,7 +43,7 @@ export default function DashBoard() {
                   <span className={styles.cardtitle}>Parceiros</span>
                   <div className={styles.ctactives}>
                     <div className={styles.dotsgreen}></div>
-                    <span>12 parcerias</span>
+                    <span className={styles.cardtitle}>12 parcerias</span>
                   </div>
                 </div>
               </div>

@@ -1,15 +1,37 @@
-
 import LayoutDashBoard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
+import React, { useState } from 'react';
+import { FaEdit } from 'react-icons/fa';
 
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 
 import styles from './users.module.scss';
 
 export default function Users() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filterValues, setFilterValues] = useState({
+    name: '',
+    email: '',
+    cpf: '',
+  });
+  const handleFilterSubmit = () => {
+    // Lógica para lidar com o envio dos filtros
+    // ...
+  };
+  const handleDeleteUser = () => {
+    // Remova o usuário da lista com base no selectedUserId
+    // Por exemplo:
+    const updatedUsers = users.filter(user => user.id !== selectedUserId);
+    setUsers(updatedUsers);
+
+    // Feche a modal e redefina o ID do usuário selecionado
+    setIsModalOpen(false);
+    setSelectedUserId(null);
+  };
 
   const users = [
     {
@@ -80,6 +102,40 @@ export default function Users() {
             <div className={styles.ctpainel}>
               <Link href='/newuser' className={styles.btnewuser}>Novo usuário</Link>
               <div className={styles.pagination}>
+                <button className={styles.btnewuser} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
+                {isFilterOpen && (
+                  <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                      <div className={styles.filterForm}>
+                        <input
+                          type="text"
+                          placeholder="Nome"
+                          value={filterValues.name}
+                          onChange={(e) =>
+                            setFilterValues({ ...filterValues, name: e.target.value })
+                          }
+                        />
+                        <input
+                          type="text"
+                          placeholder="Email"
+                          value={filterValues.email}
+                          onChange={(e) =>
+                            setFilterValues({ ...filterValues, email: e.target.value })
+                          }
+                        />
+                        <input
+                          type="text"
+                          placeholder="CPF"
+                          value={filterValues.cpf}
+                          onChange={(e) =>
+                            setFilterValues({ ...filterValues, cpf: e.target.value })
+                          }
+                        />
+                        <button onClick={handleFilterSubmit}>OK</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <Link href=''>
                   <IoIosArrowBack />
                 </Link>
@@ -110,12 +166,33 @@ export default function Users() {
                     <td className={styles.td}>{user.cpf}</td>
                     <td className={styles.td}>{user.status}</td>
                     <td className={styles.td}>{user.lastPaymentDate}</td>
-                    <td className={`${styles.td} ${styles.tdcenter}`}><FaEdit/></td>
-                    <td className={`${styles.td} ${styles.tdcenter}`}><RiDeleteBinLine/></td>
+                    <td className={`${styles.td} ${styles.tdcenter}`}>
+                      <Link href={`/edituser?id=${user.id}`}>
+                        <FaEdit />
+                      </Link>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdcenter}`}>
+                      <RiDeleteBinLine onClick={() => {
+                        setSelectedUserId(user.id);
+                        setIsModalOpen(true);
+                      }} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            {isModalOpen && (
+              <div className={styles.modal}>
+                <div className={styles.modalContent}>
+                  <h2>Excluir Usuário</h2>
+                  <p>Deseja realmente excluir este usuário?</p>
+                  <div className={styles.modalButtons}>
+                    <button onClick={handleDeleteUser}>Excluir</button>
+                    <button onClick={() => setIsModalOpen(false)}>Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </LayoutDashBoard>
       </main>
