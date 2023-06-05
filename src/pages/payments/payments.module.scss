@@ -56,6 +56,57 @@
     font-size: 18px;
 }
 
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modalContent {
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .modalContent h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .modalContent p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .modalButtons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .modalButtons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .modalButtons button:first-child {
+    background-color: #ff4444;
+    color: #fff;
+  }
+  
+  .modalButtons button:last-child {
+    background-color: #ccc;
+  }
+
 .dotsgreen {
     width: 10px;
     height: 10px;

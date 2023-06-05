@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
-import styles from './newpayment.module.scss';
+import styles from './editpayment.module.scss';
 
 export default function NewPayment() {
   const [usuario, setUsuario] = useState('');
   const [valor, setValor] = useState('');
   const [formaPagamento, setFormaPagamento] = useState('');
-  const [status, setStatus] = useState('quitado'); // Definindo "quitado" como valor inicial
+  const [status, setStatus] = useState('');
 
   const handleUsuarioChange = (event) => {
     setUsuario(event.target.value);

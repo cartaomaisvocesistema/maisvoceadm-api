@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
-
 import { FaEdit } from 'react-icons/fa';
+
 import { RiDeleteBinLine } from 'react-icons/ri';
 
 import styles from './payments.module.scss';
@@ -25,6 +25,28 @@ export default function Payments() {
     },
     // Adicione mais pagamentos aqui
   ]);
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [paymentToDelete, setPaymentToDelete] = useState(null);
+
+  const handleDeletePayment = (paymentId) => {
+    setPaymentToDelete(paymentId);
+    setShowConfirmationModal(true);
+  };
+
+  const confirmDeletePayment = () => {
+    if (paymentToDelete) {
+      const updatedPayments = payments.filter(payment => payment.id !== paymentToDelete);
+      setPayments(updatedPayments);
+      setShowConfirmationModal(false);
+      setPaymentToDelete(null);
+    }
+  };
+
+  const cancelDeletePayment = () => {
+    setShowConfirmationModal(false);
+    setPaymentToDelete(null);
+  };
 
   return (
     <>
@@ -77,12 +99,36 @@ export default function Payments() {
                     <td className={styles.td}>{payment.valor}</td>
                     <td className={styles.td}>{payment.status}</td>
                     <td className={styles.td}>{payment.dataVencimento}</td>
-                    <td className={`${styles.td} ${styles.tdcenter}`}><FaEdit/></td>
-                    <td className={`${styles.td} ${styles.tdcenter}`}><RiDeleteBinLine/></td>
+                    <td className={`${styles.td} ${styles.tdcenter}`}>
+                      <Link href={`/editpayment?id=${payment.id}`}>
+                          <FaEdit />
+                      </Link>
+                    </td>
+                    <td className={`${styles.td} ${styles.tdcenter}`}>
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() => handleDeletePayment(payment.id)}
+                      >
+                        <RiDeleteBinLine/>
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
+            {showConfirmationModal && (
+              <div className={styles.modal}>
+                <div className={styles.modalContent}>
+                  <h3>Confirmar exclusão</h3>
+                  <p>Deseja realmente excluir este pagamento?</p>
+                  <div className={styles.modalButtons}>
+                    <button className={styles.confirmButton} onClick={confirmDeletePayment}>Confirmar</button>
+                    <button className={styles.cancelButton} onClick={cancelDeletePayment}>Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </LayoutDashboard>
       </main>
