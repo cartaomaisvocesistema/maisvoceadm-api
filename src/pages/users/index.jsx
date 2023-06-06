@@ -98,44 +98,15 @@ export default function Users() {
                 </div>
               </div>
             </div>
+            <div className={styles.headtable}>
+              <div className={styles.ctpainel}>
+                <Link href='/newuser' className={styles.btnewuser}>Novo usuário</Link>
 
-            <div className={styles.ctpainel}>
-              <Link href='/newuser' className={styles.btnewuser}>Novo usuário</Link>
+                <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
+
+              </div>
+
               <div className={styles.pagination}>
-                <button className={styles.btnewuser} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
-                {isFilterOpen && (
-                  <div className={styles.modal}>
-                    <div className={styles.modalContent}>
-                      <div className={styles.filterForm}>
-                        <input
-                          type="text"
-                          placeholder="Nome"
-                          value={filterValues.name}
-                          onChange={(e) =>
-                            setFilterValues({ ...filterValues, name: e.target.value })
-                          }
-                        />
-                        <input
-                          type="text"
-                          placeholder="Email"
-                          value={filterValues.email}
-                          onChange={(e) =>
-                            setFilterValues({ ...filterValues, email: e.target.value })
-                          }
-                        />
-                        <input
-                          type="text"
-                          placeholder="CPF"
-                          value={filterValues.cpf}
-                          onChange={(e) =>
-                            setFilterValues({ ...filterValues, cpf: e.target.value })
-                          }
-                        />
-                        <button onClick={handleFilterSubmit}>OK</button>
-                      </div>
-                    </div>
-                  </div>
-                )}
                 <Link href=''>
                   <IoIosArrowBack />
                 </Link>
@@ -145,7 +116,6 @@ export default function Users() {
                 </Link>
               </div>
             </div>
-
             <table className={styles.table}>
               <thead>
                 <tr className={styles.tr}>
@@ -181,6 +151,57 @@ export default function Users() {
                 ))}
               </tbody>
             </table>
+            <div>
+              {isFilterOpen && (
+                <div className={styles.filterbox}>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">Nome:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.name}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, name: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="email">Email:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Email"
+                      value={filterValues.email}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, email: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="cpf">CPF:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="CPF"
+                      value={filterValues.cpf}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, cpf: e.target.value })
+                      }
+                    />
+                  </div>
+                  
+                  <div className={styles.ctbuttons}>
+                    <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
+                    <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
+                  </div>
+                </div>
+              )}
+
+            </div>
             {isModalOpen && (
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
