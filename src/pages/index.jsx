@@ -16,10 +16,22 @@ import styles from './home.module.scss';
 import bannerlogin from '../../public/images/logotipo2.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
 
 {/*const inter = Inter({ subsets: ['latin'] });*/ }
 
 export default function Home() {
+  const { register, handleSubmit } = useForm();
+  const { signIn } = useContext(AuthContext)
+
+
+  //aqui seria o melhor lugar para fazer o tratamento de erros do backend , senha ou email invalido, essas coisas
+  async function handleSignIn(data) {
+    await signIn(data)
+  }
+
   return (
     <>
       <Head>
@@ -39,13 +51,19 @@ export default function Home() {
                 <span className={styles.titleadmin}>Administrativo</span>
               </div>
               <div className={styles.loginleft}>
-                <span className={styles.logintitle}><span className={styles.logintitlename}>Login</span></span>
-                <input className={styles.logininput} type="text" name="username" placeholder="login" required />
-                <input className={styles.logininput} type="text" name="password" placeholder="senha" required />
-                <input type="submit" value="Entrar" className={styles.loginbtn} />
-                <Link className={styles.logintext} href='./'>
-                  Esqueceu a senha?
-                </Link>
+                <form className={styles.loginleft} onSubmit={handleSubmit(handleSignIn)}>
+                  <span className={styles.logintitle}><span className={styles.logintitlename}>Login</span></span>
+                  <input
+                    {...register('email')}
+                    className={styles.logininput} type="text" name="email" placeholder="login" required />
+                  <input
+                    {...register('password')}
+                    className={styles.logininput} type="text" name="password" placeholder="senha" required />
+                  <input type="submit" value="Entrar" className={styles.loginbtn} />
+                  <Link className={styles.logintext} href='./'>
+                    Esqueceu a senha?
+                  </Link>
+                </form>
               </div>
             </div>
           </div>
