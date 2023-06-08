@@ -4,26 +4,30 @@ import SectionBanner from "@/components/dashboard/SectionBanner";
 import SectionPartner from "@/components/dashboard/SectionPartner";
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { api } from "../services/api";
+import { api } from "../../services/api";
+
+import { parseCookies } from "nookies";
 
 import LayoutDashBoard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
 
 import styles from './dashboard.module.scss';
+import { getAPIClient } from "@/services/axios";
 
 export default function DashBoard() {
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    api.get
+    //api.get('/users')
   }, [])
+
   return (
     <>
       <main>
         <LayoutDashBoard>
           <div className={styles.container}>
             <div className={styles.topbar}>
-              <span className={styles.topbartitle}>Home {user.name}</span>
+              <span className={styles.topbartitle}>Home</span>
             </div>
             <div className={styles.containercards}>
               <div className={styles.card}>
@@ -67,3 +71,31 @@ export default function DashBoard() {
     </>
   )
 }
+
+export const getServerSideProps = async (ctx) => {
+
+  const apiClient = getAPIClient(ctx);
+  const { ['nextAuth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  //await apiClient.get('/users');
+
+  return {
+    props: {}
+  }
+
+}
+
+
+
+
+
+

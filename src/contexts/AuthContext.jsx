@@ -31,6 +31,8 @@ export function AuthProvider({children}){
         setCookie(undefined, 'nextAuth.token', token, {
             maxAge: 60 * 60 * 12,  
         });
+
+        
         api.defaults.headers['Authorization'] = `Bearer ${token}`; 
 
         setUser(user)
