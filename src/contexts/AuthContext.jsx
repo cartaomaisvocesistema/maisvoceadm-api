@@ -1,6 +1,6 @@
-import {createContext} from 'react';
-import {signInRequest} from '../services/auth'
-import {setCookie} from 'nookies'
+import {createContext, useEffect} from 'react';
+import {recoverUserInformation, signInRequest} from '../services/auth'
+import {setCookie, parseCookies} from 'nookies'
 import Router from 'next/router'
 import { useState } from 'react';
 
@@ -11,9 +11,17 @@ export function AuthProvider({children}){
     const [user, setUser] = useState(null)
     const isAuthenticated = !!user;
 
+    useEffect(() => {
+        const {'nextAuth.token': token} = parseCookies() 
+        if(token){
+            recoverUserInformation().then(response => {
+                setUser(response.user)
+            })
+        }
 
+    }, [])
     // seria o lugar correto para fazer a chamada na api, trazer o token e dados do usuario
-    async function singIn({email, password}){
+    async function signIn({email, password}){
         const { token, user } = await signInRequest({
             email,
             password
@@ -28,7 +36,7 @@ export function AuthProvider({children}){
     }
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, singIn}}>
+        <AuthContext.Provider value={{isAuthenticated, signIn, user}}>
             {children}
         </AuthContext.Provider>
     )

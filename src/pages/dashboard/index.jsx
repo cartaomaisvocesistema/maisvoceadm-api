@@ -2,6 +2,8 @@
 import SectionMain from "@/components/dashboard/SectionMain";
 import SectionBanner from "@/components/dashboard/SectionBanner";
 import SectionPartner from "@/components/dashboard/SectionPartner";
+import { useContext } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
 
 import LayoutDashBoard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
@@ -9,13 +11,16 @@ import Link from 'next/link';
 import styles from './dashboard.module.scss';
 
 export default function DashBoard() {
+  const {user} = useContext(AuthContext)
+
+
   return (
     <>
       <main>
         <LayoutDashBoard>
           <div className={styles.container}>
             <div className={styles.topbar}>
-              <span className={styles.topbartitle}>Home</span>
+              <span className={styles.topbartitle}>Home {user.name}</span>
             </div>
             <div className={styles.containercards}>
               <div className={styles.card}>

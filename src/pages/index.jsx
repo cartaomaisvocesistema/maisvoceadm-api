@@ -26,7 +26,6 @@ export default function Home() {
   const { register, handleSubmit } = useForm();
   const { signIn } = useContext(AuthContext)
 
-
   //aqui seria o melhor lugar para fazer o tratamento de erros do backend , senha ou email invalido, essas coisas
   async function handleSignIn(data) {
     await signIn(data)

@@ -8,5 +8,15 @@ export async function signInRequest(data){
             name: 'BAldez jr',
             email: 'baldez@baldino'
         } 
+    }    
+}
+
+export async function recoverUserInformation(){
+    await delay()
+    return{
+        user:{
+            name: "testejunior",
+            email: "junior@baldez"
+        }
     }
 }
