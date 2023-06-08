@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import LayoutDashBoard from "@/layouts/LayoutDashboard";
-
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 import styles from './newuser.module.scss';
 
 export default function NewUser() {
@@ -11,6 +14,11 @@ export default function NewUser() {
   const handleOpcaoChange2 = (event) => {
     
   };
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    //api.get('/users')
+  }, [])
 
 
 
@@ -146,4 +154,26 @@ export default function NewUser() {
       </main>
     </>
   )
+}
+
+export const getServerSideProps = async (ctx) => {
+
+  const apiClient = getAPIClient(ctx);
+  const { ['nextAuth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  //await apiClient.get('/users');
+
+  return {
+    props: {}
+  }
+
 }

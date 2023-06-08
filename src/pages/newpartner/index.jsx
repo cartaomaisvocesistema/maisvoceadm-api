@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
-
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 import styles from './newpartner.module.scss';
 
 export default function NewPartner() {
@@ -11,6 +14,11 @@ export default function NewPartner() {
   const [periodoManha, setPeriodoManha] = useState(false);
   const [periodoTarde, setPeriodoTarde] = useState(false);
   const [periodoNoite, setPeriodoNoite] = useState(false);
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    //api.get('/users')
+  }, [])
 
   const handleOpcaoChange = (event) => {
     const { value } = event.target;
@@ -196,4 +204,26 @@ export default function NewPartner() {
       </LayoutDashboard>
     </main>
   );
+}
+
+export const getServerSideProps = async (ctx) => {
+
+  const apiClient = getAPIClient(ctx);
+  const { ['nextAuth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  //await apiClient.get('/users');
+
+  return {
+    props: {}
+  }
+
 }

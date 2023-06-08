@@ -2,7 +2,10 @@ import React from "react";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 
@@ -34,6 +37,14 @@ export default function Partners() {
     },
     // Adicione mais parceiros aqui
   ];
+
+
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    //api.get('/users')
+  }, [])
+
 
   return (
     <>
@@ -95,4 +106,27 @@ export default function Partners() {
       </main>
     </>
   );
+}
+
+
+export const getServerSideProps = async (ctx) => {
+
+  const apiClient = getAPIClient(ctx);
+  const { ['nextAuth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  //await apiClient.get('/users');
+
+  return {
+    props: {}
+  }
+
 }

@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
 
 import { RiDeleteBinLine } from 'react-icons/ri';
-
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 import styles from './payments.module.scss';
 
 export default function Payments() {
@@ -28,6 +31,12 @@ export default function Payments() {
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [paymentToDelete, setPaymentToDelete] = useState(null);
+
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    //api.get('/users')
+  }, [])
 
   const handleDeletePayment = (paymentId) => {
     setPaymentToDelete(paymentId);
@@ -134,4 +143,26 @@ export default function Payments() {
       </main>
     </>
   );
+}
+
+export const getServerSideProps = async (ctx) => {
+
+  const apiClient = getAPIClient(ctx);
+  const { ['nextAuth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  //await apiClient.get('/users');
+
+  return {
+    props: {}
+  }
+
 }

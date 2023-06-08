@@ -2,10 +2,10 @@
 import SectionMain from "@/components/dashboard/SectionMain";
 import SectionBanner from "@/components/dashboard/SectionBanner";
 import SectionPartner from "@/components/dashboard/SectionPartner";
+
+import { api } from "../../services/api";
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-import { api } from "../../services/api";
-
 import { parseCookies } from "nookies";
 
 import LayoutDashBoard from "@/layouts/LayoutDashboard";

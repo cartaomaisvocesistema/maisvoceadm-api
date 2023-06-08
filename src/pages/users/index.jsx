@@ -2,6 +2,10 @@ import LayoutDashBoard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -32,6 +36,13 @@ export default function Users() {
     setIsModalOpen(false);
     setSelectedUserId(null);
   };
+
+
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    //api.get('/users')
+  }, [])
 
   const users = [
     {
@@ -219,4 +230,27 @@ export default function Users() {
       </main>
     </>
   )
+}
+
+
+export const getServerSideProps = async (ctx) => {
+
+  const apiClient = getAPIClient(ctx);
+  const { ['nextAuth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  //await apiClient.get('/users');
+
+  return {
+    props: {}
+  }
+
 }

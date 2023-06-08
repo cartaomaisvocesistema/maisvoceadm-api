@@ -3,7 +3,10 @@ import styles from './login.module.scss';
 
 import Image from 'next/image';
 import Link from 'next/link';
-
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 import bannerlogin from '../../../public/images/logotipo2.png';
 import MainContainer from '@/layouts/LayoutLandingpage';
 
@@ -32,3 +35,4 @@ export default function Login() {
         </MainContainer>
     </>);
 }
+

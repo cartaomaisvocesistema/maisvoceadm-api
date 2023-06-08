@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import styles from './editpayment.module.scss';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '@/contexts/AuthContext';
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 
 export default function NewPayment() {
   const [usuario, setUsuario] = useState('');
   const [valor, setValor] = useState('');
   const [formaPagamento, setFormaPagamento] = useState('');
   const [status, setStatus] = useState('');
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    //api.get('/users')
+  }, [])
 
   const handleUsuarioChange = (event) => {
     setUsuario(event.target.value);
@@ -117,4 +126,26 @@ export default function NewPayment() {
       </main>
     </>
   );
+}
+
+export const getServerSideProps = async (ctx) => {
+
+  const apiClient = getAPIClient(ctx);
+  const { ['nextAuth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  //await apiClient.get('/users');
+
+  return {
+    props: {}
+  }
+
 }
