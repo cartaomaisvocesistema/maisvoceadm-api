@@ -3,6 +3,7 @@ import {recoverUserInformation, signInRequest} from '../services/auth'
 import {setCookie, parseCookies} from 'nookies'
 import Router from 'next/router'
 import { useState } from 'react';
+import { api } from "../services/api";
 
 
 export const AuthContext = createContext({});
@@ -30,6 +31,8 @@ export function AuthProvider({children}){
         setCookie(undefined, 'nextAuth.token', token, {
             maxAge: 60 * 60 * 12,  
         });
+        api.defaults.headers['Authorization'] = `Bearer ${token}`; 
+
         setUser(user)
 
         Router.push('/dashboard')

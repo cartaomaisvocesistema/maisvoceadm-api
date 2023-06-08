@@ -2,8 +2,9 @@
 import SectionMain from "@/components/dashboard/SectionMain";
 import SectionBanner from "@/components/dashboard/SectionBanner";
 import SectionPartner from "@/components/dashboard/SectionPartner";
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
+import { api } from "../services/api";
 
 import LayoutDashBoard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
@@ -13,7 +14,9 @@ import styles from './dashboard.module.scss';
 export default function DashBoard() {
   const {user} = useContext(AuthContext)
 
-
+  useEffect(() => {
+    api.get
+  }, [])
   return (
     <>
       <main>
