@@ -4,13 +4,31 @@ import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
 
 import { RiDeleteBinLine } from 'react-icons/ri';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+
+
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
+
+
 import styles from './payments.module.scss';
 
 export default function Payments() {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filterValues, setFilterValues] = useState({
+    name: '',
+    email: '',
+    cpf: '',
+  });
+  const handleFilterSubmit = () => {
+    // Lógica para lidar com o envio dos filtros
+    // ...
+  };
   const [payments, setPayments] = useState([
     {
       id: 1,
@@ -86,8 +104,23 @@ export default function Payments() {
               </div>
             </div>
 
-            <div className={styles.ctpainel}>
-              <Link href='/newpayment' className={styles.btnewuser}>Novo pagamento</Link>
+            <div className={styles.headtable}>
+              <div className={styles.ctpainel}>
+                <Link href='/newpayment' className={styles.btnewuser}>Novo pagamento</Link>
+
+                <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
+
+              </div>
+
+              <div className={styles.pagination}>
+                <Link href=''>
+                  <IoIosArrowBack />
+                </Link>
+                <span className={styles.paginationnumber}>1</span>
+                <Link href=''>
+                  <IoIosArrowForward />
+                </Link>
+              </div>
             </div>
 
             <table className={styles.table}>
@@ -110,7 +143,7 @@ export default function Payments() {
                     <td className={styles.td}>{payment.dataVencimento}</td>
                     <td className={`${styles.td} ${styles.tdcenter}`}>
                       <Link href={`/editpayment?id=${payment.id}`}>
-                          <FaEdit />
+                        <FaEdit />
                       </Link>
                     </td>
                     <td className={`${styles.td} ${styles.tdcenter}`}>
@@ -118,14 +151,70 @@ export default function Payments() {
                         className={styles.deleteButton}
                         onClick={() => handleDeletePayment(payment.id)}
                       >
-                        <RiDeleteBinLine/>
+                        <RiDeleteBinLine />
                       </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            <div>
+              {isFilterOpen && (
+                <div className={styles.filterbox}>
 
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="usuario">Usuário:</label>
+                    <select
+                      className={styles.forminputtext}
+                      value={filterValues.usuario}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, usuario: e.target.value })
+                      }
+                    >
+                      <option value="">Todos</option>
+                      <option value="usuario1">Usuário 1</option>
+                      <option value="usuario2">Usuário 2</option>
+                      <option value="usuario3">Usuário 3</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="status">Status:</label>
+                    <select
+                      className={styles.forminputtext}
+                      value={filterValues.status}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, status: e.target.value })
+                      }
+                    >
+                      <option value="">Todos</option>
+                      <option value="quitado">Quitado</option>
+                      <option value="pendente">Pendente</option>
+                      <option value="atrasado">Atrasado</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="valor">Valor:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Valor"
+                      value={filterValues.valor}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, valor: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.ctbuttons}>
+                    <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
+                    <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
+                  </div>
+                </div>
+              )}
+
+            </div>
             {showConfirmationModal && (
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
@@ -146,10 +235,8 @@ export default function Payments() {
 }
 
 export const getServerSideProps = async (ctx) => {
-
   const apiClient = getAPIClient(ctx);
   const { ['nextAuth.token']: token } = parseCookies(ctx);
-
   if (!token) {
     return {
       redirect: {
@@ -158,11 +245,8 @@ export const getServerSideProps = async (ctx) => {
       }
     }
   }
-
   //await apiClient.get('/users');
-
   return {
     props: {}
   }
-
 }

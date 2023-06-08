@@ -56,6 +56,24 @@
     font-size: 18px;
 }
 
+.filterbox {
+    position: relative;
+    top: -230px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: auto;
+    padding: 20px;
+    z-index: 300;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.filterform {}
+
 .modal {
     position: fixed;
     top: 0;
@@ -66,46 +84,46 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .modalContent {
+}
+
+.modalContent {
     max-width: 400px;
     background-color: #fff;
     padding: 20px;
     border-radius: 4px;
     text-align: center;
-  }
-  
-  .modalContent h2 {
+}
+
+.modalContent h2 {
     font-size: 24px;
     margin-bottom: 10px;
-  }
-  
-  .modalContent p {
+}
+
+.modalContent p {
     font-size: 16px;
     margin-bottom: 20px;
-  }
-  
-  .modalButtons {
+}
+
+.modalButtons {
     display: flex;
     justify-content: center;
-  }
-  
-  .modalButtons button {
+}
+
+.modalButtons button {
     margin: 0 10px;
     padding: 10px 20px;
     border-radius: 4px;
     font-size: 16px;
-  }
-  
-  .modalButtons button:first-child {
+}
+
+.modalButtons button:first-child {
     background-color: #ff4444;
     color: #fff;
-  }
-  
-  .modalButtons button:last-child {
+}
+
+.modalButtons button:last-child {
     background-color: #ccc;
-  }
+}
 
 .dotsgreen {
     width: 10px;
@@ -195,6 +213,21 @@
     cursor: pointer;
 }
 
+.btnewuser {
+    font-size: 17px;
+    background-color: #191b3c;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 10px;
+}
+.headtable {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: auto;
+}
 .ctpainel {
     display: flex;
     flex-direction: row;
@@ -204,8 +237,7 @@
     height: 40px;
     margin-bottom: 15px;
 }
-
-.btnewuser {
+.btfilter {
     font-size: 17px;
     background-color: #191b3c;
     color: white;
@@ -213,10 +245,97 @@
     border-radius: 10px;
 }
 
+.btfilter:hover {
+    cursor: pointer;
+    background-color: #1e204b;
+}
+
 .pagination {
+    display: flex;
+    flex-direction: row;
     font-size: 20px;
 }
 
 .paginationnumber {
     padding: 0 10px;
 }
+
+/* Estilizando o contêiner do formulário */
+.formcontainer {
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  /* Estilizando os grupos de formulário */
+  .formgroup {
+    margin-bottom: 20px;
+  }
+  
+  /* Estilizando os rótulos dos campos */
+  .formlabel {
+    display: block;
+    font-weight: bold;
+  }
+  
+  /* Estilizando os campos de entrada de texto */
+  .forminputtext {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  
+  /* Estilizando a caixa de seleção */
+  .checkboxgroup {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 3%;
+    padding: 20px 0;
+  }
+  .checkbox1 {
+    padding: 0 10px;
+  }
+  .button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #191b3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .button:hover {
+    background-color: #10122b;
+    cursor: pointer;
+  }
+
+  .buttongray {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #c2c3c7;
+    color: black;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .buttongray:hover {
+    background-color: #d1d2d6;
+    cursor: pointer;
+  }
+
+  .ctbuttons {
+    display: flex;
+    flex-direction: row;
+    gap: 25%;
+  }

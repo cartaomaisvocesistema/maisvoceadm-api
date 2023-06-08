@@ -237,7 +237,6 @@ export const getServerSideProps = async (ctx) => {
 
   const apiClient = getAPIClient(ctx);
   const { ['nextAuth.token']: token } = parseCookies(ctx);
-
   if (!token) {
     return {
       redirect: {
@@ -246,11 +245,8 @@ export const getServerSideProps = async (ctx) => {
       }
     }
   }
-
   //await apiClient.get('/users');
-
   return {
     props: {}
   }
-
 }
