@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -12,6 +12,19 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import styles from './partners.module.scss';
 
 export default function Partners() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filterValues, setFilterValues] = useState({
+    name: '',
+    email: '',
+    cpf: '',
+  });
+  const handleFilterSubmit = () => {
+    // Lógica para lidar com o envio dos filtros
+    // ...
+  };
+
   const partners = [
     {
       id: 1,
@@ -56,8 +69,14 @@ export default function Partners() {
               <span className={styles.topbartitle}>Parceiros</span>
             </div>
 
-            <div className={styles.ctpainel}>
-              <Link href='/newpartner' className={styles.btnewuser}>Novo Parceiro</Link>
+            <div className={styles.headtable}>
+              <div className={styles.ctpainel}>
+                <Link href='/newpartner' className={styles.btnewuser}>Novo parceiro</Link>
+
+                <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
+
+              </div>
+
               <div className={styles.pagination}>
                 <Link href=''>
                   <IoIosArrowBack />
@@ -68,7 +87,6 @@ export default function Partners() {
                 </Link>
               </div>
             </div>
-
             <table className={styles.table}>
               <thead>
                 <tr className={styles.tr}>
@@ -101,6 +119,79 @@ export default function Partners() {
                 ))}
               </tbody>
             </table>
+            <div>
+              {isFilterOpen && (
+                <div className={styles.filterbox}>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">Nome:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.name}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, name: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="descricao">Descrição:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.name}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, name: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="email">Email:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.name}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, name: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="telefone">Telefone:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.name}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, name: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="endereco">Endereço:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.name}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, name: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className={styles.ctbuttons}>
+                    <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
+                    <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
+                  </div>
+                </div>
+              )}
+
+            </div>
+
           </div>
         </LayoutDashboard>
       </main>
