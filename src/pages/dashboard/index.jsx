@@ -17,23 +17,13 @@ import { getAPIClient } from "@/services/axios";
 
 export default function DashBoard({props}) {
   const { user, token } = useContext(AuthContext)
-  const [userList, setuserList] = useState([]);
 
 
   useEffect( () => {
-     getListaUsuarios();
   }, [])
 
 
-  const getListaUsuarios =  async () => {
-    //api.defaults.headers['Authorization'] = `Bearer ${token}`;
-    
-    const response = api.get('/api/usuarios/')
-    const result = (await response).data;
-    setuserList(result.users)
-    console.log(result)
-
-  }
+  
 
   return (
     <>

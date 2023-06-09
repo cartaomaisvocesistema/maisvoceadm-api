@@ -6,6 +6,7 @@ import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
+import { api } from "../../services/api";
 
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -14,6 +15,8 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import styles from './users.module.scss';
 
 export default function Users() {
+  const [userList, setuserList] = useState([]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -37,12 +40,16 @@ export default function Users() {
 
   useEffect(() => {
     console.log("entrei aquiii")
-    
-    
+    getListaUsuarios();
   }, []);
 
-
-  
+  const getListaUsuarios =  async () => {
+    //api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    const response = api.get('/api/usuarios/')
+    const result = (await response).data;
+    setuserList(result.users)
+    console.log(result)
+  }
 
 
   const users = [
