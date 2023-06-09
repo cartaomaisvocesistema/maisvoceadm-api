@@ -2,6 +2,7 @@
 import SectionMain from "@/components/dashboard/SectionMain";
 import SectionBanner from "@/components/dashboard/SectionBanner";
 import SectionPartner from "@/components/dashboard/SectionPartner";
+import { useState } from "react";
 
 import { api } from "../../services/api";
 import { useContext, useEffect } from 'react';
@@ -14,12 +15,25 @@ import Link from 'next/link';
 import styles from './dashboard.module.scss';
 import { getAPIClient } from "@/services/axios";
 
-export default function DashBoard() {
-  const { user } = useContext(AuthContext)
+export default function DashBoard({props}) {
+  const { user, token } = useContext(AuthContext)
+  const [userList, setuserList] = useState([]);
 
-  useEffect(() => {
-    //api.get('/users')
+
+  useEffect( () => {
+     getListaUsuarios();
   }, [])
+
+
+  const getListaUsuarios =  async () => {
+    //api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    
+    const response = api.get('/api/usuarios/')
+    const result = (await response).data;
+    setuserList(result.users)
+    console.log(result)
+
+  }
 
   return (
     <>

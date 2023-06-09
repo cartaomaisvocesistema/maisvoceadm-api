@@ -4,12 +4,15 @@ import {setCookie, parseCookies} from 'nookies'
 import Router from 'next/router'
 import { useState } from 'react';
 import { api } from "../services/api";
+import localStorage from 'localStorage';
 
 
 export const AuthContext = createContext({});
 
 export function AuthProvider({children}){
     const [user, setUser] = useState(null)
+    const [token, setToken] = useState(null)
+
     const isAuthenticated = !!user;
 
     const fetchData = async (username, password) => {
@@ -53,9 +56,9 @@ export function AuthProvider({children}){
                  maxAge: 60 * 60 * 12,  
              });
              api.defaults.headers['Authorization'] = `Bearer ${data.token}`; 
-
+             localStorage.setItem('userToken', data.token);
              setUser(data.username)
-
+             setToken(data.token)
              Router.push('/dashboard')
         }else{
             Router.push('/')
@@ -63,7 +66,7 @@ export function AuthProvider({children}){
     }
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, signIn, user}}>
+        <AuthContext.Provider value={{isAuthenticated, signIn, user, token}}>
             {children}
         </AuthContext.Provider>
     )
