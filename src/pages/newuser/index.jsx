@@ -20,7 +20,12 @@ export default function NewUser() {
     //api.get('/users')
   }, [])
 
-
+  const addUsuario =  async (username, email) => {
+    const response = await api.post(`/api/usuarios/` , {
+      username: username,
+      senha: email,
+    })
+  }
 
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('email');
   const [senha, setSenha] = useState('');
