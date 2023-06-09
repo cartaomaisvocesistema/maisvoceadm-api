@@ -29,11 +29,14 @@ export default function Users() {
     // Lógica para lidar com o envio dos filtros
     // ...
   };
-  const handleDeleteUser = () => {
+  const handleDeleteUser = async () => {
     // Remova o usuário da lista com base no selectedUserId
     // Por exemplo:
+    await deleteUsuarios();
+    await getListaUsuarios();
 
     // Feche a modal e redefina o ID do usuário selecionado
+
     setIsModalOpen(false);
     setSelectedUserId(null);
   };
@@ -45,12 +48,14 @@ export default function Users() {
 
   const getListaUsuarios =  async () => {
     //api.defaults.headers['Authorization'] = `Bearer ${token}`;
-    const response = api.get('/api/usuarios/')
-    const result = (await response).data;
+    const response = await api.get('/api/usuarios/')
+    const result = (response).data;
     setuserList(result.users)
     console.log(result)
   }
-
+  const deleteUsuarios =  async () => {
+    const response = await api.delete(`/api/usuarios/${selectedUserId}`)
+  }
 
   const users = [
     {
@@ -87,6 +92,57 @@ export default function Users() {
           <div className={styles.container}>
             <div className={styles.topbar}>
               <span className={styles.topbartitle}>Usuários</span>
+            </div>
+            <div>
+              {isFilterOpen && (
+                <div className={styles.filterbox}>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">Nome:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.name}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, name: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="email">Email:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Email"
+                      value={filterValues.email}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, email: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="cpf">CPF:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="CPF"
+                      value={filterValues.cpf}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, cpf: e.target.value })
+                      }
+                    />
+                  </div>
+                  
+                  <div className={styles.ctbuttons}>
+                    <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
+                    <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
+                  </div>
+                </div>
+              )}
+
             </div>
             <div className={styles.containercards}>
               <div className={styles.card}>
@@ -140,21 +196,17 @@ export default function Users() {
                 <tr className={styles.tr}>
                   <th className={styles.th}>Nome</th>
                   <th className={styles.th}>Email</th>
-                  <th className={styles.th}>CPF</th>
                   <th className={styles.th}>Status</th>
-                  <th className={styles.th}>Data do Último Pagamento</th>
                   <th className={styles.th}>Editar</th>
                   <th className={styles.th}>Deletar</th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {userList.map((user) => (
                   <tr key={user.id} className={styles.tr}>
-                    <td className={styles.td}>{user.name}</td>
+                    <td className={styles.td}>{user.username}</td>
                     <td className={styles.td}>{user.email}</td>
-                    <td className={styles.td}>{user.cpf}</td>
                     <td className={styles.td}>{user.status}</td>
-                    <td className={styles.td}>{user.lastPaymentDate}</td>
                     <td className={`${styles.td} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>
                         <FaEdit />
@@ -170,57 +222,6 @@ export default function Users() {
                 ))}
               </tbody>
             </table>
-            <div>
-              {isFilterOpen && (
-                <div className={styles.filterbox}>
-
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="nome">Nome:</label>
-                    <input
-                      className={styles.forminputtext}
-                      type="text"
-                      placeholder="Nome"
-                      value={filterValues.name}
-                      onChange={(e) =>
-                        setFilterValues({ ...filterValues, name: e.target.value })
-                      }
-                    />
-                  </div>
-
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="email">Email:</label>
-                    <input
-                      className={styles.forminputtext}
-                      type="text"
-                      placeholder="Email"
-                      value={filterValues.email}
-                      onChange={(e) =>
-                        setFilterValues({ ...filterValues, email: e.target.value })
-                      }
-                    />
-                  </div>
-
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="cpf">CPF:</label>
-                    <input
-                      className={styles.forminputtext}
-                      type="text"
-                      placeholder="CPF"
-                      value={filterValues.cpf}
-                      onChange={(e) =>
-                        setFilterValues({ ...filterValues, cpf: e.target.value })
-                      }
-                    />
-                  </div>
-                  
-                  <div className={styles.ctbuttons}>
-                    <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
-                    <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
-                  </div>
-                </div>
-              )}
-
-            </div>
             {isModalOpen && (
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
@@ -259,3 +260,4 @@ export const getServerSideProps = async (ctx) => {
     props: {}
   }
 }
+
