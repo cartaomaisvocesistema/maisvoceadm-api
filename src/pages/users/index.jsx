@@ -29,20 +29,21 @@ export default function Users() {
   const handleDeleteUser = () => {
     // Remova o usuário da lista com base no selectedUserId
     // Por exemplo:
-    const updatedUsers = users.filter(user => user.id !== selectedUserId);
-    setUsers(updatedUsers);
 
     // Feche a modal e redefina o ID do usuário selecionado
     setIsModalOpen(false);
     setSelectedUserId(null);
   };
 
-
-  const { user } = useContext(AuthContext)
-
   useEffect(() => {
-    //api.get('/users')
-  }, [])
+    console.log("entrei aquiii")
+    
+    
+  }, []);
+
+
+  
+
 
   const users = [
     {
@@ -245,6 +246,7 @@ export const getServerSideProps = async (ctx) => {
       }
     }
   }
+  
   //await apiClient.get('/users');
   return {
     props: {}

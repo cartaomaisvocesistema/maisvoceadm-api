@@ -12,6 +12,29 @@ export function AuthProvider({children}){
     const [user, setUser] = useState(null)
     const isAuthenticated = !!user;
 
+    const fetchData = async (username, password) => {
+        try {
+          const response = await fetch("http://localhost:3333/api/autenticacao/login", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              username: username,
+              password: password
+            })
+          });
+          if (response.ok) {
+            return response;
+          } else {
+            console.log('Erro na requisição:', response.status);
+          }
+        } catch (error) {
+          console.log('Erro ao realizar a requisição:', error);
+        }
+      };
+
+
     useEffect(() => {
         const {'nextAuth.token': token} = parseCookies() 
         if(token){
@@ -23,21 +46,20 @@ export function AuthProvider({children}){
     }, [])
     // seria o lugar correto para fazer a chamada na api, trazer o token e dados do usuario
     async function signIn({email, password}){
-        const { token, user } = await signInRequest({
-            email,
-            password
-        })
+        const response = await fetchData(email, password);
+        const data = await response.json();
+        if(data){
+             setCookie(undefined, 'nextAuth.token', data.token, {
+                 maxAge: 60 * 60 * 12,  
+             });
+             api.defaults.headers['Authorization'] = `Bearer ${data.token}`; 
 
-        setCookie(undefined, 'nextAuth.token', token, {
-            maxAge: 60 * 60 * 12,  
-        });
+             setUser(data.username)
 
-        
-        api.defaults.headers['Authorization'] = `Bearer ${token}`; 
-
-        setUser(user)
-
-        Router.push('/dashboard')
+             Router.push('/dashboard')
+        }else{
+            Router.push('/')
+        }
     }
 
     return (
@@ -46,3 +68,5 @@ export function AuthProvider({children}){
         </AuthContext.Provider>
     )
 }
+
+

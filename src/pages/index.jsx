@@ -17,8 +17,8 @@ import bannerlogin from '../../public/images/logotipo2.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { useContext } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
+import { useContext, useEffect } from 'react';
 
 {/*const inter = Inter({ subsets: ['latin'] });*/ }
 
