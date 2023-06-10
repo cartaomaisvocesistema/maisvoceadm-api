@@ -6,6 +6,7 @@ import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
 import styles from './edituser.module.scss';
 import { useRouter } from 'next/router';
+
 import { api } from "../../services/api";
 
 
@@ -37,7 +38,18 @@ export default function NewUser() {
   const updateUsuario = async (e) => {
     e.preventDefault();
     console.log(userForm);
-    const response = await api.patch(`/api/usuarios/`, userForm)
+    try {
+      const response = await api.patch(`/api/usuarios/`, userForm)
+      console.log(response.status);
+      if (response.status === 200) {
+        alert('Usuario atualizado com sucesso.');
+        router.push('/users/');
+      } else {
+        alert('Erro ao atualizar usuario.');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -50,7 +62,7 @@ export default function NewUser() {
             </div>
             <div className={styles.card}>
               <div className={styles.formcontainer}>
-                <form>
+                <form onSubmit={updateUsuario}>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
                     <input
@@ -66,6 +78,7 @@ export default function NewUser() {
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="email">Email:</label>
                     <input
+                      value={userForm.email}
                       className={styles.forminputtext}
                       type="email"
                       id="email"

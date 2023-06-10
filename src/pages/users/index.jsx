@@ -21,14 +21,20 @@ export default function Users() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
-    name: '',
-    email: '',
-    cpf: '',
+    username: '',
+    email: ''
   });
-  const handleFilterSubmit = () => {
+
+  const handleFilterSubmit = async () => {
     // Lógica para lidar com o envio dos filtros
     // ...
+    console.log(filterValues);
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
+    console.log(result)
   };
+
   const handleDeleteUser = async () => {
     // Remova o usuário da lista com base no selectedUserId
     // Por exemplo:
@@ -47,7 +53,6 @@ export default function Users() {
   }, []);
 
   const getListaUsuarios =  async () => {
-    //api.defaults.headers['Authorization'] = `Bearer ${token}`;
     const response = await api.get('/api/usuarios/')
     const result = (response).data;
     setuserList(result.users)
@@ -103,9 +108,9 @@ export default function Users() {
                       className={styles.forminputtext}
                       type="text"
                       placeholder="Nome"
-                      value={filterValues.name}
+                      value={filterValues.username}
                       onChange={(e) =>
-                        setFilterValues({ ...filterValues, name: e.target.value })
+                        setFilterValues({ ...filterValues, username: e.target.value })
                       }
                     />
                   </div>
@@ -123,7 +128,7 @@ export default function Users() {
                     />
                   </div>
 
-                  <div className={styles.formgroup}>
+                  {/*<div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="cpf">CPF:</label>
                     <input
                       className={styles.forminputtext}
@@ -134,7 +139,7 @@ export default function Users() {
                         setFilterValues({ ...filterValues, cpf: e.target.value })
                       }
                     />
-                  </div>
+                    </div>*/}
                   
                   <div className={styles.ctbuttons}>
                     <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
