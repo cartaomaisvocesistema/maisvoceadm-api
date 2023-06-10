@@ -4,27 +4,51 @@ import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
+import { api } from "../../services/api";
 import styles from './newuser.module.scss';
 
 export default function NewUser() {
 
-
   const [statusInicial, setStatusInicial] = useState('2');
+  const [userForm, setUserForm] = useState({});
+
+
+  const { user } = useContext(AuthContext);
 
   const handleOpcaoChange2 = (event) => {
-    
+
   };
-  const { user } = useContext(AuthContext)
 
   useEffect(() => {
     //api.get('/users')
   }, [])
 
-  const addUsuario =  async (username, email) => {
-    const response = await api.post(`/api/usuarios/` , {
-      username: username,
-      senha: email,
-    })
+  const handleChange = (e) => {
+    setUserForm({
+      ...userForm,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  {/*const handleCategory = (e) => {
+    setUser({
+        ...userForm,
+        category: {
+            id: e.target.value,
+            name: e.target.options[e.target.selectedIndex].text
+        }
+    });
+}*/}
+
+  const addUsuario = async (e) => {
+    e.preventDefault();
+    /*const response = await api.post(`/api/usuarios/`, {
+      username: "fernanda3",
+      password: "1234",
+      email: "fernanda@gmail.com"
+    })*/
+    console.log(userForm);
+    const response = await api.post(`/api/usuarios/`, userForm)
   }
 
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('email');
@@ -41,6 +65,7 @@ export default function NewUser() {
   };
 
   const handleSenhaChange = (event) => {
+    handleChange(event);
     setSenha(event.target.value);
   };
 
@@ -60,25 +85,47 @@ export default function NewUser() {
             </div>
             <div className={styles.card}>
               <div className={styles.formcontainer}>
-                <form>
+                <form onSubmit={addUsuario}>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
-                    <input className={styles.forminputtext} type="text" id="nome" name="nome" required />
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="username"
+                      name="username"
+                      onChange={handleChange}
+                      required />
                   </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="email">Email:</label>
-                    <input className={styles.forminputtext} type="email" id="email" name="email" required />
+                    <input
+                      className={styles.forminputtext}
+                      type="email"
+                      id="email"
+                      name="email"
+                      onChange={handleChange}
+                      required />
                   </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="cpf">CPF:</label>
-                    <input className={styles.forminputtext} type="text" id="cpf" name="cpf" required />
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="cpf"
+                      name="cpf"
+                      required />
                   </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="endereco">Endereço:</label>
-                    <input className={styles.forminputtext} type="text" id="endereco" name="endereco" required />
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="endereco"
+                      name="endereco"
+                      required />
                   </div>
 
                   <div className={styles.formgroup}>
@@ -107,8 +154,8 @@ export default function NewUser() {
                     <input
                       className={styles.forminputtext}
                       type="password"
-                      id="senha"
-                      name="senha"
+                      id="password"
+                      name="password"
                       value={senha}
                       onChange={handleSenhaChange}
                       required={!definirSenhaViaEmail}
@@ -128,13 +175,13 @@ export default function NewUser() {
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="status">Status:</label>
                     <select
-                     className={styles.forminputtext}
-                     id="status"
-                     name="status"
-                     required
-                     value={statusInicial}
-                     disabled
-                     onChange={(event) => setStatusInicial(event.target.value)}
+                      className={styles.forminputtext}
+                      id="status"
+                      name="status"
+                      required
+                      value={statusInicial}
+                      disabled
+                      onChange={(event) => setStatusInicial(event.target.value)}
                     >
                       <option value="">Selecione o status inicial</option>
                       <option value="1">Ativo</option>

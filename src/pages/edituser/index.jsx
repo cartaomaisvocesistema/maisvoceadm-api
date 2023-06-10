@@ -1,17 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import LayoutDashBoard from "@/layouts/LayoutDashboard";
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
 import styles from './edituser.module.scss';
+import { useRouter } from 'next/router';
+import { api } from "../../services/api";
+
 
 export default function NewUser() {
+
+  const router = useRouter();
+
   const { user } = useContext(AuthContext)
+  const [userForm, setUserForm] = useState({});
 
   useEffect(() => {
-    //api.get('/users')
+    recoveryUser()
   }, [])
+
+  const handleChange = (e) => {
+    setUserForm({
+      ...userForm,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  const recoveryUser = async () => {
+    const { id } = router.query;
+    const response = await api.get(`/api/usuarios/${id}`)
+    const result = (response).data;
+    setUserForm(result);
+  }
+
+  const updateUsuario = async (e) => {
+    e.preventDefault();
+    console.log(userForm);
+    const response = await api.patch(`/api/usuarios/`, userForm)
+  }
 
   return (
     <>
@@ -26,22 +53,46 @@ export default function NewUser() {
                 <form>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
-                    <input className={styles.forminputtext} type="text" id="nome" name="nome" required />
+                    <input
+                      value={userForm.username}
+                      className={styles.forminputtext}
+                      type="text"
+                      id="username"
+                      name="username"
+                      onChange={handleChange}
+                      required />
                   </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="email">Email:</label>
-                    <input className={styles.forminputtext} type="email" id="email" name="email" required />
+                    <input
+                      className={styles.forminputtext}
+                      type="email"
+                      id="email"
+                      name="email"
+                      onChange={handleChange}
+                      required />
                   </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="cpf">CPF:</label>
-                    <input className={styles.forminputtext} type="text" id="cpf" name="cpf" required />
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="cpf"
+                      name="cpf"
+                      required
+                    />
                   </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="endereco">Endereço:</label>
-                    <input className={styles.forminputtext} type="text" id="endereco" name="endereco" required />
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="endereco"
+                      name="endereco"
+                      required />
                   </div>
 
                   <div className={styles.formgroup}>
