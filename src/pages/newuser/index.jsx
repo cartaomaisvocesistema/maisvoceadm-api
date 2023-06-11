@@ -6,21 +6,22 @@ import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
 import { api } from "../../services/api";
 import styles from './newuser.module.scss';
+import { useRouter } from 'next/router';
 
 export default function NewUser() {
 
-  const [statusInicial, setStatusInicial] = useState('2');
+  const router = useRouter();
+
+  const [statusInicial, setStatusInicial] = useState('1');
+  const [opcaoSelecionada, setOpcaoSelecionada] = useState('balcao');
+  
   const [userForm, setUserForm] = useState({});
-
-
+  const [passwordValue, setPasswordValue] = useState();
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState();
   const { user } = useContext(AuthContext);
 
-  const handleOpcaoChange2 = (event) => {
-
-  };
-
   useEffect(() => {
-    //api.get('/users')
+
   }, [])
 
   const handleChange = (e) => {
@@ -30,50 +31,44 @@ export default function NewUser() {
     });
   }
 
-  {/*const handleCategory = (e) => {
-    setUser({
-        ...userForm,
-        category: {
-            id: e.target.value,
-            name: e.target.options[e.target.selectedIndex].text
-        }
-    });
-}*/}
+  const handleCategory = (e) => {
+    
+  }
+
+  const handleOptions = (event) => {
+    const { value } = event.target;
+    setOpcaoSelecionada(value);
+
+  }
+
+  const handleOpcaoChange = (event) => {
+    const { value } = event.target;
+    setOpcaoSelecionada(value);
+    setStatusInicial(value === 'boleto' ? '1' : value === 'signatureboleto' ? '2' : '3');
+    setOpcaoSelecionada(event.target.value);
+  };
 
   const addUsuario = async (e) => {
     e.preventDefault();
+
     /*const response = await api.post(`/api/usuarios/`, {
       username: "fernanda3",
       password: "1234",
       email: "fernanda@gmail.com"
     })*/
+    try {
+      const response = await api.post(`/api/usuarios/`, userForm)
+      if (response.status === 200) {
+        alert('Usuario cadastrado com sucesso.');
+        router.push('/users/');
+      } else {
+        alert('Erro ao cadastrado com usuario.');
+      }
+    } catch (error) {
+      console.log(error)
+    }
     console.log(userForm);
-    const response = await api.post(`/api/usuarios/`, userForm)
   }
-
-  const [opcaoSelecionada, setOpcaoSelecionada] = useState('email');
-  const [senha, setSenha] = useState('');
-  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
-
-  const handleOpcaoChange = (event) => {
-    const { value } = event.target;
-    setOpcaoSelecionada(value);
-    setStatusInicial(value === 'email' ? '2' : '1');
-    setOpcaoSelecionada(event.target.value);
-    setSenha('');
-    setConfirmacaoSenha('');
-  };
-
-  const handleSenhaChange = (event) => {
-    handleChange(event);
-    setSenha(event.target.value);
-  };
-
-  const handleConfirmacaoSenhaChange = (event) => {
-    setConfirmacaoSenha(event.target.value);
-  };
-
-  const definirSenhaViaEmail = opcaoSelecionada === 'email';
 
   return (
     <>
@@ -85,6 +80,7 @@ export default function NewUser() {
             </div>
             <div className={styles.card}>
               <div className={styles.formcontainer}>
+                <div className={styles.sectiontitle}>Dados pessoais</div>
                 <form onSubmit={addUsuario}>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
@@ -115,6 +111,7 @@ export default function NewUser() {
                       type="text"
                       id="cpf"
                       name="cpf"
+                      onChange={handleChange}
                       required />
                   </div>
 
@@ -123,87 +120,158 @@ export default function NewUser() {
                     <input
                       className={styles.forminputtext}
                       type="text"
-                      id="endereco"
-                      name="endereco"
+                      id="address"
+                      name="address"
+                      onChange={handleChange}
+                      required />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="endereco">Telefone:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      onChange={handleChange}
                       required />
                   </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="senha">Senha:</label>
-                    <div className={styles.checkboxgroup}>
-                      <label >
-                        <input
-                          type="radio"
-                          value="email"
-                          checked={opcaoSelecionada === 'email'}
-                          onChange={handleOpcaoChange}
-                        />
-                        <span className={styles.checkbox1}>Definir senha via Email</span>
-                      </label>
-
-                      <label>
-                        <input
-                          type="radio"
-                          value="manual"
-                          checked={opcaoSelecionada === 'manual'}
-                          onChange={handleOpcaoChange}
-                        />
-                        <span className={styles.checkbox1}>Definir senha manualmente</span>
-                      </label>
-                    </div>
                     <input
                       className={styles.forminputtext}
                       type="password"
                       id="password"
                       name="password"
-                      value={senha}
-                      onChange={handleSenhaChange}
-                      required={!definirSenhaViaEmail}
-                      disabled={definirSenhaViaEmail}
+                      onChange={handleChange}
+                      required
                     />
-                    <input
+                    {/*<input
                       className={styles.forminputtext}
                       type="password"
-                      id="confirmacaoSenha"
-                      name="confirmacaoSenha"
-                      value={confirmacaoSenha}
-                      onChange={handleConfirmacaoSenhaChange}
-                      required={!definirSenhaViaEmail}
-                      disabled={definirSenhaViaEmail}
-                    />
-                  </div>
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="status">Status:</label>
-                    <select
-                      className={styles.forminputtext}
-                      id="status"
-                      name="status"
+                      id="confirmpassword"
+                      name="confirmpassword"
+                      onChange={handleChange}
                       required
-                      value={statusInicial}
-                      disabled
-                      onChange={(event) => setStatusInicial(event.target.value)}
-                    >
-                      <option value="">Selecione o status inicial</option>
-                      <option value="1">Ativo</option>
-                      <option value="2">Pendente</option>
-                    </select>
+  />*/}
                   </div>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="tipo">Tipo:</label>
-                    <select className={styles.forminputtext} id="tipo" name="tipo" required defaultValue="1" enabled>
+                    <select
+                      className={styles.forminputtext}
+                      onChange={handleCategory}
+                      id="tipo"
+                      name="tipo"
+                      required
+                      defaultValue="1"
+                      disabled>
                       <option value="">Selecione o tipo</option>
-                      <option value="1">Cliente</option>
-                      <option value="2">Administrador</option>
+                      <option value="1">Titular</option>
                     </select>
                   </div>
+
+                  <div className={styles.sectiontitle}>Pagamentos</div>
+
+                  <div className={styles.formgrouppayment}>
+                    <div className={styles.checkboxgrouppayment}>
+                      <label>
+                        <input
+                          type="radio"
+                          value="balcao"
+                          checked={opcaoSelecionada === 'balcao'}
+                          onChange={handleOptions}
+                        />
+                        <span className={styles.checkbox1comnegrito}>Pagamento no balcão</span>
+                      </label>
+                      <div className={styles.formgroup}>
+                        <label className={styles.formlabelsemnegrito} htmlFor="paymenttype1">Forma de pagamento:</label>
+                        <select
+                          className={styles.forminputtext}
+                          onChange={handleCategory}
+                          id="paymenttype1"
+                          name="paymenttype1"
+                          required
+                          disabled={!(opcaoSelecionada === 'balcao')}
+                          defaultValue="1"
+                        >
+                          <option value="1">Cartão de Crédito</option>
+                          <option value="2">Cartão de Debito</option>
+                          <option value="3">Dinheiro</option>
+                          <option value="4">Pix</option>
+                        </select>
+                      </div>
+                      <label>
+                        <input
+                          type="radio"
+                          value="signatureboleto"
+                          checked={opcaoSelecionada === 'signatureboleto'}
+                          onChange={handleOptions}
+                        />
+                        <span className={styles.checkbox1comnegrito}>Pagamento via assinatura - Boleto</span>
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          value="signaturecredit"
+                          checked={opcaoSelecionada === 'signaturecredit'}
+                          onChange={handleOptions}
+                        />
+                        <span className={styles.checkbox1comnegrito}>Pagamento via assinatura - Cartão de crédito</span>
+                      </label>
+                      <div className={styles.formgroup}>
+                        <label className={styles.formlabelsemnegrito} htmlFor="cardnumber">Número do cartão:</label>
+                        <input
+                          className={styles.forminputtext}
+                          type="text"
+                          id="cardnumber"
+                          name="cardnumber"
+                          onChange={handleChange}
+                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+                          required />
+
+                        <label className={styles.formlabelsemnegrito} htmlFor="nametitular">Nome do titular:</label>
+                        <input
+                          className={styles.forminputtext}
+                          type="text"
+                          id="nametitular"
+                          name="nametitular"
+                          onChange={handleChange}
+                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+                          required />
+
+                        <label className={styles.formlabelsemnegrito} htmlFor="validade">Validade:</label>
+                        <input
+                          className={styles.forminputtext}
+                          type="text"
+                          id="validade"
+                          name="validade"
+                          onChange={handleChange}
+                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+                          required />
+
+                        <label className={styles.formlabelsemnegrito} htmlFor="cvv">CVV:</label>
+                        <input
+                          className={styles.forminputtext}
+                          type="text"
+                          id="cvv"
+                          name="cvv"
+                          onChange={handleChange}
+                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+                          required />
+                      </div>
+
+                    </div>
+                  </div>
+
 
                   <button className={styles.button} type="submit">Enviar</button>
                 </form>
               </div>
             </div>
           </div>
-        </LayoutDashBoard>
-      </main>
+        </LayoutDashBoard >
+      </main >
     </>
   )
 }
