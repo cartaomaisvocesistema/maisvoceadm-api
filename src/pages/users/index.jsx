@@ -50,45 +50,18 @@ export default function Users() {
   useEffect(() => {
     console.log("entrei aquiii")
     getListaUsuarios();
-  }, []);
+  }, []);
 
-  const getListaUsuarios =  async () => {
+  const getListaUsuarios = async () => {
     const response = await api.get('/api/usuarios/')
     const result = (response).data;
     setuserList(result.users)
     console.log(result)
   }
-  const deleteUsuarios =  async () => {
+
+  const deleteUsuarios = async () => {
     const response = await api.delete(`/api/usuarios/${selectedUserId}`)
   }
-
-  const users = [
-    {
-      id: 1,
-      name: 'João',
-      email: 'joao@example.com',
-      cpf: '123.456.789-00',
-      status: 'Ativo',
-      lastPaymentDate: '01/05/2023',
-    },
-    {
-      id: 2,
-      name: 'Rodrigo',
-      email: 'rodrigo@example.com',
-      cpf: '123.454.789-10',
-      status: 'Ativo',
-      lastPaymentDate: '01/06/2023',
-    },
-    {
-      id: 3,
-      name: 'Alexandre',
-      email: 'alexandre@example.com',
-      cpf: '123.454.789-10',
-      status: 'Ativo',
-      lastPaymentDate: '01/06/2023',
-    }
-    // Adicione mais usuários aqui
-  ];
 
   return (
     <>
@@ -140,7 +113,7 @@ export default function Users() {
                       }
                     />
                     </div>*/}
-                  
+
                   <div className={styles.ctbuttons}>
                     <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
                     <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
@@ -179,14 +152,12 @@ export default function Users() {
               </div>
             </div>
             <div className={styles.headtable}>
-              <div className={styles.ctpainel}>
                 <Link href='/newuser' className={styles.btnewuser}>Novo usuário</Link>
 
                 <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
 
-              </div>
-
-              <div className={styles.pagination}>
+              
+              {/*<div className={styles.pagination}>
                 <Link href=''>
                   <IoIosArrowBack />
                 </Link>
@@ -194,14 +165,18 @@ export default function Users() {
                 <Link href=''>
                   <IoIosArrowForward />
                 </Link>
-              </div>
+                  </div>*/}
             </div>
             <table className={styles.table}>
               <thead>
                 <tr className={styles.tr}>
+                  <th className={styles.th}>Nº Cartão</th>
                   <th className={styles.th}>Nome</th>
+                  <th className={styles.th}>CPF</th>
                   <th className={styles.th}>Email</th>
                   <th className={styles.th}>Status</th>
+                  <th className={styles.th}>Telefone</th>
+                  <th className={styles.th}>Endereço</th>
                   <th className={styles.th}>Editar</th>
                   <th className={styles.th}>Deletar</th>
                 </tr>
@@ -209,9 +184,13 @@ export default function Users() {
               <tbody>
                 {userList.map((user) => (
                   <tr key={user.id} className={styles.tr}>
+                    <td className={styles.td}>{user.cardNumber}</td>
                     <td className={styles.td}>{user.username}</td>
+                    <td className={styles.td}>{user.cpf}</td>
                     <td className={styles.td}>{user.email}</td>
-                    <td className={styles.td}>{user.status}</td>
+                    <td className={styles.td}>{user.paymentstatus}</td>
+                    <td className={styles.td}>{user.phone}</td>
+                    <td className={styles.td}>{user.address}</td>
                     <td className={`${styles.td} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>
                         <FaEdit />
@@ -259,7 +238,7 @@ export const getServerSideProps = async (ctx) => {
       }
     }
   }
-  
+
   //await apiClient.get('/users');
   return {
     props: {}

@@ -53,8 +53,9 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 98%;
     height: auto;
+    padding: 5px;
 }
 
 .filterbox {
@@ -184,14 +185,14 @@
 .table {
     font-family: Arial, sans-serif;
     border-collapse: collapse;
-    width: 90%;
+    width: 100%;
     margin-bottom: 20px;
 }
 
 .th,
 .td {
     border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
 }
 
@@ -227,7 +228,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 100%;
     height: 40px;
     margin-bottom: 15px;
 }

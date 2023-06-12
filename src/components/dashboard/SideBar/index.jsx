@@ -65,7 +65,7 @@ export default function SideBar() {
                             </div>
                         </li>
                     </Link>
-                    <Link href='./' className={isCurrentRoute('/')}>
+                    {/*<Link href='./' className={isCurrentRoute('/')}>
                         <li className={styles.sidelimenu}>
                             <div className={styles.linkgroup}>
                                 <button
@@ -76,7 +76,7 @@ export default function SideBar() {
                                 </button>
                             </div>
                         </li>
-                    </Link>
+    </Link>*/}
                 </ul>
             </div>
         </div>
