@@ -21,18 +21,23 @@ export default function Users() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
+    cardnumber: '',
     username: '',
-    email: ''
+    cpf: '',
+    email: '',
+    phone: '',
+    address: '',
+    paymentstatus: ''
   });
 
   const handleFilterSubmit = async () => {
     // Lógica para lidar com o envio dos filtros
     // ...
     console.log(filterValues);
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
-    console.log(result)
+    //const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    //const result = (response).data;
+    //setuserList(result.users)
+    //console.log(result)
   };
 
   const handleDeleteUser = async () => {
@@ -74,6 +79,18 @@ export default function Users() {
             <div>
               {isFilterOpen && (
                 <div className={styles.filterbox}>
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="cardnumber">Nº Cartão:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nº cartão"
+                      value={filterValues.cardnumber}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, cardnumber: e.target.value })
+                      }
+                    />
+                  </div>
 
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
@@ -89,6 +106,19 @@ export default function Users() {
                   </div>
 
                   <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">CPF:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="CPF"
+                      value={filterValues.cpf}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, cpf: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="email">Email:</label>
                     <input
                       className={styles.forminputtext}
@@ -97,6 +127,50 @@ export default function Users() {
                       value={filterValues.email}
                       onChange={(e) =>
                         setFilterValues({ ...filterValues, email: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="paymenttype1">Status de pagamento:</label>
+                    <select
+                      className={styles.forminputtext}
+                      id="paymenttype1"
+                      name="paymenttype1"
+                      value={filterValues.paymentstatus}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, paymentstatus: e.target.value })
+                      }
+                    >
+                      <option value="">Selecione</option>
+                      <option value="1">Quitado</option>
+                      <option value="2">Pendente</option>
+                      <option value="3">Atrasado</option>
+                    </select>
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">Telefone:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Telefone"
+                      value={filterValues.phone}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, phone: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">Endereço:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Endereço"
+                      value={filterValues.address}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, address: e.target.value })
                       }
                     />
                   </div>
@@ -115,6 +189,7 @@ export default function Users() {
                     </div>*/}
 
                   <div className={styles.ctbuttons}>
+                  <button className={styles.button} onClick={() => setIsFilterOpen(!isFilterOpen)}>Limpar</button>
                     <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
                     <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
                   </div>
@@ -152,11 +227,11 @@ export default function Users() {
               </div>
             </div>
             <div className={styles.headtable}>
-                <Link href='/newuser' className={styles.btnewuser}>Novo usuário</Link>
+              <Link href='/newuser' className={styles.btnewuser}>Novo usuário</Link>
 
-                <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
+              <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
 
-              
+
               {/*<div className={styles.pagination}>
                 <Link href=''>
                   <IoIosArrowBack />
@@ -189,9 +264,9 @@ export default function Users() {
                     <td className={styles.tdcenter}>{user.cpf}</td>
                     <td className={styles.tdcenter}>{user.email}</td>
                     <td className={styles.tdcenter}>
-                    <div  className={styles.containerdots}>
-                      <div  className={(user.paymentstatus == '1') ? styles.dotsgreen: (user.paymentstatus == '2') ? styles.dotsorange : styles.dotsred }></div>
-                    </div>
+                      <div className={styles.containerdots}>
+                        <div className={(user.paymentstatus == '1') ? styles.dotsgreen : (user.paymentstatus == '2') ? styles.dotsorange : styles.dotsred}></div>
+                      </div>
                     </td>
                     <td className={styles.tdcenter}>{user.phone}</td>
                     <td className={styles.tdcenter}>{user.address}</td>
