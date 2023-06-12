@@ -12,62 +12,106 @@ export default function NewUser() {
 
   const router = useRouter();
 
-  const [statusInicial, setStatusInicial] = useState('1');
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('balcao');
-  
-  const [userForm, setUserForm] = useState({});
-  const [passwordValue, setPasswordValue] = useState();
-  const [confirmPasswordValue, setConfirmPasswordValue] = useState();
+
+  const [usernameValue, setUsernameValue] = useState('');
+  const [emailValue, setEmailValue] = useState('');
+  const [cpfValue, setCpfValue] = useState('');
+  const [addressValue, setAddressValue] = useState('');
+  const [phoneValue, setPhoneValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
+  const [typeUserValue, setTypeUserValue] = useState('1');
+  const [paymentTypeValue, setPaymentTypeValue] = useState('');
+  const [cardNumberValue, setCardNumberValue] = useState('');
+  const [nameTitularValue, setNameTitularValue] = useState('');
+  const [validadeValue, setValidadeValue] = useState('');
+  const [cvvValue, setCvvValue] = useState('');
+
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
 
   }, [])
 
-  const handleChange = (e) => {
-    setUserForm({
-      ...userForm,
-      [e.target.name]: e.target.value
-    });
+  function resetSignatureCredit() {
+    setCardNumberValue('');
+    setNameTitularValue('');
+    setValidadeValue('');
+    setCvvValue('');
   }
 
-  const handleCategory = (e) => {
-    
-  }
-
-  const handleOptions = (event) => {
+  function handleOptions(event) {
     const { value } = event.target;
+    if (value === 'balcao' || value === 'signatureboleto') {
+      resetSignatureCredit();
+    }
     setOpcaoSelecionada(value);
-
   }
-
-  const handleOpcaoChange = (event) => {
-    const { value } = event.target;
-    setOpcaoSelecionada(value);
-    setStatusInicial(value === 'boleto' ? '1' : value === 'signatureboleto' ? '2' : '3');
-    setOpcaoSelecionada(event.target.value);
-  };
 
   const addUsuario = async (e) => {
     e.preventDefault();
 
-    /*const response = await api.post(`/api/usuarios/`, {
-      username: "fernanda3",
-      password: "1234",
-      email: "fernanda@gmail.com"
-    })*/
+    let pt = '';
+    if (opcaoSelecionada === 'balcao') {
+      pt = paymentTypeValue;
+    } else {
+      if (opcaoSelecionada === 'signatureboleto') {
+        pt = '5';
+      } else {
+        if (opcaoSelecionada === 'signaturecredit') {
+          pt = '6';
+        }
+      }
+    }
+
+
+    const newUser1 = {
+      username: usernameValue,
+      email: emailValue,
+      cpf: cpfValue,
+      address: addressValue,
+      phone: phoneValue,
+      password: passwordValue,
+      type: typeUserValue,
+      selectedoption: opcaoSelecionada,
+      paymenttype: pt
+    }
+
+    let newUser = {
+      ...newUser1
+    };
+
+
+    if (opcaoSelecionada === 'signaturecredit') {
+      const newUserCredit = {
+        cardnumber: cardNumberValue,
+        nametitular: nameTitularValue,
+        validade: validadeValue,
+        cvv: cvvValue
+      }
+
+      newUser = {
+        ...newUser1,
+        ...newUserCredit
+      };
+
+    }
+
+    console.log(newUser);
+
     try {
-      const response = await api.post(`/api/usuarios/`, userForm)
+      /*const response = await api.post(`/api/usuarios/`, newUser)
       if (response.status === 200) {
         alert('Usuario cadastrado com sucesso.');
         router.push('/users/');
       } else {
         alert('Erro ao cadastrado com usuario.');
-      }
+      }*/
     } catch (error) {
       console.log(error)
     }
-    console.log(userForm);
+
   }
 
   return (
@@ -89,7 +133,7 @@ export default function NewUser() {
                       type="text"
                       id="username"
                       name="username"
-                      onChange={handleChange}
+                      onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
 
@@ -100,7 +144,7 @@ export default function NewUser() {
                       type="email"
                       id="email"
                       name="email"
-                      onChange={handleChange}
+                      onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
 
@@ -111,7 +155,7 @@ export default function NewUser() {
                       type="text"
                       id="cpf"
                       name="cpf"
-                      onChange={handleChange}
+                      onChange={e => setCpfValue(e.target.value)}
                       required />
                   </div>
 
@@ -122,7 +166,7 @@ export default function NewUser() {
                       type="text"
                       id="address"
                       name="address"
-                      onChange={handleChange}
+                      onChange={e => setAddressValue(e.target.value)}
                       required />
                   </div>
 
@@ -133,7 +177,7 @@ export default function NewUser() {
                       type="text"
                       id="phone"
                       name="phone"
-                      onChange={handleChange}
+                      onChange={e => setPhoneValue(e.target.value)}
                       required />
                   </div>
 
@@ -144,7 +188,7 @@ export default function NewUser() {
                       type="password"
                       id="password"
                       name="password"
-                      onChange={handleChange}
+                      onChange={e => setPasswordValue(e.target.value)}
                       required
                     />
                     {/*<input
@@ -152,7 +196,7 @@ export default function NewUser() {
                       type="password"
                       id="confirmpassword"
                       name="confirmpassword"
-                      onChange={handleChange}
+                      onChange={e => setConfirmPasswordValue(e.target.value)}
                       required
   />*/}
                   </div>
@@ -160,11 +204,9 @@ export default function NewUser() {
                     <label className={styles.formlabel} htmlFor="tipo">Tipo:</label>
                     <select
                       className={styles.forminputtext}
-                      onChange={handleCategory}
                       id="tipo"
                       name="tipo"
                       required
-                      defaultValue="1"
                       disabled>
                       <option value="">Selecione o tipo</option>
                       <option value="1">Titular</option>
@@ -178,6 +220,7 @@ export default function NewUser() {
                       <label>
                         <input
                           type="radio"
+                          name="typepayment"
                           value="balcao"
                           checked={opcaoSelecionada === 'balcao'}
                           onChange={handleOptions}
@@ -188,12 +231,12 @@ export default function NewUser() {
                         <label className={styles.formlabelsemnegrito} htmlFor="paymenttype1">Forma de pagamento:</label>
                         <select
                           className={styles.forminputtext}
-                          onChange={handleCategory}
                           id="paymenttype1"
                           name="paymenttype1"
+                          value={paymentTypeValue}
+                          onChange={e => setPaymentTypeValue(e.target.value)}
                           required
                           disabled={!(opcaoSelecionada === 'balcao')}
-                          defaultValue="1"
                         >
                           <option value="1">Cartão de Crédito</option>
                           <option value="2">Cartão de Debito</option>
@@ -203,6 +246,7 @@ export default function NewUser() {
                       </div>
                       <label>
                         <input
+                          name="typepayment"
                           type="radio"
                           value="signatureboleto"
                           checked={opcaoSelecionada === 'signatureboleto'}
@@ -212,6 +256,7 @@ export default function NewUser() {
                       </label>
                       <label>
                         <input
+                          name="typepayment"
                           type="radio"
                           value="signaturecredit"
                           checked={opcaoSelecionada === 'signaturecredit'}
@@ -226,7 +271,8 @@ export default function NewUser() {
                           type="text"
                           id="cardnumber"
                           name="cardnumber"
-                          onChange={handleChange}
+                          value={cardNumberValue}
+                          onChange={e => setCardNumberValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
 
@@ -236,7 +282,8 @@ export default function NewUser() {
                           type="text"
                           id="nametitular"
                           name="nametitular"
-                          onChange={handleChange}
+                          value={nameTitularValue}
+                          onChange={e => setNameTitularValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
 
@@ -246,7 +293,8 @@ export default function NewUser() {
                           type="text"
                           id="validade"
                           name="validade"
-                          onChange={handleChange}
+                          value={validadeValue}
+                          onChange={e => setValidadeValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
 
@@ -256,7 +304,8 @@ export default function NewUser() {
                           type="text"
                           id="cvv"
                           name="cvv"
-                          onChange={handleChange}
+                          value={cvvValue}
+                          onChange={e => setCvvValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
                       </div>
