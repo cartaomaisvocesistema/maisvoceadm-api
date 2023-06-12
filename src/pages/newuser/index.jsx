@@ -101,13 +101,13 @@ export default function NewUser() {
     console.log(newUser);
 
     try {
-      /*const response = await api.post(`/api/usuarios/`, newUser)
+      const response = await api.post(`/api/usuarios/`, newUser)
       if (response.status === 200) {
         alert('Usuario cadastrado com sucesso.');
         router.push('/users/');
       } else {
         alert('Erro ao cadastrado com usuario.');
-      }*/
+      }
     } catch (error) {
       console.log(error)
     }
