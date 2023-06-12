@@ -184,14 +184,18 @@ export default function Users() {
               <tbody>
                 {userList.map((user) => (
                   <tr key={user.id} className={styles.tr}>
-                    <td className={styles.td}>{user.cardNumber}</td>
-                    <td className={styles.td}>{user.username}</td>
-                    <td className={styles.td}>{user.cpf}</td>
-                    <td className={styles.td}>{user.email}</td>
-                    <td className={styles.td}>{user.paymentstatus}</td>
-                    <td className={styles.td}>{user.phone}</td>
-                    <td className={styles.td}>{user.address}</td>
-                    <td className={`${styles.td} ${styles.tdcenter}`}>
+                    <td className={styles.tdcenter}>{user.cardNumber}</td>
+                    <td className={styles.tdcenter}>{user.username}</td>
+                    <td className={styles.tdcenter}>{user.cpf}</td>
+                    <td className={styles.tdcenter}>{user.email}</td>
+                    <td className={styles.tdcenter}>
+                    <div  className={styles.containerdots}>
+                      <div  className={(user.paymentstatus == '1') ? styles.dotsgreen: (user.paymentstatus == '2') ? styles.dotsorange : styles.dotsred }></div>
+                    </div>
+                    </td>
+                    <td className={styles.tdcenter}>{user.phone}</td>
+                    <td className={styles.tdcenter}>{user.address}</td>
+                    <td className={`${styles.tdcenter} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>
                         <FaEdit />
                       </Link>
