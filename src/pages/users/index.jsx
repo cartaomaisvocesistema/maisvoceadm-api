@@ -21,7 +21,7 @@ export default function Users() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
-    cardnumber: '',
+    cardNumber: '',
     username: '',
     cpf: '',
     email: '',
@@ -34,9 +34,9 @@ export default function Users() {
     // Lógica para lidar com o envio dos filtros
     // ...
     console.log(filterValues);
-    //const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    //const result = (response).data;
-    //setuserList(result.users)
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
     //console.log(result)
   };
 
@@ -80,14 +80,14 @@ export default function Users() {
               {isFilterOpen && (
                 <div className={styles.filterbox}>
                   <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="cardnumber">Nº Cartão:</label>
+                    <label className={styles.formlabel} htmlFor="cardNumber">Nº Cartão:</label>
                     <input
                       className={styles.forminputtext}
                       type="text"
                       placeholder="Nº cartão"
-                      value={filterValues.cardnumber}
+                      value={filterValues.cardNumber}
                       onChange={(e) =>
-                        setFilterValues({ ...filterValues, cardnumber: e.target.value })
+                        setFilterValues({ ...filterValues, cardNumber: e.target.value })
                       }
                     />
                   </div>
