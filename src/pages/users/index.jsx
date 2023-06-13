@@ -37,7 +37,24 @@ export default function Users() {
     const response = await api.post('/api/usuarios/getbyfilter', filterValues)
     const result = (response).data;
     setuserList(result.users)
+    setIsFilterOpen(!isFilterOpen)
     //console.log(result)
+  };
+
+  const handleFilterClear = async () => {
+    filterValues.username = '';
+    filterValues.cardNumber = '';
+    filterValues.cpf = '';
+    filterValues.email = '';
+    filterValues.phone = '';
+    filterValues.address = '';
+    filterValues.paymentstatus = '';
+
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
+    setIsFilterOpen(!isFilterOpen)
+
   };
 
   const handleDeleteUser = async () => {
@@ -189,7 +206,7 @@ export default function Users() {
                     </div>*/}
 
                   <div className={styles.ctbuttons}>
-                  <button className={styles.button} onClick={() => setIsFilterOpen(!isFilterOpen)}>Limpar</button>
+                  <button className={styles.button} onClick={handleFilterClear}>Limpar</button>
                     <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
                     <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
                   </div>
