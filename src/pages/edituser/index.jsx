@@ -109,28 +109,13 @@ export default function NewUser() {
                   </div>
 
                   <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="status">Status:</label>
-                    <select
+                    <label className={styles.formlabel} htmlFor="phone">Telefone:</label>
+                    <input
                       className={styles.forminputtext}
-                      id="status"
-                      name="status"
-                      required
-                      value="2"
-                      enabled
-                    >
-                      <option value="">Selecione o status inicial</option>
-                      <option value="1">Ativo</option>
-                      <option value="2">Pendente</option>
-                    </select>
-                  </div>
-
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="tipo">Tipo:</label>
-                    <select className={styles.forminputtext} id="tipo" name="tipo" required defaultValue="1" disabled>
-                      <option value="">Selecione o tipo</option>
-                      <option value="1">Cliente</option>
-                      <option value="2">Administrador</option>
-                    </select>
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      required />
                   </div>
 
                   <button className={styles.button} type="submit">Enviar</button>
