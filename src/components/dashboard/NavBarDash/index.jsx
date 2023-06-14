@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import styles from './navbardash.module.scss';
 import logo from '../../../../public/images/logotipo.svg';
-import bannerlogin from '../../../../public/images/logotipo2.png';
+import bannerlogin from '../../../../public/images/logotipo3.png';
 import { MdHelp, MdNotifications, MdLogout } from 'react-icons/md';
 
 
