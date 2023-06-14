@@ -106,7 +106,7 @@ export default function NewUser() {
         alert('Usuario cadastrado com sucesso.');
         router.push('/users/');
       } else {
-        alert('Erro ao cadastrado com usuario.');
+        alert('Erro ao cadastrar usuario.');
       }
     } catch (error) {
       console.log(error)
@@ -208,7 +208,6 @@ export default function NewUser() {
                       name="tipo"
                       required
                       disabled>
-                      <option value="">Selecione o tipo</option>
                       <option value="1">Titular</option>
                     </select>
                   </div>

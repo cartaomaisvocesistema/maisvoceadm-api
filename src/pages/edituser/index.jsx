@@ -57,6 +57,7 @@ export default function NewUser() {
     e.preventDefault();
 
     const { id } = router.query;
+    
     const updatedUser = {
       id: id,
       username: usernameValue,

@@ -5,55 +5,65 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
 import styles from './newpartner.module.scss';
+import { api } from "@/services/api";
+import { useRouter } from 'next/router';
 
 export default function NewPartner() {
-  const [statusInicial, setStatusInicial] = useState('2');
-  const [opcaoSelecionada, setOpcaoSelecionada] = useState('email');
-  const [senha, setSenha] = useState('');
-  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
+
+  const router = useRouter();
+
+  const [partnernameValue, setPartnernameValue] = useState('');
+  const [partnerdescriptionValue, setPartnerdescriptionValue] = useState('');
+  const [partneremailValue, setPartneremailValue] = useState('');
+  const [partnerphonenumberValue, setPartnerphonenumberValue] = useState('');
+  const [partneraddressValue, setPartneraddressValue] = useState('');
+  const [partnerwebsiteValue, setPartnerwebsiteValue] = useState('');
+  const [partnercategoryValue, setPartnercategoryValue] = useState('');
+
   const [periodoManha, setPeriodoManha] = useState(false);
   const [periodoTarde, setPeriodoTarde] = useState(false);
   const [periodoNoite, setPeriodoNoite] = useState(false);
+
   const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    //api.get('/users')
+
   }, [])
 
-  const handleOpcaoChange = (event) => {
-    const { value } = event.target;
-    setOpcaoSelecionada(value);
-    setStatusInicial(value === 'email' ? '2' : '1');
-    setOpcaoSelecionada(event.target.value);
-    setSenha('');
-    setConfirmacaoSenha('');
-  };
+  const addParceiro = async (e) => {
+    e.preventDefault();
 
-  const handleSenhaChange = (event) => {
-    setSenha(event.target.value);
-  };
+    const newPartner = {
 
-  const handleConfirmacaoSenhaChange = (event) => {
-    setConfirmacaoSenha(event.target.value);
-  };
+      partnername: partnernameValue,
+      partnerdescription: partnerdescriptionValue,
+      partneremail: partneremailValue,
+      partnerphonenumber: partnerphonenumberValue,
+      partneraddress: partneraddressValue,
+      partnerwebsite: partnerwebsiteValue,
+      openinghours: 'manha, tarde, noite',
+      categorypartner: '1'
 
-  const handlePeriodoChange = (event) => {
-    const { name, checked } = event.target;
-    if (name === 'manha') {
-      setPeriodoManha(checked);
-    } else if (name === 'tarde') {
-      setPeriodoTarde(checked);
-    } else if (name === 'noite') {
-      setPeriodoNoite(checked);
     }
-  };
 
-  const definirSenhaViaEmail = opcaoSelecionada === 'email';
+    console.log(newPartner);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Lógica para lidar com o envio do formulário
-  };
+    try {
+      const response = await api.post(`/api/parceiros/`, newPartner)
+      if (response.status === 200) {
+        alert('Parceiro cadastrado com sucesso.');
+        router.push('/partners/');
+      } else {
+        alert('Erro ao cadastrar parceiro.');
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+
+
 
   return (
     <main>
@@ -64,7 +74,7 @@ export default function NewPartner() {
           </div>
           <div className={styles.card}>
             <div className={styles.formcontainer}>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={addParceiro}>
                 <div className={styles.formgroup}>
                   <label className={styles.formlabel} htmlFor="nome">
                     Nome:
@@ -72,8 +82,9 @@ export default function NewPartner() {
                   <input
                     className={styles.forminputtext}
                     type="text"
-                    id="nome"
-                    name="nome"
+                    id="partnername"
+                    name="partnername"
+                    onChange={e => setPartnernameValue(e.target.value)}
                     required
                   />
                 </div>
@@ -84,8 +95,9 @@ export default function NewPartner() {
                   </label>
                   <textarea
                     className={styles.forminputtext}
-                    id="descricao"
-                    name="descricao"
+                    id="partnerdescription"
+                    name="partnerdescription"
+                    onChange={e => setPartnerdescriptionValue(e.target.value)}
                     required
                   />
                 </div>
@@ -97,8 +109,9 @@ export default function NewPartner() {
                   <input
                     className={styles.forminputtext}
                     type="email"
-                    id="email"
-                    name="email"
+                    id="partneremail"
+                    name="partneremail"
+                    onChange={e => setPartneremailValue(e.target.value)}
                     required
                   />
                 </div>
@@ -110,8 +123,9 @@ export default function NewPartner() {
                   <input
                     className={styles.forminputtext}
                     type="tel"
-                    id="telefone"
-                    name="telefone"
+                    id="partnerphonenumber"
+                    name="partnerphonenumber"
+                    onChange={e => setPartnerphonenumberValue(e.target.value)}
                     required
                   />
                 </div>
@@ -123,8 +137,9 @@ export default function NewPartner() {
                   <input
                     className={styles.forminputtext}
                     type="text"
-                    id="endereco"
-                    name="endereco"
+                    id="partneraddress"
+                    name="partneraddress"
+                    onChange={e => setPartneraddressValue(e.target.value)}
                     required
                   />
                 </div>
@@ -136,8 +151,9 @@ export default function NewPartner() {
                   <input
                     className={styles.forminputtext}
                     type="url"
-                    id="website"
-                    name="website"
+                    id="partnerwebsite"
+                    name="partnerwebsite"
+                    onChange={e => setPartnerwebsiteValue(e.target.value)}
                     required
                   />
                 </div>
@@ -150,27 +166,30 @@ export default function NewPartner() {
                     <label>
                       <input
                         type="checkbox"
-                        name="manha"
+                        name="periodo"
+                        value="manha"
                         checked={periodoManha}
-                        onChange={handlePeriodoChange}
+                        onChange={e => setPeriodoManha(!periodoManha)}
                       />
                       <span className={styles.checkbox1}>Manhã</span>
                     </label>
                     <label>
                       <input
                         type="checkbox"
-                        name="tarde"
+                        name="periodo"
+                        value="tarde"
                         checked={periodoTarde}
-                        onChange={handlePeriodoChange}
+                        onChange={e => setPeriodoTarde(!periodoTarde)}
                       />
                       <span className={styles.checkbox1}>Tarde</span>
                     </label>
                     <label>
                       <input
                         type="checkbox"
-                        name="noite"
+                        name="periodo"
+                        value="noite"
                         checked={periodoNoite}
-                        onChange={handlePeriodoChange}
+                        onChange={e => setPeriodoNoite(!periodoNoite)}
                       />
                       <span className={styles.checkbox1}>Noite</span>
                     </label>
@@ -185,6 +204,8 @@ export default function NewPartner() {
                     className={styles.forminputtext}
                     id="categoria"
                     name="categoria"
+                    value={partnercategoryValue}
+                    onChange={e => setPartnercategoryValue(e.target.value)}
                     required
                   >
                     <option value="">Selecione a categoria</option>

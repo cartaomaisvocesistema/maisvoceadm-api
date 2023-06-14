@@ -15,6 +15,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 import styles from './users.module.scss';
 
 export default function Users() {
+  
   const [userList, setuserList] = useState([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -243,6 +244,7 @@ export default function Users() {
                 </div>
               </div>
             </div>
+            
             <div className={styles.headtable}>
               <Link href='/newuser' className={styles.btnewuser}>Novo usuário</Link>
 
