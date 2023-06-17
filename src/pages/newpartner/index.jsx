@@ -11,8 +11,9 @@ import { useRouter } from 'next/router';
 export default function NewPartner() {
 
   const router = useRouter();
-
+  
   const [partnernameValue, setPartnernameValue] = useState('');
+  const [partnerbannerValue, setPartnerbannerValue] = useState(null);
   const [partnerdescriptionValue, setPartnerdescriptionValue] = useState('');
   const [partneremailValue, setPartneremailValue] = useState('');
   const [partnerphonenumberValue, setPartnerphonenumberValue] = useState('');
@@ -25,6 +26,15 @@ export default function NewPartner() {
   const [periodoNoite, setPeriodoNoite] = useState(false);
 
   const { user } = useContext(AuthContext)
+
+  let imageem = null;
+
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    console.log(file)
+    imageem = file;
+    //setPartnerbannerValue(file); // Salva o arquivo no estado
+  }
 
   useEffect(() => {
 
@@ -50,9 +60,19 @@ export default function NewPartner() {
 
     try {
       const response = await api.post(`/api/parceiros/`, newPartner)
+      console.log(response.data.id);
+      const id = response.data.id;
       if (response.status === 200) {
+        const formData = new FormData();
+        formData.append('image', imageem);
+        console.log(formData);
+        const res = await api.post(`/api/parceiros/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         alert('Parceiro cadastrado com sucesso.');
-        router.push('/partners/');
+        //router.push('/partners/');
       } else {
         alert('Erro ao cadastrar parceiro.');
       }
@@ -61,9 +81,6 @@ export default function NewPartner() {
     }
 
   }
-
-
-
 
   return (
     <main>
@@ -85,6 +102,20 @@ export default function NewPartner() {
                     id="partnername"
                     name="partnername"
                     onChange={e => setPartnernameValue(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className={styles.formlabel} htmlFor="descricao">
+                    Banner do parceiro:
+                  </label>
+                  <input
+                    type="file"
+                    id="partnerbanner"
+                    name="partnerbanner"
+                    value={partnerbannerValue}
+                    onChange={handleFileChange}
                     required
                   />
                 </div>
