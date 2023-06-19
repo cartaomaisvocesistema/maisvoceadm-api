@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { api } from "../../services/api";
 
 
-export default function NewUser() {
+export default function EditUser() {
 
   const router = useRouter();
 

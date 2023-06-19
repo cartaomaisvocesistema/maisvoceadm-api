@@ -21,7 +21,7 @@ export default function NewUser() {
   const [phoneValue, setPhoneValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
-  const [typeUserValue, setTypeUserValue] = useState('1');
+  const [typeUserValue, setTypeUserValue] = useState('C_TITULAR');
   const [paymentTypeValue, setPaymentTypeValue] = useState('');
   const [cardNumberValue, setCardNumberValue] = useState('');
   const [nameTitularValue, setNameTitularValue] = useState('');
@@ -208,7 +208,7 @@ export default function NewUser() {
                       name="tipo"
                       required
                       disabled>
-                      <option value="1">Titular</option>
+                      <option value="C_TITULAR">Titular</option>
                     </select>
                   </div>
 
