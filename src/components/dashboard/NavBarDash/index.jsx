@@ -10,12 +10,23 @@ import bannerlogin from '../../../../public/images/logotipo3.png';
 import { MdHelp, MdNotifications, MdLogout } from 'react-icons/md';
 import { api } from '@/services/api';
 import localStorage from 'localStorage';
+import { destroyCookie } from 'nookies'
+import { useRouter } from 'next/router';
+
 
 export default function NavBarDash() {
+
+    const router = useRouter();
 
     const userId = localStorage.getItem('userId')
 
     const [usernameValue, setUsernameValue] = useState('');
+
+    const deleteToken = () => {
+        localStorage.removeItem('userToken');
+        destroyCookie(null, 'nextAuth.token');
+        router.push('/');
+    }
 
     useEffect(() => {
         recoveryUser()
@@ -36,11 +47,9 @@ export default function NavBarDash() {
                     </Link>
                     <span className={styles.navlilogo}>ADM</span>
                 </div>
-                <span className={styles.cumprimento}>Olá, {usernameValue}</span>
+                <span className={styles.cumprimento}>Olá, {usernameValue .split(' ')[0]}</span>
                 <div className={styles.ctmsglinks}>
-                    <ul className={styles.navlinks}
-                        onClick={() => setIsMobile(false)}
-                    >
+                    <ul className={styles.navlinks}>
                         <Link href='./help' className={styles.link}>
                             <li className={styles.topli}>
                                 <div className={styles.linkgroup}>
@@ -49,14 +58,14 @@ export default function NavBarDash() {
                                 </div>
                             </li>
                         </Link>
-                        <Link href='./logout' className={styles.link}>
+                        <button className={styles.btnlink} onClick={deleteToken}>
                             <li className={styles.topli}>
                                 <div className={styles.linkgroup}>
                                     <MdLogout className={styles.topliicon} />
                                     <span className={styles.toplilabel}>Sair</span>
                                 </div>
                             </li>
-                        </Link>
+                        </button>
                     </ul>
                 </div>
             </div>

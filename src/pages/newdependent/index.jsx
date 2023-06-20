@@ -64,16 +64,14 @@ export default function NewDependent() {
       testeType: typeValue
     }
 
-    console.log(newDependent);
-
     try {
-      /*const response = await api.post(`/api/usuarios/`, newDependent)
+      const response = await api.post(`/api/usuarios/`, newDependent)
       if (response.status === 200) {
         alert('Dependente cadastrado com sucesso.');
         router.push('/dependents/');
       } else {
         alert('Erro ao cadastrar dependente.');
-      }*/
+      }
     } catch (error) {
       console.log(error)
     }

@@ -15,7 +15,7 @@ export function AuthProvider({children}){
 
     const isAuthenticated = !!user;
 
-    const fetchData = async (username, password) => {
+    const fetchData = async (email, password) => {
         try {
           const response = await fetch("http://localhost:3333/api/autenticacao/login", {
             method: "POST",
@@ -23,7 +23,7 @@ export function AuthProvider({children}){
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              username: username,
+              email: email,
               password: password
             })
           });
@@ -58,7 +58,7 @@ export function AuthProvider({children}){
              api.defaults.headers['Authorization'] = `Bearer ${data.token}`; 
              localStorage.setItem('userToken', data.token);
              localStorage.setItem('userId', data.id);
-             setUser(data.username)
+             setUser(data.email)
              setToken(data.token)
              Router.push('/dashboard')
         }else{
