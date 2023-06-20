@@ -24,6 +24,31 @@
   margin: 0 auto;
 }
 
+.ctlogoadm {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  width: auto;
+}
+
+.cumprimento {
+  display: flex;
+  width: 100%;
+  height: 45px;
+  font-weight: bold;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: white;
+  padding-right: 10px;
+}
+
+.ctmsglinks {
+  display: flex;
+  justify-content: flex-end;
+  width: auto;
+}
+
 .loginbanner {
   width: 100%;
   height: auto;
@@ -37,6 +62,7 @@
   align-items: center;
   list-style: none;
   width: 100%;
+  display: flex;
 }
 
 .navlilogo {
@@ -52,7 +78,7 @@
 .navli {
   padding-left: 40px;
   cursor: pointer;
-  color: black;
+  color: white;
   text-decoration: none;
   border-bottom: 3px solid transparent;
   transition: all 0.5s ease-in-out;
@@ -97,6 +123,7 @@
 
 .link {
   margin-right: 20px;
+  color: white;
 }
 
 .linkgroup {
@@ -115,7 +142,7 @@
 }
 
 .topliicon {
-  color: black;
+  color: white;
   font-size: 24px;
 }
 
@@ -126,12 +153,6 @@
 */
 @media screen and (max-width: 1300px) {
 
-  .logoimg {
-    width: 50%;
-    max-width: 300px;
-    height: auto;
-  }
-  
   .navbar {
     position: fixed;
     top: 0;
@@ -141,76 +162,5 @@
     margin: 0;
     padding: 0;
   }
-
-  .navlinks {
-    display: none;
-  }
-
-  .navlinksmobile {
-    position: absolute;
-    display: block;
-    list-style: none;
-    background-color: #191B3C;
-    left: 0;
-    top: 90px;
-    transition: all 0.5s ease-out;
-    width: 100%;
-    height: auto;
-    text-align: center;
-    opacity: 0;
-    animation: fadeNavItem 700ms ease forwards;
-  }
-
-  @keyframes fadeNavItem {
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .navlinksmobile li {
-    color: black;
-    font-size: 1rem;
-    width: 100%;
-    background-color: #f7f5fa;
-    border-bottom: 1px solid #f0bb93;
-    border-radius: 0;
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 32px;
-    margin: 0;
-  }
-
-  .navlinksmobile li .navlibtn {
-    border-radius: 0px;
-    background-color: #f7f5fa;
-    color: black;
-    font-size: 1.2rem;
-  }
-
-  .navlinksmobile .navlibtn:hover {
-    background: #f7f5fa;
-    /*box-shadow: 0 1rem 1.6rem rgba(12, 3, 27, 0.15);*/
-  }
-
-
-  .mobilemenuicon {
-    display: block;
-    position: absolute;
-    color: #f08a3e;
-    background: #191B3C;
-    outline: none;
-    top: 30px;
-    right: 25px;
-  }
-
-  .mobilemenuicontimes,
-  .mobilemenuiconbars {
-    font-size: 30px;
-  }
-
-  .navli .navlibtn {
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1);
-  }
-  
 
 }

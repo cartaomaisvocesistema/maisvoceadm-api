@@ -57,6 +57,7 @@ export function AuthProvider({children}){
              });
              api.defaults.headers['Authorization'] = `Bearer ${data.token}`; 
              localStorage.setItem('userToken', data.token);
+             localStorage.setItem('userId', data.id);
              setUser(data.username)
              setToken(data.token)
              Router.push('/dashboard')
