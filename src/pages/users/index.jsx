@@ -1,6 +1,6 @@
 import LayoutDashBoard from "@/layouts/LayoutDashboard";
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { BsPersonFillGear } from "react-icons/bs";
 import { useContext, useEffect } from 'react';
@@ -12,12 +12,15 @@ import { api } from "../../services/api";
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import { Chart } from 'chart.js/auto';
 
 import styles from './users.module.scss';
 
 export default function Users() {
-  
+
   const [userList, setuserList] = useState([]);
+  const [EmDiaQtdValue, setEmDiaQtdValue] = useState(null);
+  const [AtrasadoQtdValue, setAtrasadoQtdValue] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -32,15 +35,71 @@ export default function Users() {
     paymentstatus: ''
   });
 
-  const handleFilterSubmit = async () => {
-    // Lógica para lidar com o envio dos filtros
-    // ...
-    console.log(filterValues);
+  // const PieChart = ({ EmDiaQtdValue, AtrasadoQtdValue }) => {
+
+  //   const chartRef = useRef(null);
+
+  //   useEffect(() => {
+
+  //     const canvas = document.getElementById('myChartCanvas');
+  //     const ctx = chartRef.current.getContext('2d');
+      
+
+  //     // Verifique se há um gráfico existente
+  //     if (typeof myChart !== 'undefined' && myChart !== null) {
+  //       myChart.destroy(); // Destrua o gráfico existente
+  //     }
+
+  //     var myChart = new Chart(ctx, {
+  //       type: 'doughnut',
+  //       data: {
+  //         labels: [
+  //           'Em Dia',
+  //           'Atrasado'
+  //         ],
+  //         datasets: [{
+  //           label: 'Meu Grafico legal',
+  //           data: [EmDiaQtdValue, AtrasadoQtdValue],
+  //           backgroundColor: [
+  //             'rgb(255, 99, 132)',
+  //             'rgb(54, 162, 235)'
+  //           ],
+  //           hoverOffset: 4
+  //         }]
+  //       },
+  //     });
+  //   }, [EmDiaQtdValue, AtrasadoQtdValue]);
+
+  //   return <canvas ref={chartRef} />;
+  // };
+
+  const getByFilter = async () => {
     const response = await api.post('/api/usuarios/getbyfilter', filterValues)
     const result = (response).data;
     setuserList(result.users)
-    setIsFilterOpen(!isFilterOpen)
-    //console.log(result)
+  };
+
+  const filterEmdia = async () => {
+    console.log(filterValues);
+    setFilterValues({ ...filterValues, paymentstatus: 'EM_DIA' })
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
+  };
+
+  const filterAtrasado = async () => {
+    console.log(filterValues);
+    setFilterValues({ ...filterValues, paymentstatus: 'ATRASADO' })
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
+  };
+
+  const handleFilterSubmit = async () => {
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
+    setIsFilterOpen(!isFilterOpen);
   };
 
   const handleFilterClear = async () => {
@@ -74,6 +133,7 @@ export default function Users() {
   useEffect(() => {
     console.log("entrei aquiii")
     getListaUsuarios();
+    getListaCardHeaders();
   }, []);
 
   const getListaUsuarios = async () => {
@@ -81,6 +141,14 @@ export default function Users() {
     const result = (response).data;
     setuserList(result.users)
     console.log(result)
+  }
+
+  const getListaCardHeaders = async () => {
+    const response = await api.get('/api/usuarios/usercardsheaders/info')
+    const result = (response).data;
+    console.log(result);
+    setEmDiaQtdValue(result.emDiaNumber);
+    setAtrasadoQtdValue(result.atrasadoNumber);
   }
 
   const deleteUsuarios = async () => {
@@ -162,9 +230,8 @@ export default function Users() {
                       }
                     >
                       <option value="">Selecione</option>
-                      <option value="1">Quitado</option>
-                      <option value="2">Pendente</option>
-                      <option value="3">Atrasado</option>
+                      <option value="EM_DIA">Em dia</option>
+                      <option value="ATRASADO">Atrasado</option>
                     </select>
                   </div>
 
@@ -208,7 +275,7 @@ export default function Users() {
                     </div>*/}
 
                   <div className={styles.ctbuttons}>
-                  <button className={styles.button} onClick={handleFilterClear}>Limpar</button>
+                    <button className={styles.button} onClick={handleFilterClear}>Limpar</button>
                     <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
                     <button className={styles.button} onClick={handleFilterSubmit}>Filtrar</button>
                   </div>
@@ -217,35 +284,30 @@ export default function Users() {
 
             </div>
             <div className={styles.containercards}>
-              <div className={styles.card}>
+              <div 
+                className={styles.card}
+              >
                 <div className={styles.cardusers}>
-                  <span className={styles.cardtitle}>12</span>
+                  <span className={styles.cardtitle}>{EmDiaQtdValue}</span>
                   <div className={styles.ctactives}>
                     <div className={styles.dotsgreen}></div>
-                    <span className={styles.carddescription}>Ativos</span>
+                    <span className={styles.carddescription}>Em dia</span>
                   </div>
                 </div>
               </div>
-              <div className={styles.card}>
+              <div 
+                className={styles.card}
+              >
                 <div className={styles.cardusers}>
-                  <span className={styles.cardtitle}>34</span>
-                  <div className={styles.ctactives}>
-                    <div className={styles.dotsorange}></div>
-                    <span className={styles.carddescription}>Pendentes</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.card}>
-                <div className={styles.cardusers}>
-                  <span className={styles.cardtitle}>56</span>
+                  <span className={styles.cardtitle}>{AtrasadoQtdValue}</span>
                   <div className={styles.ctactives}>
                     <div className={styles.dotsred}></div>
-                    <span className={styles.carddescription}>Atrasados</span>
+                    <span className={styles.carddescription}>Atrasado</span>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div className={styles.headtable}>
               <Link href='/newuser' className={styles.btnewuser}>Novo usuário titular</Link>
 
@@ -286,7 +348,7 @@ export default function Users() {
                     <td className={styles.tdcenter}>{user.email}</td>
                     <td className={styles.tdcenter}>
                       <div className={styles.containerdots}>
-                        <div className={(user.paymentstatus == '1') ? styles.dotsgreen : (user.paymentstatus == '2') ? styles.dotsorange : styles.dotsred}></div>
+                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsred}></div>
                       </div>
                     </td>
                     <td className={styles.tdcenter}>{user.phone}</td>

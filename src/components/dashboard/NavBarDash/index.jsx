@@ -50,14 +50,6 @@ export default function NavBarDash() {
                 <span className={styles.cumprimento}>Olá, {usernameValue .split(' ')[0]}</span>
                 <div className={styles.ctmsglinks}>
                     <ul className={styles.navlinks}>
-                        <Link href='./help' className={styles.link}>
-                            <li className={styles.topli}>
-                                <div className={styles.linkgroup}>
-                                    <MdHelp className={styles.topliicon} />
-                                    <span className={styles.toplilabel}>Ajuda</span>
-                                </div>
-                            </li>
-                        </Link>
                         <button className={styles.btnlink} onClick={deleteToken}>
                             <li className={styles.topli}>
                                 <div className={styles.linkgroup}>
