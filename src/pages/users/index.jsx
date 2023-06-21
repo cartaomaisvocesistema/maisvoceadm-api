@@ -12,7 +12,7 @@ import { api } from "../../services/api";
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBinLine } from 'react-icons/ri';
-import { Chart } from 'chart.js/auto';
+//import { Chart } from 'chart.js/auto';
 
 import styles from './users.module.scss';
 

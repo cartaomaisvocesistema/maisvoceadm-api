@@ -27,15 +27,6 @@ export default function NewPartner() {
 
   const { user } = useContext(AuthContext)
 
-  let imageem = null;
-
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    console.log(file)
-    imageem = file;
-    //setPartnerbannerValue(file); // Salva o arquivo no estado
-  }
-
   useEffect(() => {
 
   }, [])
@@ -64,7 +55,7 @@ export default function NewPartner() {
       const id = response.data.id;
       if (response.status === 200) {
         const formData = new FormData();
-        formData.append('image', imageem);
+        formData.append('image', partnerbannerValue);
         console.log(formData);
         const res = await api.post(`/api/parceiros/${id}`, formData, {
           headers: {
@@ -72,7 +63,7 @@ export default function NewPartner() {
           },
         })
         alert('Parceiro cadastrado com sucesso.');
-        //router.push('/partners/');
+        router.push('/partners/');
       } else {
         alert('Erro ao cadastrar parceiro.');
       }
@@ -114,8 +105,7 @@ export default function NewPartner() {
                     type="file"
                     id="partnerbanner"
                     name="partnerbanner"
-                    value={partnerbannerValue}
-                    onChange={handleFileChange}
+                    onChange={e => setPartnerbannerValue(e.target.files[0])}
                     required
                   />
                 </div>
