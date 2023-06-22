@@ -97,21 +97,21 @@ export default function NewPartner() {
                   />
                 </div>
 
-                <div>
-                  <label className={styles.formlabel} htmlFor="descricao">
+                <div className={styles.formgroup}>
+                  <label className={styles.formlabel} htmlFor="partnerbanner">
                     Banner do parceiro:
                   </label>
                   <input
                     type="file"
+                    className={styles.buttonupload}
                     id="partnerbanner"
                     name="partnerbanner"
                     onChange={e => setPartnerbannerValue(e.target.files[0])}
-                    required
                   />
                 </div>
 
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="descricao">
+                  <label className={styles.formlabel} htmlFor="partnerdescription">
                     Descrição:
                   </label>
                   <textarea

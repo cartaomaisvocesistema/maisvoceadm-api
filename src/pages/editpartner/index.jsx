@@ -7,12 +7,15 @@ import { getAPIClient } from "@/services/axios";
 import styles from './editpartner.module.scss';
 import { api } from "@/services/api";
 import { useRouter } from 'next/router';
+import Image from "next/image";
 
 export default function EditPartner() {
 
   const router = useRouter();
 
   const [partnernameValue, setPartnernameValue] = useState('');
+  const [partnerbannerimgValue, setPartnerbannerimgValue] = useState('');
+  const [partnerbannerValue, setPartnerbannerValue] = useState(null);
   const [partnerdescriptionValue, setPartnerdescriptionValue] = useState('');
   const [partneremailValue, setPartneremailValue] = useState('');
   const [partnerphonenumberValue, setPartnerphonenumberValue] = useState('');
@@ -35,6 +38,8 @@ export default function EditPartner() {
     const response = await api.get(`/api/parceiros/${id}`)
     const data = (response).data;
 
+    //console.log(data);
+    
     if (data.partnername)
       setPartnernameValue(data.partnername);
 
@@ -55,6 +60,9 @@ export default function EditPartner() {
 
     if (data.partnercategory)
       setPartnercategoryValue(data.partnercategory);
+
+    if (data.banner)
+      setPartnerbannerimgValue(data.banner);
 
   }
 
@@ -81,8 +89,16 @@ export default function EditPartner() {
     try {
       const response = await api.patch(`/api/parceiros/`, editPartner)
       if (response.status === 200) {
+        const formData = new FormData();
+        formData.append('image', partnerbannerValue);
+        console.log(formData);
+        const res = await api.post(`/api/parceiros/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         alert('Parceiro atualizado com sucesso.');
-        router.push('/partners/');
+        //router.push('/partners/');
       } else {
         alert('Erro ao atualizar o parceiro.');
       }
@@ -117,6 +133,27 @@ export default function EditPartner() {
                     value={partnernameValue}
                     onChange={e => setPartnernameValue(e.target.value)}
                     required
+                  />
+                </div>
+
+                <Image
+                  src={partnerbannerimgValue}
+                  className={styles.imgupload}
+                  alt=""
+                  width={1000}
+                  height={1000}
+                />
+
+                <div className={styles.formgroup}>
+                  <label className={styles.formlabel} htmlFor="partnerbanner">
+                    Banner do parceiro:
+                  </label>
+                  <input
+                    type="file"
+                    className={styles.buttonupload}
+                    id="partnerbanner"
+                    name="partnerbanner"
+                    onChange={e => setPartnerbannerValue(e.target.files[0])}
                   />
                 </div>
 
