@@ -39,7 +39,7 @@ export default function EditPartner() {
     const data = (response).data;
 
     //console.log(data);
-    
+
     if (data.partnername)
       setPartnernameValue(data.partnername);
 
@@ -64,12 +64,41 @@ export default function EditPartner() {
     if (data.banner)
       setPartnerbannerimgValue(data.banner);
 
+    if (data.categorypartner)
+      setPartnercategoryValue(data.categorypartner);
+
+    if (data.openinghours !== '') {
+      if (data.openinghours.includes('manhã')) {
+        setPeriodoManha(true);
+      }
+      if (data.openinghours.includes('tarde')) {
+        setPeriodoTarde(true);
+      }
+      if (data.openinghours.includes('noite')) {
+        setPeriodoNoite(true);
+      }
+    }
+
   }
 
   const updateParceiro = async (e) => {
     e.preventDefault();
 
     const { id } = router.query;
+
+    let oh = 'Horário de funcionamento:';
+
+    if (periodoManha) {
+      oh += 'manhã, '
+    }
+
+    if (periodoTarde) {
+      oh += 'tarde, '
+    }
+
+    if (periodoNoite) {
+      oh += 'noite'
+    }
 
     const editPartner = {
       id: id,
@@ -79,8 +108,8 @@ export default function EditPartner() {
       partnerphonenumber: partnerphonenumberValue,
       partneraddress: partneraddressValue,
       partnerwebsite: partnerwebsiteValue,
-      openinghours: 'manha, tarde, noite',
-      categorypartner: '1'
+      openinghours: oh,
+      categorypartner: partnercategoryValue
 
     }
 
@@ -91,14 +120,15 @@ export default function EditPartner() {
       if (response.status === 200) {
         const formData = new FormData();
         formData.append('image', partnerbannerValue);
-        console.log(formData);
-        const res = await api.post(`/api/parceiros/${id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        if (partnerbannerValue) {
+          const res = await api.post(`/api/parceiros/${id}`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+        }
         alert('Parceiro atualizado com sucesso.');
-        //router.push('/partners/');
+        router.push('/partners/');
       } else {
         alert('Erro ao atualizar o parceiro.');
       }
@@ -135,14 +165,15 @@ export default function EditPartner() {
                     required
                   />
                 </div>
-
-                <Image
-                  src={partnerbannerimgValue}
-                  className={styles.imgupload}
-                  alt=""
-                  width={1000}
-                  height={1000}
-                />
+                { partnerbannerimgValue &&
+                  <Image
+                    src={partnerbannerimgValue}
+                    className={styles.imgupload}
+                    alt=""
+                    width={1000}
+                    height={1000}
+                  />
+                }
 
                 <div className={styles.formgroup}>
                   <label className={styles.formlabel} htmlFor="partnerbanner">
@@ -281,10 +312,9 @@ export default function EditPartner() {
                     onChange={e => setPartnercategoryValue(e.target.value)}
                     required
                   >
-                    <option value="">Selecione a categoria</option>
-                    <option value="saude">Saúde</option>
-                    <option value="comercio">Comércio</option>
-                    <option value="outros">Outros</option>
+                    <option value="1">Saúde</option>
+                    <option value="2">Comércio</option>
+                    <option value="3">Outros</option>
                   </select>
                 </div>
 
