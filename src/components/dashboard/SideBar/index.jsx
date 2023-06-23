@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { FaTimes, FaBars } from 'react-icons/fa';
-import { MdHome, MdPerson, MdStorefront, MdLocalHospital, MdLogout } from 'react-icons/md';
+import { MdHome, MdPerson, MdStorefront, MdLocalHospital, MdLogout, MdOutlineHandshake, MdPaid, MdInsights } from 'react-icons/md';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -44,7 +44,7 @@ export default function SideBar() {
                     <Link href='/payments/'>
                         <li className={isCurrentRoute('/payments')}>
                             <div className={styles.linkgroup}>
-                                <MdStorefront className={styles.sideliicon} />
+                                <MdPaid className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Pagamentos</span>
                             </div>
                         </li>
@@ -52,7 +52,7 @@ export default function SideBar() {
                     <Link href='./partners'>
                         <li className={isCurrentRoute('/partners')}>
                             <div className={styles.linkgroup}>
-                                <MdLocalHospital className={styles.sideliicon} />
+                                <MdOutlineHandshake className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Parceiros</span>
                             </div>
                         </li>
@@ -60,7 +60,7 @@ export default function SideBar() {
                     <Link href='./financial'>
                         <li className={isCurrentRoute('/financial')}>
                             <div className={styles.linkgroup}>
-                                <MdLocalHospital className={styles.sideliicon} />
+                                <MdInsights className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Financeiro</span>
                             </div>
                         </li>

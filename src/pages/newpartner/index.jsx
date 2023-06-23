@@ -19,7 +19,7 @@ export default function NewPartner() {
   const [partnerphonenumberValue, setPartnerphonenumberValue] = useState('');
   const [partneraddressValue, setPartneraddressValue] = useState('');
   const [partnerwebsiteValue, setPartnerwebsiteValue] = useState('');
-  const [partnercategoryValue, setPartnercategoryValue] = useState('');
+  const [partnercategoryValue, setPartnercategoryValue] = useState('1');
 
   const [periodoManha, setPeriodoManha] = useState(false);
   const [periodoTarde, setPeriodoTarde] = useState(false);

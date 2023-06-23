@@ -79,8 +79,6 @@ export default function Dependents() {
 
   const getListaDependentes = async () => {
     const { cardnumber } = router.query;
-
-    console.log()
     const response = await api.get(`/api/usuarios/getdependents/${cardnumber}`)
     const result = (response).data;
     const  dpList = result.users.filter(user => user.type !== 'C_TITULAR')

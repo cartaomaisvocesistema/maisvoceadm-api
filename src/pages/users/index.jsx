@@ -139,8 +139,7 @@ export default function Users() {
   const getListaUsuarios = async () => {
     const response = await api.get('/api/usuarios/')
     const result = (response).data;
-    setuserList(result.users)
-    console.log(result)
+    setuserList(result.users.filter(user => user.type !== 'ADM'))
   }
 
   const getListaCardHeaders = async () => {
@@ -284,9 +283,7 @@ export default function Users() {
 
             </div>
             <div className={styles.containercards}>
-              <div 
-                className={styles.card}
-              >
+              <div className={styles.card}>
                 <div className={styles.cardusers}>
                   <span className={styles.cardtitle}>{EmDiaQtdValue}</span>
                   <div className={styles.ctactives}>
@@ -295,9 +292,7 @@ export default function Users() {
                   </div>
                 </div>
               </div>
-              <div 
-                className={styles.card}
-              >
+              <div className={styles.card}>
                 <div className={styles.cardusers}>
                   <span className={styles.cardtitle}>{AtrasadoQtdValue}</span>
                   <div className={styles.ctactives}>
@@ -310,7 +305,6 @@ export default function Users() {
 
             <div className={styles.headtable}>
               <Link href='/newuser' className={styles.btnewuser}>Novo usuário titular</Link>
-
               <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
 
 
