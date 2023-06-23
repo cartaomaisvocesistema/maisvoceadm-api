@@ -17,7 +17,7 @@ export function AuthProvider({children}){
 
     const fetchData = async (email, password) => {
         try {
-          const response = await fetch("http://localhost:3333/api/autenticacao/login", {
+          const response = await fetch("http://localhost:3333/api/autenticacao/loginadm", {
             method: "POST",
             headers: {
               'Content-Type': 'application/json'

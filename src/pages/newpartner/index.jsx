@@ -19,7 +19,7 @@ export default function NewPartner() {
   const [partnerphonenumberValue, setPartnerphonenumberValue] = useState('');
   const [partneraddressValue, setPartneraddressValue] = useState('');
   const [partnerwebsiteValue, setPartnerwebsiteValue] = useState('');
-  const [partnercategoryValue, setPartnercategoryValue] = useState('1');
+  const [partnercategoryValue, setPartnercategoryValue] = useState('SAUDE');
 
   const [periodoManha, setPeriodoManha] = useState(false);
   const [periodoTarde, setPeriodoTarde] = useState(false);
@@ -245,9 +245,9 @@ export default function NewPartner() {
                     onChange={e => setPartnercategoryValue(e.target.value)}
                     required
                   >
-                    <option value="1">Saúde</option>
-                    <option value="2">Comércio</option>
-                    <option value="3">Outros</option>
+                    <option value="SAUDE">Saúde</option>
+                    <option value="COMERCIO">Comércio</option>
+                    <option value="OUTROS">Outros</option>
                   </select>
                 </div>
 
