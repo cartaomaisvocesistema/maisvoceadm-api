@@ -14,6 +14,8 @@
 .containercards {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: 80%;
     height: auto;
     padding: 30px 100px 0 0;
@@ -24,7 +26,8 @@
 .card {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: auto;
+    min-width: 600px;
     height: 100%;
     background-color: #fff;
     border-radius: 15px;
@@ -34,6 +37,20 @@
 
 .card:hover {
     background-color: rgba(110, 110, 110, 0.05);
+}
+
+.cardphoto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: 100%;
+}
+
+.imgphoto {
+    width: 200px;
+    height: 200px;
 }
 
 .cardtitular {
@@ -389,3 +406,4 @@
     flex-direction: row;
     gap: 25%;
 }
+

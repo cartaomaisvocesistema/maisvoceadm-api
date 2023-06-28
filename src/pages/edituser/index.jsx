@@ -53,18 +53,45 @@ export default function EditUser() {
       setPhoneValue(data.phone);
   }
 
+  function handleChangeMaskCpf(e) {
+    const { value } = e.target;
+    setCpfValue(cpfMask(value))
+  }
+
+  const cpfMask = value => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+  }
+
+  const handleChangeMaskPhone = (e) => {
+    const { value } = e.target
+    setPhoneValue(phoneMask(value))
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const updateUsuario = async (e) => {
     e.preventDefault();
 
     const { id } = router.query;
-    
+
     const updatedUser = {
       id: id,
       username: usernameValue,
       email: emailValue,
-      cpf: cpfValue,
+      cpf: cpfValue.toString().replace(/\.|-/gm, ''),
       address: addressValue,
-      phone: phoneValue
+      phone: phoneValue.toString().replace(/\D/g, '')
     }
 
     try {
@@ -101,6 +128,7 @@ export default function EditUser() {
                       id="username"
                       name="username"
                       value={usernameValue}
+                      maxlength="70"
                       onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
@@ -112,6 +140,7 @@ export default function EditUser() {
                       id="email"
                       name="email"
                       value={emailValue}
+                      maxlength="70"
                       onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
@@ -123,20 +152,23 @@ export default function EditUser() {
                       type="text"
                       id="cpf"
                       name="cpf"
-                      value={cpfValue}
-                      onChange={e => setCpfValue(e.target.value)}
+                      value={cpfMask(cpfValue)}
+                      onChange={e => handleChangeMaskCpf(e)}
+                      maxlength="14"
+                      disabled
                       required
                     />
                   </div>
 
                   <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="endereco">Endereço:</label>
+                    <label className={styles.formlabel} htmlFor="address">Endereço:</label>
                     <input
                       className={styles.forminputtext}
                       type="text"
-                      id="endereco"
-                      name="endereco"
+                      id="address"
+                      name="address"
                       value={addressValue}
+                      maxlength="70"
                       onChange={e => setAddressValue(e.target.value)}
                       required />
                   </div>
@@ -148,8 +180,9 @@ export default function EditUser() {
                       type="text"
                       id="phone"
                       name="phone"
-                      value={phoneValue}
-                      onChange={e => setPhoneValue(e.target.value)}
+                      value={phoneMask(phoneValue)}
+                      maxlength="15"
+                      onChange={e => handleChangeMaskPhone(e)}
                       required />
                   </div>
 

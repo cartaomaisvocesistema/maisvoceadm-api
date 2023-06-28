@@ -57,7 +57,7 @@ export default function Home() {
                     className={styles.logininput} type="text" name="email" placeholder="login" required />
                   <input
                     {...register('password')}
-                    className={styles.logininput} type="text" name="password" placeholder="senha" required />
+                    className={styles.logininput} type="password" name="password" placeholder="senha" required />
                   <input type="submit" value="Entrar" className={styles.loginbtn} />
                   <Link className={styles.logintext} href='./'>
                     Esqueceu a senha?

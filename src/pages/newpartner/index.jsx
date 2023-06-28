@@ -31,6 +31,19 @@ export default function NewPartner() {
 
   }, [])
 
+  const handleChangeMaskPhone = (e) => {
+    const { value } = e.target
+    setPartnerphonenumberValue(phoneMask(value))
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+    .replace(/\D/g, '')
+    .replace(/(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const addParceiro = async (e) => {
     e.preventDefault();
 
@@ -53,7 +66,7 @@ export default function NewPartner() {
       partnername: partnernameValue,
       partnerdescription: partnerdescriptionValue,
       partneremail: partneremailValue,
-      partnerphonenumber: partnerphonenumberValue,
+      partnerphonenumber: partnerphonenumberValue.toString().replace(/\D/g, ''),
       partneraddress: partneraddressValue,
       partnerwebsite: partnerwebsiteValue,
       openinghours: oh,
@@ -108,6 +121,7 @@ export default function NewPartner() {
                     type="text"
                     id="partnername"
                     name="partnername"
+                    maxlength="70"
                     onChange={e => setPartnernameValue(e.target.value)}
                     required
                   />
@@ -140,7 +154,7 @@ export default function NewPartner() {
                 </div>
 
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="email">
+                  <label className={styles.formlabel} htmlFor="partneremail">
                     Email:
                   </label>
                   <input
@@ -148,13 +162,14 @@ export default function NewPartner() {
                     type="email"
                     id="partneremail"
                     name="partneremail"
+                    maxlength="70"
                     onChange={e => setPartneremailValue(e.target.value)}
                     required
                   />
                 </div>
 
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="telefone">
+                  <label className={styles.formlabel} htmlFor="partnerphonenumber">
                     Telefone:
                   </label>
                   <input
@@ -162,7 +177,9 @@ export default function NewPartner() {
                     type="tel"
                     id="partnerphonenumber"
                     name="partnerphonenumber"
-                    onChange={e => setPartnerphonenumberValue(e.target.value)}
+                    value={partnerphonenumberValue}
+                    maxLength='15'
+                    onChange={e => handleChangeMaskPhone(e)}
                     required
                   />
                 </div>
@@ -176,6 +193,7 @@ export default function NewPartner() {
                     type="text"
                     id="partneraddress"
                     name="partneraddress"
+                    maxlength="70"
                     onChange={e => setPartneraddressValue(e.target.value)}
                     required
                   />
@@ -190,6 +208,7 @@ export default function NewPartner() {
                     type="url"
                     id="partnerwebsite"
                     name="partnerwebsite"
+                    maxlength="70"
                     onChange={e => setPartnerwebsiteValue(e.target.value)}
                     required
                   />

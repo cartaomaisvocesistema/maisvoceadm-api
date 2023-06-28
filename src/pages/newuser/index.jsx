@@ -49,67 +49,99 @@ export default function NewUser() {
     setOpcaoSelecionada(value);
   }
 
+  function handleChangeMaskCpf(e) {
+    const { value } = e.target;
+    setCpfValue(cpfMask(value))
+  }
+
+  const cpfMask = value => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+  }
+
+  const handleChangeMaskPhone = (e) => {
+    const { value } = e.target
+    setPhoneValue(phoneMask(value))
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+    .replace(/\D/g, '')
+    .replace(/(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const addUsuario = async (e) => {
     e.preventDefault();
 
-    let pt = '';
-    if (opcaoSelecionada === 'balcao') {
-      pt = paymentTypeValue;
+    if (passwordValue != confirmPasswordValue) {
+      alert('Campos de senha e confirme sua senha estão diferentes');
     } else {
-      if (opcaoSelecionada === 'signatureboleto') {
-        pt = '5';
+
+      let pt = '';
+      if (opcaoSelecionada === 'balcao') {
+        pt = paymentTypeValue;
       } else {
-        if (opcaoSelecionada === 'signaturecredit') {
-          pt = '6';
+        if (opcaoSelecionada === 'signatureboleto') {
+          pt = '5';
+        } else {
+          if (opcaoSelecionada === 'signaturecredit') {
+            pt = '6';
+          }
         }
       }
-    }
 
-
-    const newUser1 = {
-      username: usernameValue,
-      email: emailValue,
-      cpf: cpfValue,
-      address: addressValue,
-      phone: phoneValue,
-      password: passwordValue,
-      type: typeUserValue,
-      selectedoption: opcaoSelecionada,
-      paymenttype: pt
-    }
-
-    let newUser = {
-      ...newUser1
-    };
-
-
-    if (opcaoSelecionada === 'signaturecredit') {
-      const newUserCredit = {
-        cardnumber: cardNumberValue,
-        nametitular: nameTitularValue,
-        validade: validadeValue,
-        cvv: cvvValue
+      const newUser1 = {
+        username: usernameValue,
+        email: emailValue,
+        cpf: cpfValue.toString().replace(/\.|-/gm, ''),
+        address: addressValue,
+        phone: phoneValue.toString().replace(/\D/g, ''),
+        password: passwordValue,
+        type: typeUserValue,
+        selectedoption: opcaoSelecionada,
+        paymenttype: pt
       }
 
-      newUser = {
-        ...newUser1,
-        ...newUserCredit
+      let newUser = {
+        ...newUser1
       };
 
-    }
 
-    console.log(newUser);
+      if (opcaoSelecionada === 'signaturecredit') {
+        const newUserCredit = {
+          cardnumber: cardNumberValue,
+          nametitular: nameTitularValue,
+          validade: validadeValue,
+          cvv: cvvValue
+        }
 
-    try {
-      const response = await api.post(`/api/usuarios/`, newUser)
-      if (response.status === 200) {
-        alert('Usuario cadastrado com sucesso.');
-        router.push('/users/');
-      } else {
-        alert('Erro ao cadastrar usuario.');
+        newUser = {
+          ...newUser1,
+          ...newUserCredit
+        };
+
       }
-    } catch (error) {
-      console.log(error)
+
+      console.log(newUser);
+
+      try {
+        const response = await api.post(`/api/usuarios/`, newUser)
+        if (response.status === 200) {
+          alert('Usuario cadastrado com sucesso.');
+          router.push('/users/');
+        } else {
+          alert('Erro ao cadastrar usuario.');
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
     }
 
   }
@@ -133,6 +165,7 @@ export default function NewUser() {
                       type="text"
                       id="username"
                       name="username"
+                      maxlength="70" 
                       onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
@@ -144,6 +177,7 @@ export default function NewUser() {
                       type="email"
                       id="email"
                       name="email"
+                      maxlength="70"
                       onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
@@ -155,50 +189,58 @@ export default function NewUser() {
                       type="text"
                       id="cpf"
                       name="cpf"
-                      onChange={e => setCpfValue(e.target.value)}
+                      maxlength="14" 
+                      value={cpfValue}
+                      onChange={e => handleChangeMaskCpf(e)}
                       required />
                   </div>
 
                   <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="endereco">Endereço:</label>
+                    <label className={styles.formlabel} htmlFor="address">Endereço:</label>
                     <input
                       className={styles.forminputtext}
                       type="text"
                       id="address"
                       name="address"
+                      maxlength="70"
                       onChange={e => setAddressValue(e.target.value)}
                       required />
                   </div>
 
                   <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="endereco">Telefone:</label>
+                    <label className={styles.formlabel} htmlFor="phone">Telefone:</label>
                     <input
                       className={styles.forminputtext}
                       type="text"
                       id="phone"
                       name="phone"
-                      onChange={e => setPhoneValue(e.target.value)}
+                      maxlength="15"
+                      value={phoneValue}
+                      onChange={e => handleChangeMaskPhone(e)}
                       required />
                   </div>
 
                   <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="senha">Senha:</label>
+                    <label className={styles.formlabel} htmlFor="password">Senha:</label>
                     <input
                       className={styles.forminputtext}
                       type="password"
                       id="password"
                       name="password"
+                      maxlength="70"
                       onChange={e => setPasswordValue(e.target.value)}
                       required
                     />
-                    {/*<input
+                    <label className={styles.formlabel} htmlFor="password">Confirme sua senha:</label>
+                    <input
                       className={styles.forminputtext}
                       type="password"
                       id="confirmpassword"
                       name="confirmpassword"
+                      maxlength="70"
                       onChange={e => setConfirmPasswordValue(e.target.value)}
                       required
-  />*/}
+                    />
                   </div>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="tipo">Tipo:</label>
@@ -271,6 +313,7 @@ export default function NewUser() {
                           id="cardnumber"
                           name="cardnumber"
                           value={cardNumberValue}
+                          maxlength="70"
                           onChange={e => setCardNumberValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
@@ -282,6 +325,7 @@ export default function NewUser() {
                           id="nametitular"
                           name="nametitular"
                           value={nameTitularValue}
+                          maxlength="70"
                           onChange={e => setNameTitularValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
@@ -293,6 +337,7 @@ export default function NewUser() {
                           id="validade"
                           name="validade"
                           value={validadeValue}
+                          maxlength="70"
                           onChange={e => setValidadeValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
@@ -304,6 +349,7 @@ export default function NewUser() {
                           id="cvv"
                           name="cvv"
                           value={cvvValue}
+                          maxlength="70"
                           onChange={e => setCvvValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />

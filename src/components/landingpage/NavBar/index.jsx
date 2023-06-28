@@ -15,10 +15,12 @@ export default function NavBar() {
     return (<>
         <nav className={styles.navbar}>
             <div className={styles.container}>
-                <Link href='./'>
-                    <Image className={styles.logoimg} src={bannerlogin} alt='Cartão + Você' />
-                </Link>
-                <span className={styles.navlilogo}>ADM</span>
+                <div className={styles.ctlogoadm}>
+                    <Link href='./'>
+                        <Image className={styles.logoimg} src={bannerlogin} alt='Cartão + Você' />
+                    </Link>
+                    <span className={styles.navlilogo}>ADM</span>
+                </div>
                 <ul className={isMobile ? styles.navlinksmobile : styles.navlinks}
                     onClick={() => setIsMobile(false)}
                 >

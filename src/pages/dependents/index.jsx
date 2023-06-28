@@ -13,8 +13,10 @@ import { useRouter } from 'next/router';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import imgpadrao from '../../../public/images/perfilpadrao.png';
 
 import styles from './dependents.module.scss';
+import Image from "next/image";
 
 export default function Dependents() {
 
@@ -81,12 +83,13 @@ export default function Dependents() {
     const { cardnumber } = router.query;
     const response = await api.get(`/api/usuarios/getdependents/${cardnumber}`)
     const result = (response).data;
-    const  dpList = result.users.filter(user => user.type !== 'C_TITULAR')
+    const dpList = result.users.filter(user => user.type !== 'C_TITULAR')
     setDependentsList(dpList)
-    if(dpList.length >= 4) {
+    if (dpList.length >= 4) {
       setBtnNewDependentShow(false);
     }
 
+    console.log(result.users.filter(user => user.type == 'C_TITULAR')[0]);
     setTitularValue(result.users.filter(user => user.type == 'C_TITULAR')[0]);
   }
 
@@ -194,6 +197,15 @@ export default function Dependents() {
             </div>
             <div className={styles.containercards}>
               <div className={styles.card}>
+                <div className={styles.cardphoto}>
+                  <Image
+                    className={styles.imgphoto}
+                    src={titularValue.banner ? titularValue.banner : imgpadrao}
+                    alt=''
+                    width={1000}
+                    height={1000}
+                  />
+                </div>
                 <div className={styles.cardtitular}>
                   <span className={styles.cardtitulartitle}>
                     Titular do cartão Nº: {titularValue.cardNumber}

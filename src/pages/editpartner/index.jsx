@@ -81,6 +81,19 @@ export default function EditPartner() {
 
   }
 
+  const handleChangeMaskPhone = (e) => {
+    const { value } = e.target
+    setPartnerphonenumberValue(phoneMask(value))
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+    .replace(/\D/g, '')
+    .replace(/(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const updateParceiro = async (e) => {
     e.preventDefault();
 
@@ -105,7 +118,7 @@ export default function EditPartner() {
       partnername: partnernameValue,
       partnerdescription: partnerdescriptionValue,
       partneremail: partneremailValue,
-      partnerphonenumber: partnerphonenumberValue,
+      partnerphonenumber: partnerphonenumberValue.toString().replace(/\D/g, ''),
       partneraddress: partneraddressValue,
       partnerwebsite: partnerwebsiteValue,
       openinghours: oh,
@@ -138,9 +151,6 @@ export default function EditPartner() {
 
   }
 
-
-
-
   return (
     <main>
       <LayoutDashboard>
@@ -161,6 +171,7 @@ export default function EditPartner() {
                     id="partnername"
                     name="partnername"
                     value={partnernameValue}
+                    maxLength='70'
                     onChange={e => setPartnernameValue(e.target.value)}
                     required
                   />
@@ -184,6 +195,7 @@ export default function EditPartner() {
                     className={styles.buttonupload}
                     id="partnerbanner"
                     name="partnerbanner"
+                    maxLength='70'
                     onChange={e => setPartnerbannerValue(e.target.files[0])}
                   />
                 </div>
@@ -212,13 +224,14 @@ export default function EditPartner() {
                     id="partneremail"
                     name="partneremail"
                     value={partneremailValue}
+                    maxLength='70'
                     onChange={e => setPartneremailValue(e.target.value)}
                     required
                   />
                 </div>
 
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="telefone">
+                  <label className={styles.formlabel} htmlFor="partnerphonenumber">
                     Telefone:
                   </label>
                   <input
@@ -226,8 +239,9 @@ export default function EditPartner() {
                     type="tel"
                     id="partnerphonenumber"
                     name="partnerphonenumber"
-                    value={partnerphonenumberValue}
-                    onChange={e => setPartnerphonenumberValue(e.target.value)}
+                    value={phoneMask(partnerphonenumberValue)}
+                    maxLength='15'
+                    onChange={e => handleChangeMaskPhone(e)}
                     required
                   />
                 </div>
@@ -242,6 +256,7 @@ export default function EditPartner() {
                     id="partneraddress"
                     name="partneraddress"
                     value={partneraddressValue}
+                    maxLength='70'
                     onChange={e => setPartneraddressValue(e.target.value)}
                     required
                   />
@@ -257,6 +272,7 @@ export default function EditPartner() {
                     id="partnerwebsite"
                     name="partnerwebsite"
                     value={partnerwebsiteValue}
+                    maxLength='70'
                     onChange={e => setPartnerwebsiteValue(e.target.value)}
                     required
                   />

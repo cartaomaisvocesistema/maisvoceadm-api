@@ -83,18 +83,20 @@
   display: none;
 }
 
+.ctlogoadm {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  width: auto;
+}
+
 /*
   MARCARÇÕES
   425 - 768 - 1024
   Se tiver links demais na navbar colocar o proximo acima.
 */
 @media screen and (max-width: 1300px) {
-
-  .logoimg {
-    width: 50%;
-    max-width: 300px;
-    height: auto;
-  }
   
   .navbar {
     position: fixed;
@@ -161,7 +163,7 @@
     display: block;
     position: absolute;
     color: #f08a3e;
-    background: #191B3C;
+    background: #e3ebee;
     outline: none;
     top: 30px;
     right: 25px;
