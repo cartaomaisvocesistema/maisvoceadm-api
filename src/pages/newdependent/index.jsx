@@ -24,6 +24,7 @@ export default function NewDependent() {
   const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
   const [typeUserValue, setTypeUserValue] = useState('C_DEPENDENTE_GRATUITO');
   const [typeValue, setypeValue] = useState('');
+  const { cardnumber } = router.query;
 
   const { user } = useContext(AuthContext);
 
@@ -32,7 +33,6 @@ export default function NewDependent() {
   }, [])
 
   const showTypeDependent = async () => {
-    const { cardnumber } = router.query;
     const response = await api.get(`/api/usuarios/getdependents/${cardnumber}`)
     const result = (response).data;
 
@@ -92,7 +92,8 @@ export default function NewDependent() {
         address: addressValue,
         phone: phoneValue.toString().replace(/\D/g, ''),
         password: passwordValue,
-        type: typeValue
+        type: typeValue,
+        cartaotitular: cardnumber
       }
 
       console.log(newDependent);
@@ -101,7 +102,7 @@ export default function NewDependent() {
         const response = await api.post(`/api/usuarios/`, newDependent)
         if (response.status === 200) {
           alert('Dependente cadastrado com sucesso.');
-          //router.push('/dependents/');
+          router.push('/dependents/');
         } else {
           alert('Erro ao cadastrar dependente.');
         }
