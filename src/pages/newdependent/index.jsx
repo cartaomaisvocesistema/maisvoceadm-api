@@ -102,7 +102,7 @@ export default function NewDependent() {
         const response = await api.post(`/api/usuarios/`, newDependent)
         if (response.status === 200) {
           alert('Dependente cadastrado com sucesso.');
-          router.push('/dependents/');
+          router.push(`/dependents?cardnumber=${cardnumber}`);
         } else {
           alert('Erro ao cadastrar dependente.');
         }
