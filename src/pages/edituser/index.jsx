@@ -59,6 +59,7 @@ export default function EditUser() {
   }
 
   const cpfMask = value => {
+    if (!value) return ""
     return value
       .replace(/\D/g, '')
       .replace(/(\d{3})(\d)/, '$1.$2')
@@ -129,6 +130,7 @@ export default function EditUser() {
                       name="username"
                       value={usernameValue}
                       maxlength="70"
+                      placeholder="ex. João da Silva" 
                       onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
@@ -141,6 +143,7 @@ export default function EditUser() {
                       name="email"
                       value={emailValue}
                       maxlength="70"
+                      placeholder="joao@gmail.com"
                       onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
@@ -153,6 +156,7 @@ export default function EditUser() {
                       id="cpf"
                       name="cpf"
                       value={cpfMask(cpfValue)}
+                      placeholder="000.000.000-00" 
                       onChange={e => handleChangeMaskCpf(e)}
                       maxlength="14"
                       disabled
@@ -169,6 +173,7 @@ export default function EditUser() {
                       name="address"
                       value={addressValue}
                       maxlength="70"
+                      placeholder="ex. Rua José Pedro da Silva"
                       onChange={e => setAddressValue(e.target.value)}
                       required />
                   </div>
@@ -182,6 +187,7 @@ export default function EditUser() {
                       name="phone"
                       value={phoneMask(phoneValue)}
                       maxlength="15"
+                      placeholder="(53)99999-9999"
                       onChange={e => handleChangeMaskPhone(e)}
                       required />
                   </div>

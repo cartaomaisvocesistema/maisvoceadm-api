@@ -89,9 +89,9 @@ export default function EditPartner() {
   const phoneMask = (value) => {
     if (!value) return ""
     return value
-    .replace(/\D/g, '')
-    .replace(/(\d{2})(\d)/, "($1) $2")
-    .replace(/(\d)(\d{4})$/, "$1-$2")
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
   }
 
   const updateParceiro = async (e) => {
@@ -162,7 +162,7 @@ export default function EditPartner() {
             <div className={styles.formcontainer}>
               <form onSubmit={updateParceiro}>
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="nome">
+                  <label className={styles.formlabel} htmlFor="partnername">
                     Nome:
                   </label>
                   <input
@@ -172,11 +172,12 @@ export default function EditPartner() {
                     name="partnername"
                     value={partnernameValue}
                     maxLength='70'
+                    placeholder="São João"
                     onChange={e => setPartnernameValue(e.target.value)}
                     required
                   />
                 </div>
-                { partnerbannerimgValue &&
+                {partnerbannerimgValue &&
                   <Image
                     src={partnerbannerimgValue}
                     className={styles.imgupload}
@@ -201,21 +202,22 @@ export default function EditPartner() {
                 </div>
 
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="descricao">
+                  <label className={styles.formlabel} htmlFor="partnerdescription">
                     Descrição:
                   </label>
                   <textarea
-                    className={styles.forminputtext}
+                    className={`${styles.forminputtext} ${styles.forminputtextarea}`} 
                     id="partnerdescription"
                     name="partnerdescription"
                     value={partnerdescriptionValue}
+                    maxLength='250'
                     onChange={e => setPartnerdescriptionValue(e.target.value)}
                     required
                   />
                 </div>
 
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="email">
+                  <label className={styles.formlabel} htmlFor="partneremail">
                     Email:
                   </label>
                   <input
@@ -225,6 +227,7 @@ export default function EditPartner() {
                     name="partneremail"
                     value={partneremailValue}
                     maxLength='70'
+                    placeholder="parceiro@gmail.com"
                     onChange={e => setPartneremailValue(e.target.value)}
                     required
                   />
@@ -241,13 +244,14 @@ export default function EditPartner() {
                     name="partnerphonenumber"
                     value={phoneMask(partnerphonenumberValue)}
                     maxLength='15'
+                    placeholder="(53)99999-9999"
                     onChange={e => handleChangeMaskPhone(e)}
                     required
                   />
                 </div>
 
                 <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="endereco">
+                  <label className={styles.formlabel} htmlFor="partneraddress">
                     Endereço:
                   </label>
                   <input
@@ -257,6 +261,7 @@ export default function EditPartner() {
                     name="partneraddress"
                     value={partneraddressValue}
                     maxLength='70'
+                    placeholder="ex. Rua José Pedro da Silva"
                     onChange={e => setPartneraddressValue(e.target.value)}
                     required
                   />
@@ -271,6 +276,7 @@ export default function EditPartner() {
                     type="url"
                     id="partnerwebsite"
                     name="partnerwebsite"
+                    placeholder="http://site.com"
                     value={partnerwebsiteValue}
                     maxLength='70'
                     onChange={e => setPartnerwebsiteValue(e.target.value)}

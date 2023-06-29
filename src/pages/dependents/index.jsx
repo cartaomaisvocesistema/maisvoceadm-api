@@ -79,6 +79,24 @@ export default function Dependents() {
     getListaDependentes();
   }, []);
 
+  const cpfMask = value => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const getListaDependentes = async () => {
     const { cardnumber } = router.query;
     const response = await api.get(`/api/usuarios/getdependents/${cardnumber}`)
@@ -218,10 +236,18 @@ export default function Dependents() {
                       <label className={styles.formlabel} htmlFor="email">Email:</label><span className={styles.formlabelvalue}>{titularValue.email}</span>
                     </div>
                     <div className={styles.cardtitulargrouplabel}>
-                      <label className={styles.formlabel} htmlFor="cpf">Cpf:</label><span className={styles.formlabelvalue}>{titularValue.cpf}</span>
+                      <label className={styles.formlabel} htmlFor="cpf">Cpf:</label><span className={styles.formlabelvalue}>
+                        {titularValue.cpf &&
+                          cpfMask(titularValue.cpf)
+                        }
+                      </span>
                     </div>
                     <div className={styles.cardtitulargrouplabel}>
-                      <label className={styles.formlabel} htmlFor="phone">Telefone:</label><span className={styles.formlabelvalue}>{titularValue.phone}</span>
+                      <label className={styles.formlabel} htmlFor="phone">Telefone:</label><span className={styles.formlabelvalue}>
+                        {titularValue.phone &&
+                          phoneMask(titularValue.phone)
+                        }
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -260,9 +286,17 @@ export default function Dependents() {
                   <tr key={user.id} className={styles.tr}>
                     <td className={styles.tdcenter}>{user.cardNumber}</td>
                     <td className={styles.tdcenter}>{user.username}</td>
-                    <td className={styles.tdcenter}>{user.cpf}</td>
+                    <td className={styles.tdcenter}>
+                      {user.cpf &&
+                        cpfMask(user.cpf)
+                      }
+                    </td>
                     <td className={styles.tdcenter}>{user.email}</td>
-                    <td className={styles.tdcenter}>{user.phone}</td>
+                    <td className={styles.tdcenter}>
+                      {user.phone &&
+                        phoneMask(user.phone)
+                      }
+                    </td>
                     <td className={styles.tdcenter}>{user.address}</td>
                     <td className={`${styles.tdcenter} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>

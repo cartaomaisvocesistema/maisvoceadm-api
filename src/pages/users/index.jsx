@@ -73,6 +73,24 @@ export default function Users() {
   //   return <canvas ref={chartRef} />;
   // };
 
+  const cpfMask = value => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+    .replace(/\D/g, '')
+    .replace(/(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const getByFilter = async () => {
     const response = await api.post('/api/usuarios/getbyfilter', filterValues)
     const result = (response).data;
@@ -133,7 +151,7 @@ export default function Users() {
   useEffect(() => {
     console.log("entrei aquiii")
     getListaUsuarios();
-    getListaCardHeaders();
+    //getListaCardHeaders();
   }, []);
 
   const getListaUsuarios = async () => {
@@ -338,14 +356,14 @@ export default function Users() {
                   <tr key={user.id} className={styles.tr}>
                     <td className={styles.tdcenter}>{user.cardNumber}</td>
                     <td className={styles.tdcenter}>{user.username}</td>
-                    <td className={styles.tdcenter}>{user.cpf}</td>
+                    <td className={styles.tdcenter}>{cpfMask(user.cpf)}</td>
                     <td className={styles.tdcenter}>{user.email}</td>
                     <td className={styles.tdcenter}>
                       <div className={styles.containerdots}>
                         <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsred}></div>
                       </div>
                     </td>
-                    <td className={styles.tdcenter}>{user.phone}</td>
+                    <td className={styles.tdcenter}>{phoneMask(user.phone)}</td>
                     <td className={styles.tdcenter}>{user.address}</td>
                     <td className={`${styles.tdcenter} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>

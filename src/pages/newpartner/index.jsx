@@ -122,6 +122,7 @@ export default function NewPartner() {
                     id="partnername"
                     name="partnername"
                     maxlength="70"
+                    placeholder="São João"
                     onChange={e => setPartnernameValue(e.target.value)}
                     required
                   />
@@ -145,9 +146,10 @@ export default function NewPartner() {
                     Descrição:
                   </label>
                   <textarea
-                    className={styles.forminputtext}
+                    className={`${styles.forminputtext} ${styles.forminputtextarea}`}
                     id="partnerdescription"
                     name="partnerdescription"
+                    maxLength='250'
                     onChange={e => setPartnerdescriptionValue(e.target.value)}
                     required
                   />
@@ -163,6 +165,7 @@ export default function NewPartner() {
                     id="partneremail"
                     name="partneremail"
                     maxlength="70"
+                    placeholder="parceiro@gmail.com"
                     onChange={e => setPartneremailValue(e.target.value)}
                     required
                   />
@@ -179,6 +182,7 @@ export default function NewPartner() {
                     name="partnerphonenumber"
                     value={partnerphonenumberValue}
                     maxLength='15'
+                    placeholder="(53)99999-9999"
                     onChange={e => handleChangeMaskPhone(e)}
                     required
                   />
@@ -194,6 +198,7 @@ export default function NewPartner() {
                     id="partneraddress"
                     name="partneraddress"
                     maxlength="70"
+                    placeholder="ex. Rua José Pedro da Silva"
                     onChange={e => setPartneraddressValue(e.target.value)}
                     required
                   />
@@ -209,6 +214,7 @@ export default function NewPartner() {
                     id="partnerwebsite"
                     name="partnerwebsite"
                     maxlength="70"
+                    placeholder="http://site.com"
                     onChange={e => setPartnerwebsiteValue(e.target.value)}
                     required
                   />

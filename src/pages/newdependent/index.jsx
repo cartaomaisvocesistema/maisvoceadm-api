@@ -22,9 +22,9 @@ export default function NewDependent() {
   const [phoneValue, setPhoneValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
-  const [typeUserValue, setTypeUserValue] = useState('1');
+  const [typeUserValue, setTypeUserValue] = useState('C_DEPENDENTE_GRATUITO');
   const [typeValue, setypeValue] = useState('');
-  
+
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -35,45 +35,80 @@ export default function NewDependent() {
     const { cardnumber } = router.query;
     const response = await api.get(`/api/usuarios/getdependents/${cardnumber}`)
     const result = (response).data;
-    
+
     const dependentFree = result.users.filter(user => user.type === 'C_DEPENDENTE_GRATUITO');
     const dependentExtra = result.users.filter(user => user.type === 'C_DEPENDENTE_EXTRA');
     const titular = result.users.filter(user => user.type == 'C_TITULAR')[0];
 
-    let message = `${titular.username} possui ${dependentFree.length} dependente(s) gratuito(s)  do total de 2`;
-    let type = '2';
+    let message = `${titular.username} possui ${dependentFree.length} dependente(s) gratuito(s) do total de 2`;
+    let type = 'C_DEPENDENTE_GRATUITO';
     if (dependentFree.length == 2) {
-      message = `${titular.username} já possui 2 dependentes gratuitos, e possui ${dependentExtra.length} dependentes extra  do total de 2.`;
-      type = '3';
+      message = `${titular.username} já possui 2 dependentes gratuitos, e possui ${dependentExtra.length} dependentes extra do total de 2.`;
+      type = 'C_DEPENDENTE_EXTRA';
     }
     setypeValue(type);
     setMessageDependentValue(message);
   }
 
+  function handleChangeMaskCpf(e) {
+    const { value } = e.target;
+    setCpfValue(cpfMask(value))
+  }
+
+  const cpfMask = value => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+  }
+
+  const handleChangeMaskPhone = (e) => {
+    const { value } = e.target
+    setPhoneValue(phoneMask(value))
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const addDependente = async (e) => {
     e.preventDefault();
 
-    const newDependent = {
-      username: usernameValue,
-      email: emailValue,
-      cpf: cpfValue,
-      address: addressValue,
-      phone: phoneValue,
-      password: passwordValue,
-      type: typeUserValue,
-      testeType: typeValue
-    }
+    if (passwordValue != confirmPasswordValue) {
+      alert('Campos de senha e confirme sua senha estão diferentes');
+    } else {
 
-    try {
-      const response = await api.post(`/api/usuarios/`, newDependent)
-      if (response.status === 200) {
-        alert('Dependente cadastrado com sucesso.');
-        router.push('/dependents/');
-      } else {
-        alert('Erro ao cadastrar dependente.');
+      const newDependent = {
+        username: usernameValue,
+        email: emailValue,
+        cpf: cpfValue.toString().replace(/\.|-/gm, ''),
+        address: addressValue,
+        phone: phoneValue.toString().replace(/\D/g, ''),
+        password: passwordValue,
+        type: typeValue
       }
-    } catch (error) {
-      console.log(error)
+
+      console.log(newDependent);
+
+      try {
+        const response = await api.post(`/api/usuarios/`, newDependent)
+        if (response.status === 200) {
+          alert('Dependente cadastrado com sucesso.');
+          //router.push('/dependents/');
+        } else {
+          alert('Erro ao cadastrar dependente.');
+        }
+      } catch (error) {
+        console.log(error)
+      }
+
     }
 
   }
@@ -98,6 +133,7 @@ export default function NewDependent() {
                       type="text"
                       id="username"
                       name="username"
+                      maxLength='70'
                       onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
@@ -109,6 +145,7 @@ export default function NewDependent() {
                       type="email"
                       id="email"
                       name="email"
+                      maxLength='70'
                       onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
@@ -120,7 +157,9 @@ export default function NewDependent() {
                       type="text"
                       id="cpf"
                       name="cpf"
-                      onChange={e => setCpfValue(e.target.value)}
+                      value={cpfValue}
+                      maxLength='14'
+                      onChange={e => handleChangeMaskCpf(e)}
                       required />
                   </div>
 
@@ -131,6 +170,7 @@ export default function NewDependent() {
                       type="text"
                       id="address"
                       name="address"
+                      maxLength='70'
                       onChange={e => setAddressValue(e.target.value)}
                       required />
                   </div>
@@ -142,7 +182,9 @@ export default function NewDependent() {
                       type="text"
                       id="phone"
                       name="phone"
-                      onChange={e => setPhoneValue(e.target.value)}
+                      value={phoneValue}
+                      maxLength='15'
+                      onChange={e => handleChangeMaskPhone(e)}
                       required />
                   </div>
 
@@ -153,17 +195,20 @@ export default function NewDependent() {
                       type="password"
                       id="password"
                       name="password"
+                      maxLength='70'
                       onChange={e => setPasswordValue(e.target.value)}
                       required
                     />
-                    {/*<input
+                    <label className={styles.formlabel} htmlFor="senha">Confirme sua senha:</label>
+                    <input
                       className={styles.forminputtext}
                       type="password"
                       id="confirmpassword"
                       name="confirmpassword"
+                      maxLength='70'
                       onChange={e => setConfirmPasswordValue(e.target.value)}
                       required
-  />*/}
+                    />
                   </div>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="tipo">Tipo:</label>
@@ -175,8 +220,8 @@ export default function NewDependent() {
                       onChange={e => setypeValue(e.target.value)}
                       required
                       disabled>
-                      <option value="2">Gratuito</option>
-                      <option value="3">Extra</option>
+                      <option value="C_DEPENDENTE_GRATUITO">Gratuito</option>
+                      <option value="C_DEPENDENTE_EXTRA">Extra</option>
                     </select>
                   </div>
 

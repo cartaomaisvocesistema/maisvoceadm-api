@@ -30,6 +30,14 @@ export default function Partners() {
     getListaParceiros();
   }, [])
 
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
   const handleFilterSubmit = async () => {
     // Lógica para lidar com o envio dos filtros
     // ...
@@ -164,7 +172,11 @@ export default function Partners() {
                   <tr key={partner.id} className={styles.tr}>
                     <td className={styles.td}>{partner.partnername}</td>
                     <td className={styles.td}>{partner.partneremail}</td>
-                    <td className={styles.td}>{partner.partnerphonenumber}</td>
+                    <td className={styles.td}>
+                      {partner.partnerphonenumber &&
+                        phoneMask(partner.partnerphonenumber)
+                      }
+                    </td>
                     <td className={styles.td}>{partner.openinghours}</td>
                     <td className={styles.td}>{partner.categorypartner}</td>
                     <td className={`${styles.td} ${styles.tdcenter}`}>

@@ -55,6 +55,7 @@ export default function NewUser() {
   }
 
   const cpfMask = value => {
+    if (!value) return ""
     return value
       .replace(/\D/g, '')
       .replace(/(\d{3})(\d)/, '$1.$2')
@@ -165,7 +166,8 @@ export default function NewUser() {
                       type="text"
                       id="username"
                       name="username"
-                      maxlength="70" 
+                      maxlength="70"
+                      placeholder="ex. João da Silva" 
                       onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
@@ -178,6 +180,7 @@ export default function NewUser() {
                       id="email"
                       name="email"
                       maxlength="70"
+                      placeholder="joao@gmail.com" 
                       onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
@@ -191,6 +194,7 @@ export default function NewUser() {
                       name="cpf"
                       maxlength="14" 
                       value={cpfValue}
+                      placeholder="000.000.000-00" 
                       onChange={e => handleChangeMaskCpf(e)}
                       required />
                   </div>
@@ -203,6 +207,7 @@ export default function NewUser() {
                       id="address"
                       name="address"
                       maxlength="70"
+                      placeholder="ex. Rua José Pedro da Silva"
                       onChange={e => setAddressValue(e.target.value)}
                       required />
                   </div>
@@ -216,6 +221,7 @@ export default function NewUser() {
                       name="phone"
                       maxlength="15"
                       value={phoneValue}
+                      placeholder="(53)99999-9999"
                       onChange={e => handleChangeMaskPhone(e)}
                       required />
                   </div>
@@ -314,6 +320,7 @@ export default function NewUser() {
                           name="cardnumber"
                           value={cardNumberValue}
                           maxlength="70"
+                          placeholder="0000 0000 0000 0000"
                           onChange={e => setCardNumberValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
@@ -326,6 +333,7 @@ export default function NewUser() {
                           name="nametitular"
                           value={nameTitularValue}
                           maxlength="70"
+                          placeholder="ex. João da Silva"
                           onChange={e => setNameTitularValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
@@ -337,7 +345,8 @@ export default function NewUser() {
                           id="validade"
                           name="validade"
                           value={validadeValue}
-                          maxlength="70"
+                          maxlength="5"
+                          placeholder="10/10"
                           onChange={e => setValidadeValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
@@ -349,7 +358,8 @@ export default function NewUser() {
                           id="cvv"
                           name="cvv"
                           value={cvvValue}
-                          maxlength="70"
+                          maxlength="3"
+                          placeholder="123"
                           onChange={e => setCvvValue(e.target.value)}
                           disabled={!(opcaoSelecionada === 'signaturecredit')}
                           required />
