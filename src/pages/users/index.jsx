@@ -151,7 +151,7 @@ export default function Users() {
   useEffect(() => {
     console.log("entrei aquiii")
     getListaUsuarios();
-    //getListaCardHeaders();
+    getListaCardHeaders();
   }, []);
 
   const getListaUsuarios = async () => {

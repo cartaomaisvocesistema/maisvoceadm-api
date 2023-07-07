@@ -15,44 +15,56 @@ import styles from './payments.module.scss';
 
 export default function Payments() {
 
-  const [paymentsList, setPaymentsList] = useState([]);
+  const [userList, setuserList] = useState([]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  /*const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);*/
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
-    name: '',
-    email: '',
-    cpf: '',
+    cardNumber: '',
+    username: '',
+    paymentstatus: ''
   });
 
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [paymentToDelete, setPaymentToDelete] = useState(null);
+  /*const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [paymentToDelete, setPaymentToDelete] = useState(null);*/
 
   useEffect(() => {
-    getListaPagamentos();
+    getListaUsuarios();
   }, [])
 
   const handleFilterClear = async () => {
+    filterValues.username = '';
+    filterValues.cardNumber = '';
+    filterValues.paymentstatus = '';
 
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
+    setIsFilterOpen(!isFilterOpen)
   };
 
   const handleFilterSubmit = async () => {
+    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+    const result = (response).data;
+    setuserList(result.users)
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  /*const handleFilterSubmit = async () => {
     const response = await api.post('/api/pagamentos/getbyfilter', filterValues)
     const result = (response).data;
     setPaymentsList(result.payments)
     setIsFilterOpen(!isFilterOpen);
-  };
+  };*/
 
-  const getListaPagamentos = async () => {
-    const response = await api.get('/api/pagamentos/')
+  const getListaUsuarios = async () => {
+    const response = await api.get('/api/usuarios/')
     const result = (response).data;
-    setPaymentsList(result.payments)
-    console.log(result)
+    setuserList(result.users.filter(user => user.type !== 'ADM'))
   }
 
-
-  const handleDeletePayment = (paymentId) => {
+  /*const handleDeletePayment = (paymentId) => {
     setPaymentToDelete(paymentId);
     setShowConfirmationModal(true);
   };
@@ -69,7 +81,7 @@ export default function Payments() {
   const cancelDeletePayment = () => {
     setShowConfirmationModal(false);
     setPaymentToDelete(null);
-  };
+  };*/
 
   return (
     <>
@@ -84,6 +96,49 @@ export default function Payments() {
                 <div className={styles.filterbox}>
 
                   <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="cardNumber">Nº Cartão:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nº cartão"
+                      value={filterValues.cardNumber}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, cardNumber: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">Nome:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.username}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, username: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="paymenttype1">Status de pagamento:</label>
+                    <select
+                      className={styles.forminputtext}
+                      id="paymenttype1"
+                      name="paymenttype1"
+                      value={filterValues.paymentstatus}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, paymentstatus: e.target.value })
+                      }
+                    >
+                      <option value="">Selecione</option>
+                      <option value="EM_DIA">Em dia</option>
+                      <option value="ATRASADO">Atrasado</option>
+                    </select>
+                  </div>
+
+                  {/*<div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="usuario">Usuário:</label>
                     <select
                       className={styles.forminputtext}
@@ -126,7 +181,7 @@ export default function Payments() {
                         setFilterValues({ ...filterValues, valor: e.target.value })
                       }
                     />
-                  </div>
+                    </div>*/}
 
                   <div className={styles.ctbuttons}>
                     <button className={styles.button} onClick={handleFilterClear}>Limpar</button>
@@ -137,7 +192,7 @@ export default function Payments() {
               )}
 
             </div>
-            <div className={styles.containercards}>
+            {/*<div className={styles.containercards}>
               <div className={styles.card}>
                 <div className={styles.cardusers}>
                   <span className={styles.cardtitle}>0</span>
@@ -156,50 +211,43 @@ export default function Payments() {
                   </div>
                 </div>
               </div>
-            </div>
+                    </div>*/}
 
             <div className={styles.headtable}>
-              <Link href='/newpayment' className={styles.btnewuser}>Novo pagamento</Link>
+              {/*<Link href='/newpayment' className={styles.btnewuser}>Novo pagamento</Link>*/}
               <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
             </div>
 
             <table className={styles.table}>
               <thead>
                 <tr className={styles.tr}>
-                  <th className={styles.th}>Usuário</th>
-                  <th className={styles.th}>Valor</th>
+                  <th className={styles.th}>Nº Cartão</th>
+                  <th className={styles.th}>Nome</th>
                   <th className={styles.th}>Status</th>
-                  <th className={styles.th}>Data de Vencimento</th>
-                  <th className={styles.th}>Editar</th>
-                  <th className={styles.th}>Deletar</th>
+                  <th className={styles.th}>Pagamentos</th>
                 </tr>
               </thead>
               <tbody>
-                {paymentsList.map((payment) => (
-                  <tr key={payment.id} className={styles.tr}>
-                    <td className={styles.td}>{payment.userid}</td>
-                    <td className={styles.td}>{payment.value}</td>
-                    <td className={styles.td}>{payment.status}</td>
-                    <td className={styles.td}>{payment.paymentdate}</td>
-                    <td className={`${styles.td} ${styles.tdcenter}`}>
-                      <Link href={`/editpayment?id=${payment.id}`}>
-                        <FaEdit />
-                      </Link>
+                {userList.map((user) => (
+                  <tr key={user.id} className={styles.tr}>
+                    <td className={styles.tdcenter}>{user.cardNumber}</td>
+                    <td className={styles.tdcenter}>{user.username}</td>
+                    <td className={styles.tdcenter}>
+                      <div className={styles.containerdots}>
+                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsred}></div>
+                      </div>
                     </td>
-                    <td className={`${styles.td} ${styles.tdcenter}`}>
-                      <button
-                        className={styles.deleteButton}
-                        onClick={() => handleDeletePayment(payment.id)}
-                      >
-                        <RiDeleteBinLine />
-                      </button>
+                    <td className={styles.tdcenter}>
+                      <Link href={`/userpayments?userid=${user.id}`} className={styles.btseepayments}>
+                        Ver pagamentos
+                      </Link>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
 
-            {showConfirmationModal && (
+            {/*{showConfirmationModal && (
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
                   <h3>Confirmar exclusão</h3>
@@ -210,7 +258,7 @@ export default function Payments() {
                   </div>
                 </div>
               </div>
-            )}
+            )}*/}
           </div>
         </LayoutDashboard>
       </main>

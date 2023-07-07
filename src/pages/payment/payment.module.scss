@@ -1,0 +1,149 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    min-height: 90vh;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #f7f5fa;
+    overflow-y: scroll;
+    padding: 0;
+    margin: 0;
+}
+
+.topbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 35px;
+    background-color: rgb(255, 87, 13, 0.9);
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.containercards {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 10px 0;
+    margin: 10px 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: auto;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    gap: 5%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.cardpayment {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.cardpaymenttop {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height:100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.cardpaymentstatus {
+    font-weight: bold;
+}
+
+.cardpaymentstatus2 {
+    width: 100px;
+    height: 100px;
+}
+
+.cardpaymentvalue {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 70px;
+}
+
+.cardpaymentmid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height:100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardpaymentlabel {
+    font-size: 18px;
+    margin-bottom:10px;
+}
+
+.cardpaymentbottom {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height:100%;
+    align-items: center;
+    justify-content: center;
+    margin-top:10px;
+}
+
+.btpayments {
+    font-size: 17px;
+    background-color: #d3d3df;
+    color: black;
+    padding: 10px 22px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.iconconfirmed {
+    width: 100px;
+    height: 100px;
+    color: green;
+}
+
+.iconreceived {
+    width: 100px;
+    height: 100px;
+    color: green;
+}
+
+.iconpending {
+    width: 100px;
+    height: 100px;
+    color: orange;
+}
+
+.iconoverdue {
+    width: 100px;
+    height: 100px;
+    color: red;
+}

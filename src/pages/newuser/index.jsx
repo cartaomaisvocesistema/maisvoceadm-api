@@ -12,7 +12,7 @@ export default function NewUser() {
 
   const router = useRouter();
 
-  const [opcaoSelecionada, setOpcaoSelecionada] = useState('balcao');
+  const [opcaoSelecionada, setOpcaoSelecionada] = useState('UNDEFINED');
 
   const [usernameValue, setUsernameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -43,11 +43,51 @@ export default function NewUser() {
 
   function handleOptions(event) {
     const { value } = event.target;
-    if (value === 'balcao' || value === 'signatureboleto') {
+    if (value === 'UNDEFINED' || value === 'BOLETO') {
       resetSignatureCredit();
     }
     setOpcaoSelecionada(value);
   }
+
+  function handleChangeMaskCvv(e) {
+    const { value } = e.target;
+    setCvvValue(cvvMask(value));
+  }
+  
+  const cvvMask = value => {
+    if (!value) return "";
+    return value
+      .replace(/\D/g, "")
+      .substr(0, 3);
+  };
+
+  function handleChangeMaskDate(e) {
+    const { value } = e.target;
+    setValidadeValue(dateMask(value));
+  }
+  
+  const dateMask = value => {
+    if (!value) return "";
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d{2})/, "$1/$2")
+      .trim()
+      .substr(0, 5);
+  };
+
+  function handleChangeMaskCreditCard(e) {
+    const { value } = e.target;
+    setCardNumberValue(creditCardMask(value));
+  }
+
+  const creditCardMask = value => {
+    if (!value) return "";
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, "$1 $2 $3 $4")
+      .trim()
+      .substr(0, 19);
+  };
 
   function handleChangeMaskCpf(e) {
     const { value } = e.target;
@@ -72,9 +112,9 @@ export default function NewUser() {
   const phoneMask = (value) => {
     if (!value) return ""
     return value
-    .replace(/\D/g, '')
-    .replace(/(\d{2})(\d)/, "($1) $2")
-    .replace(/(\d)(\d{4})$/, "$1-$2")
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
   }
 
   const addUsuario = async (e) => {
@@ -85,13 +125,13 @@ export default function NewUser() {
     } else {
 
       let pt = '';
-      if (opcaoSelecionada === 'balcao') {
+      if (opcaoSelecionada === 'UNDEFINED') {
         pt = paymentTypeValue;
       } else {
-        if (opcaoSelecionada === 'signatureboleto') {
+        if (opcaoSelecionada === 'BOLETO') {
           pt = '5';
         } else {
-          if (opcaoSelecionada === 'signaturecredit') {
+          if (opcaoSelecionada === 'CREDIT_CARD') {
             pt = '6';
           }
         }
@@ -114,12 +154,12 @@ export default function NewUser() {
       };
 
 
-      if (opcaoSelecionada === 'signaturecredit') {
+      if (opcaoSelecionada === 'CREDIT_CARD') {
         const newUserCredit = {
-          cardnumber: cardNumberValue,
+          cardnumber: cardNumberValue.replace(/\s/g, ""),
           nametitular: nameTitularValue,
           validade: validadeValue,
-          cvv: cvvValue
+          ccv: cvvValue
         }
 
         newUser = {
@@ -166,8 +206,8 @@ export default function NewUser() {
                       type="text"
                       id="username"
                       name="username"
-                      maxlength="70"
-                      placeholder="ex. João da Silva" 
+                      maxLength="70"
+                      placeholder="ex. João da Silva"
                       onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
@@ -179,8 +219,8 @@ export default function NewUser() {
                       type="email"
                       id="email"
                       name="email"
-                      maxlength="70"
-                      placeholder="joao@gmail.com" 
+                      maxLength="70"
+                      placeholder="joao@gmail.com"
                       onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
@@ -192,9 +232,9 @@ export default function NewUser() {
                       type="text"
                       id="cpf"
                       name="cpf"
-                      maxlength="14" 
+                      maxLength="14"
                       value={cpfValue}
-                      placeholder="000.000.000-00" 
+                      placeholder="000.000.000-00"
                       onChange={e => handleChangeMaskCpf(e)}
                       required />
                   </div>
@@ -206,7 +246,7 @@ export default function NewUser() {
                       type="text"
                       id="address"
                       name="address"
-                      maxlength="70"
+                      maxLength="70"
                       placeholder="ex. Rua José Pedro da Silva"
                       onChange={e => setAddressValue(e.target.value)}
                       required />
@@ -219,7 +259,7 @@ export default function NewUser() {
                       type="text"
                       id="phone"
                       name="phone"
-                      maxlength="15"
+                      maxLength="15"
                       value={phoneValue}
                       placeholder="(53)99999-9999"
                       onChange={e => handleChangeMaskPhone(e)}
@@ -233,7 +273,7 @@ export default function NewUser() {
                       type="password"
                       id="password"
                       name="password"
-                      maxlength="70"
+                      maxLength="70"
                       onChange={e => setPasswordValue(e.target.value)}
                       required
                     />
@@ -243,7 +283,7 @@ export default function NewUser() {
                       type="password"
                       id="confirmpassword"
                       name="confirmpassword"
-                      maxlength="70"
+                      maxLength="70"
                       onChange={e => setConfirmPasswordValue(e.target.value)}
                       required
                     />
@@ -268,8 +308,8 @@ export default function NewUser() {
                         <input
                           type="radio"
                           name="typepayment"
-                          value="balcao"
-                          checked={opcaoSelecionada === 'balcao'}
+                          value="UNDEFINED"
+                          checked={opcaoSelecionada === 'UNDEFINED'}
                           onChange={handleOptions}
                         />
                         <span className={styles.checkbox1comnegrito}>Pagamento no balcão</span>
@@ -283,7 +323,7 @@ export default function NewUser() {
                           value={paymentTypeValue}
                           onChange={e => setPaymentTypeValue(e.target.value)}
                           required
-                          disabled={!(opcaoSelecionada === 'balcao')}
+                          disabled={!(opcaoSelecionada === 'UNDEFINED')}
                         >
                           <option value="1">Cartão de Crédito</option>
                           <option value="2">Cartão de Debito</option>
@@ -295,8 +335,8 @@ export default function NewUser() {
                         <input
                           name="typepayment"
                           type="radio"
-                          value="signatureboleto"
-                          checked={opcaoSelecionada === 'signatureboleto'}
+                          value="BOLETO"
+                          checked={opcaoSelecionada === 'BOLETO'}
                           onChange={handleOptions}
                         />
                         <span className={styles.checkbox1comnegrito}>Pagamento via assinatura - Boleto</span>
@@ -305,8 +345,8 @@ export default function NewUser() {
                         <input
                           name="typepayment"
                           type="radio"
-                          value="signaturecredit"
-                          checked={opcaoSelecionada === 'signaturecredit'}
+                          value="CREDIT_CARD"
+                          checked={opcaoSelecionada === 'CREDIT_CARD'}
                           onChange={handleOptions}
                         />
                         <span className={styles.checkbox1comnegrito}>Pagamento via assinatura - Cartão de crédito</span>
@@ -319,10 +359,11 @@ export default function NewUser() {
                           id="cardnumber"
                           name="cardnumber"
                           value={cardNumberValue}
-                          maxlength="70"
+                          maxLength="19"
                           placeholder="0000 0000 0000 0000"
-                          onChange={e => setCardNumberValue(e.target.value)}
-                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+
+                          onChange={e => handleChangeMaskCreditCard(e)}
+                          disabled={!(opcaoSelecionada === 'CREDIT_CARD')}
                           required />
 
                         <label className={styles.formlabelsemnegrito} htmlFor="nametitular">Nome do titular:</label>
@@ -332,10 +373,10 @@ export default function NewUser() {
                           id="nametitular"
                           name="nametitular"
                           value={nameTitularValue}
-                          maxlength="70"
+                          maxLength="70"
                           placeholder="ex. João da Silva"
                           onChange={e => setNameTitularValue(e.target.value)}
-                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+                          disabled={!(opcaoSelecionada === 'CREDIT_CARD')}
                           required />
 
                         <label className={styles.formlabelsemnegrito} htmlFor="validade">Validade:</label>
@@ -345,10 +386,10 @@ export default function NewUser() {
                           id="validade"
                           name="validade"
                           value={validadeValue}
-                          maxlength="5"
+                          maxLength="5"
                           placeholder="10/10"
-                          onChange={e => setValidadeValue(e.target.value)}
-                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+                          onChange={e => handleChangeMaskDate(e)}
+                          disabled={!(opcaoSelecionada === 'CREDIT_CARD')}
                           required />
 
                         <label className={styles.formlabelsemnegrito} htmlFor="cvv">CVV:</label>
@@ -358,10 +399,10 @@ export default function NewUser() {
                           id="cvv"
                           name="cvv"
                           value={cvvValue}
-                          maxlength="3"
+                          maxLength="3"
                           placeholder="123"
-                          onChange={e => setCvvValue(e.target.value)}
-                          disabled={!(opcaoSelecionada === 'signaturecredit')}
+                          onChange={e => handleChangeMaskCvv(e)}
+                          disabled={!(opcaoSelecionada === 'CREDIT_CARD')}
                           required />
                       </div>
 
