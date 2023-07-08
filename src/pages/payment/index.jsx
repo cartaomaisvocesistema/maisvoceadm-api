@@ -101,8 +101,8 @@ export default function Payment() {
                                     <span className={styles.cardpaymentlabel}><b>Nome do cliente: </b>{userValue.username}</span>
                                     <span className={styles.cardpaymentlabel}><b>Cpf: </b>{userValue.cpf}</span>
                                     <span className={styles.cardpaymentlabel}><b>Email: </b>{userValue.email}</span>
-                                    <span className={styles.cardpaymentlabel}><b>Data to pagamento: </b>{paymentValue.paymentdate}</span>
-                                    <span className={styles.cardpaymentlabel}><b>Tipo de pagamento: </b>{paymentValue.type}</span>
+                                    <span className={styles.cardpaymentlabel}><b>Data do pagamento: </b>{paymentValue.paymentdate}</span>
+                                    <span className={styles.cardpaymentlabel}><b>Tipo de pagamento: </b>{showType(paymentValue.type)}</span>
                                 </div>
                                 <div className={styles.cardpaymentbottom}>
                                     <Link href={`/`} className={styles.btpayments}>

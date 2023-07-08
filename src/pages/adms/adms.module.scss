@@ -1,0 +1,357 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 90vh;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #f7f5fa;
+    overflow-y: scroll;
+    padding: 0;
+    margin: 0;
+}
+
+.containercards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 200px;
+    gap: 30%;
+    margin: 30px 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 140px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    cursor: pointer;
+    background-color: rgba(110, 110, 110, 0.05);
+}
+
+.cardusers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.headtable {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+    height: auto;
+    padding: 5px;
+}
+
+.filterbox {
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: auto;
+    padding: 20px;
+    z-index: 300;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.filterform {}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.modalContent h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.modalContent p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.modalButtons {
+    display: flex;
+    justify-content: center;
+}
+
+.modalButtons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.modalButtons button:first-child {
+    background-color: #ff4444;
+    color: #fff;
+}
+
+.modalButtons button:last-child {
+    background-color: #ccc;
+}
+
+.cardtitle {
+    font-size: 40px;
+}
+
+.carddescription {
+    font-size: 18px;
+    margin-left: 7px;
+}
+
+.containerdots {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.dotsgreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 15px;
+    background-color: rgb(13, 163, 13);
+}
+
+.dotsorange {
+    width: 10px;
+    height: 10px;
+    border-radius: 15px;
+    background-color: orange;
+}
+
+.dotsred {
+    width: 10px;
+    height: 10px;
+    border-radius: 15px;
+    background-color: rgb(233, 46, 46);
+}
+
+.ctactives {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.topbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 35px;
+    background-color: rgb(255, 87, 13, 0.9);
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.table {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.th,
+.td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.tdcenter {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+
+.th {
+    background-color: #ebebeb;
+    color: black;
+    font-weight: bold;
+}
+
+.tr {
+    background-color: white;
+    color: black;
+}
+
+.tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tr:hover {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.ctpainel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 15px;
+}
+
+.btnewuser {
+    font-size: 17px;
+    background-color: #191b3c;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 10px;
+}
+
+.btfilter {
+    font-size: 17px;
+    background-color: #191b3c;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 10px;
+}
+
+.btfilter:hover {
+    cursor: pointer;
+    background-color: #1e204b;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+}
+
+.paginationnumber {
+    padding: 0 10px;
+}
+
+
+/* Estilizando o contêiner do formulário */
+.formcontainer {
+    width: 90%;
+    margin: 0 auto;
+  }
+  
+  /* Estilizando os grupos de formulário */
+  .formgroup {
+    margin-bottom: 20px;
+  }
+  
+  /* Estilizando os rótulos dos campos */
+  .formlabel {
+    display: block;
+    font-weight: bold;
+  }
+  
+  /* Estilizando os campos de entrada de texto */
+  .forminputtext {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  
+  /* Estilizando a caixa de seleção */
+  .checkboxgroup {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 3%;
+    padding: 20px 0;
+  }
+  .checkbox1 {
+    padding: 0 10px;
+  }
+  .button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #191b3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .button:hover {
+    background-color: #10122b;
+    cursor: pointer;
+  }
+
+  .buttongray {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #c2c3c7;
+    color: black;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .buttongray:hover {
+    background-color: #d1d2d6;
+    cursor: pointer;
+  }
+
+  .ctbuttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    gap: 5%;
+  }

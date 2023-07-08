@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { FaTimes, FaBars } from 'react-icons/fa';
-import { MdHome, MdPerson, MdStorefront, MdLocalHospital, MdLogout, MdOutlineHandshake, MdPaid, MdInsights } from 'react-icons/md';
+import { MdHome, MdPerson, MdStorefront, MdLocalHospital, MdLogout, MdOutlineHandshake, MdPaid, MdInsights, MdKey, MdOutlineMessage } from 'react-icons/md';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -62,6 +62,22 @@ export default function SideBar() {
                             <div className={styles.linkgroup}>
                                 <MdInsights className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Financeiro</span>
+                            </div>
+                        </li>
+                    </Link>
+                    <Link href='./newadm'>
+                        <li className={isCurrentRoute('/newadm')}>
+                            <div className={styles.linkgroup}>
+                                <MdKey className={styles.sideliicon} />
+                                <span className={styles.sidelilabel}>Adm</span>
+                            </div>
+                        </li>
+                    </Link>
+                    <Link href='./messages'>
+                        <li className={isCurrentRoute('/messages')}>
+                            <div className={styles.linkgroup}>
+                                <MdOutlineMessage className={styles.sideliicon} />
+                                <span className={styles.sidelilabel}>Mensagens</span>
                             </div>
                         </li>
                     </Link>
