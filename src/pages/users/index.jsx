@@ -360,7 +360,7 @@ export default function Users() {
                     <td className={styles.tdcenter}>{user.email}</td>
                     <td className={styles.tdcenter}>
                       <div className={styles.containerdots}>
-                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsred}></div>
+                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsgreen}></div>
                       </div>
                     </td>
                     <td className={styles.tdcenter}>{phoneMask(user.phone)}</td>

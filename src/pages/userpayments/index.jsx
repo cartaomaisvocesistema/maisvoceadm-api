@@ -7,7 +7,7 @@ import { getAPIClient } from "@/services/axios";
 import { api } from "../../services/api";
 import styles from './userpayments.module.scss';
 import Link from 'next/link';
-import { MdCancel, MdCheckCircle, MdCheckCircleOutline } from 'react-icons/md';
+import { MdCancel, MdCheckCircle, MdCheckCircleOutline, MdPending } from 'react-icons/md';
 import imgpadrao from '../../../public/images/perfilpadrao.png';
 import Image from 'next/image';
 

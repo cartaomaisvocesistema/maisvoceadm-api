@@ -2,7 +2,7 @@
 .sidebar {
   background-color: white;
   width: auto;
-  height: 100vh;
+  height: 90vh;
   box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -109,4 +109,10 @@
 
 .sideliicon.MdLogout {
   color: #dc3545;
+}
+
+@media screen and (max-width: 1024px) {
+
+  
+
 }

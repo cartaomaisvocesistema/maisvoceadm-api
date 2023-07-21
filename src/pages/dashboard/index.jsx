@@ -63,9 +63,9 @@ export default function DashBoard({ props }) {
                   </div>
                 </div>
               </Link>
-              <Link href={'/financial'} className={styles.card}>
+              <Link href={'/management'} className={styles.card}>
                 <div className={styles.cardfinancial}>
-                  <span className={styles.cardtitle}>Financeiro</span>
+                  <span className={styles.cardtitle}>Gestão</span>
                 </div>
               </Link>
             </div>

@@ -105,6 +105,8 @@ export default function Dependents() {
     setDependentsList(dpList)
     if (dpList.length >= 4) {
       setBtnNewDependentShow(false);
+    } else {
+      setBtnNewDependentShow(true);
     }
 
     console.log(result.users.filter(user => user.type == 'C_TITULAR')[0]);
@@ -114,6 +116,24 @@ export default function Dependents() {
   const deleteDependentes = async () => {
     const response = await api.delete(`/api/usuarios/${selectedDependentId}`)
   }
+
+  const showType = (type) => {
+    const obj = {
+      C_TITULAR: 'Titular',
+      C_DEPENDENTE_GRATUITO: 'Gratuito',
+      C_DEPENDENTE_EXTRA: 'Extra'
+    }
+    return obj[type] || ''
+  }
+
+  const showAgreementType = (type) => {
+    const obj = {
+      STANDARD: 'Padrão',
+      PLUS: 'Plus'
+    }
+    return obj[type] || ''
+  }
+
 
   return (
     <>
@@ -249,6 +269,13 @@ export default function Dependents() {
                         }
                       </span>
                     </div>
+                    <div className={styles.cardtitulargrouplabel}>
+                      <label className={styles.formlabel} htmlFor="agreement">Plano:</label><span className={styles.formlabelvalue}>
+                        {titularValue.agreementType &&
+                          showAgreementType(titularValue.agreementType)
+                        }
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -276,7 +303,7 @@ export default function Dependents() {
                   <th className={styles.th}>CPF</th>
                   <th className={styles.th}>Email</th>
                   <th className={styles.th}>Telefone</th>
-                  <th className={styles.th}>Endereço</th>
+                  <th className={styles.th}>Tipo</th>
                   <th className={styles.th}>Editar</th>
                   <th className={styles.th}>Deletar</th>
                 </tr>
@@ -297,7 +324,7 @@ export default function Dependents() {
                         phoneMask(user.phone)
                       }
                     </td>
-                    <td className={styles.tdcenter}>{user.address}</td>
+                    <td className={styles.tdcenter}>{showType(user.type)}</td>
                     <td className={`${styles.tdcenter} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>
                         <FaEdit />

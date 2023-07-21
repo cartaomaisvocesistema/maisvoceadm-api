@@ -27,6 +27,8 @@ export default function NewUser() {
   const [nameTitularValue, setNameTitularValue] = useState('');
   const [validadeValue, setValidadeValue] = useState('');
   const [cvvValue, setCvvValue] = useState('');
+  const [agreementTypeValue, setAgreementTypeValue] = useState('STANDARD');
+
 
   const { user } = useContext(AuthContext);
 
@@ -49,11 +51,16 @@ export default function NewUser() {
     setOpcaoSelecionada(value);
   }
 
+  function handleOptionsAgreement(event) {
+    const { value } = event.target;
+    setAgreementTypeValue(value);
+  }
+
   function handleChangeMaskCvv(e) {
     const { value } = e.target;
     setCvvValue(cvvMask(value));
   }
-  
+
   const cvvMask = value => {
     if (!value) return "";
     return value
@@ -65,7 +72,7 @@ export default function NewUser() {
     const { value } = e.target;
     setValidadeValue(dateMask(value));
   }
-  
+
   const dateMask = value => {
     if (!value) return "";
     return value
@@ -146,7 +153,8 @@ export default function NewUser() {
         password: passwordValue,
         type: typeUserValue,
         selectedoption: opcaoSelecionada,
-        paymenttype: pt
+        paymenttype: pt,
+        agreementType: agreementTypeValue
       }
 
       let newUser = {
@@ -299,6 +307,46 @@ export default function NewUser() {
                       <option value="C_TITULAR">Titular</option>
                     </select>
                   </div>
+
+                  <div className={styles.sectiontitle}>Escolher plano</div>
+
+                  <div className={styles.formgrouppayment}>
+                    <div className={styles.checkboxgrouppayment}>
+                      <div className={(agreementTypeValue === 'STANDARD') ? styles.cardplan : styles.cardplanopacity}>
+                        <label>
+                          <input
+                            className={styles.radioagreement}
+                            type="radio"
+                            name="agreementtype"
+                            value="STANDARD"
+                            checked={agreementTypeValue === 'STANDARD'}
+                            onChange={e => handleOptionsAgreement(e)}
+
+                          />
+                          <span className={styles.checkbox1}><b>Plano padrão - R$49,90</b></span>
+                          <br />
+                          <span className={styles.paragraph2}>No Plano Padrão do Cartão Mais Você, com uma mensalidade de R$49,90 o cliente tem direito a descontos exclusivos em todos os parceiros do cartão. Também pode adicionar 2 dependentes gratúitos e até mais 2 dependentes extra com o valor extra de 19,90 para cada dependente extra.</span>
+                        </label>
+                      </div>
+                      <div className={(agreementTypeValue === 'PLUS') ? styles.cardplan : styles.cardplanopacity}>
+                        <label>
+                          <input
+                            type="radio"
+                            className={styles.radioagreement}
+                            name="agreementtype"
+                            value="PLUS"
+                            checked={agreementTypeValue === 'PLUS'}
+                            onChange={e => handleOptionsAgreement(e)}
+                          />
+                          <span className={styles.checkbox1}><b>Plano Plus - R$149,90</b></span>
+                          <br />
+                          <span className={styles.paragraph2}>No Plano Plus do Cartão Mais Você, com uma mensalidade de R$149,90, o cliente tem direito a todos os descontos de parceiros e acesso livre às consultas na clinica Marmed, parceira do Cartão Mais Você. Neste plano é possível incluir até 4 dependentes extras, com o adicional de 49,90 na assinatura para cada dependente extra.</span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+
 
                   <div className={styles.sectiontitle}>Pagamentos</div>
 

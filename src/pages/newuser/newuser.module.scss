@@ -122,3 +122,34 @@
 .formlabelsemnegrito {
   display: block;
 }
+
+.paragraph2 {
+  text-align: justify;
+}
+
+.cardplan {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 15px;
+}
+
+.cardplanopacity {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  opacity: 0.5;
+}
+
+.radioagreement:hover {
+  cursor: pointer;
+}

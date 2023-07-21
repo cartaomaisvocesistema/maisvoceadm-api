@@ -57,11 +57,11 @@ export default function SideBar() {
                             </div>
                         </li>
                     </Link>
-                    <Link href='./financial'>
-                        <li className={isCurrentRoute('/financial')}>
+                    <Link href='./management'>
+                        <li className={isCurrentRoute('/management')}>
                             <div className={styles.linkgroup}>
                                 <MdInsights className={styles.sideliicon} />
-                                <span className={styles.sidelilabel}>Financeiro</span>
+                                <span className={styles.sidelilabel}>Gestão</span>
                             </div>
                         </li>
                     </Link>
@@ -70,14 +70,6 @@ export default function SideBar() {
                             <div className={styles.linkgroup}>
                                 <MdKey className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Adm</span>
-                            </div>
-                        </li>
-                    </Link>
-                    <Link href='./messages'>
-                        <li className={isCurrentRoute('/messages')}>
-                            <div className={styles.linkgroup}>
-                                <MdOutlineMessage className={styles.sideliicon} />
-                                <span className={styles.sidelilabel}>Mensagens</span>
                             </div>
                         </li>
                     </Link>

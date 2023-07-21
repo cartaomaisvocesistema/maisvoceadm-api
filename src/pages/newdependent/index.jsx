@@ -39,15 +39,25 @@ export default function NewDependent() {
     const dependentFree = result.users.filter(user => user.type === 'C_DEPENDENTE_GRATUITO');
     const dependentExtra = result.users.filter(user => user.type === 'C_DEPENDENTE_EXTRA');
     const titular = result.users.filter(user => user.type == 'C_TITULAR')[0];
+    console.log(titular);
 
-    let message = `${titular.username} possui ${dependentFree.length} dependente(s) gratuito(s) do total de 2`;
-    let type = 'C_DEPENDENTE_GRATUITO';
-    if (dependentFree.length == 2) {
-      message = `${titular.username} já possui 2 dependentes gratuitos, e possui ${dependentExtra.length} dependentes extra do total de 2.`;
-      type = 'C_DEPENDENTE_EXTRA';
+    if (titular.agreementType === 'STANDARD') {
+      let message = `${titular.username} possui ${dependentFree.length} dependente(s) gratuito(s) do total de 2`;
+      let type = 'C_DEPENDENTE_GRATUITO';
+      if (dependentFree.length == 2) {
+        message = `${titular.username} já possui 2 dependentes gratuitos, e possui ${dependentExtra.length} dependentes extra do total de 2.`;
+        type = 'C_DEPENDENTE_EXTRA';
+      }
+      setypeValue(type);
+      setMessageDependentValue(message);
+    } else {
+      if (titular.agreementType === 'PLUS') {
+        let message = `${titular.username} possui ${dependentExtra.length} dependente(s) extra(s) do total de 4`;
+        const type = 'C_DEPENDENTE_EXTRA';
+        setypeValue(type);
+        setMessageDependentValue(message);
+      }
     }
-    setypeValue(type);
-    setMessageDependentValue(message);
   }
 
   function handleChangeMaskCpf(e) {

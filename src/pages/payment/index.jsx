@@ -94,7 +94,7 @@ export default function Payment() {
                                         R${showValue(paymentValue.value)}
                                     </div>
                                     <div className={styles.cardpaymentstatus2}>
-                                       
+
                                     </div>
                                 </div>
                                 <div className={styles.cardpaymentmid}>
@@ -105,12 +105,46 @@ export default function Payment() {
                                     <span className={styles.cardpaymentlabel}><b>Tipo de pagamento: </b>{showType(paymentValue.type)}</span>
                                 </div>
                                 <div className={styles.cardpaymentbottom}>
-                                    <Link href={`/`} className={styles.btpayments}>
-                                        Ir para pagamento
-                                    </Link>
-                                    <Link href={`/`} className={styles.btpayments}>
-                                        Ver boleto
-                                    </Link>
+                                    {(paymentValue.type === 'CREDIT_CARD' && paymentValue.linkcomprovanteasas)
+                                        &&
+                                        <Link target='_BLANK' href={`${paymentValue.linkcomprovanteasas}`} className={styles.btpayments}>
+                                            Ver comprovante
+                                        </Link>
+                                    }
+                                    {(paymentValue.type === 'CREDIT_CARD' && paymentValue.linkpaymentasas)
+                                        &&
+                                        <Link target='_BLANK' href={`${paymentValue.linkpaymentasas}`} className={styles.btpayments}>
+                                            Ir para pagamento
+                                        </Link>
+                                    }
+
+                                    {(paymentValue.type === 'BOLETO' && paymentValue.linkboletoasas)
+                                        &&
+                                        <Link target='_BLANK' href={`${paymentValue.linkboletoasas}`} className={styles.btpayments}>
+                                            Ver boleto
+                                        </Link>
+                                    }
+
+                                    {(paymentValue.type === 'BOLETO' && paymentValue.linkpaymentasas)
+                                        &&
+                                        <Link target='_BLANK' href={`${paymentValue.linkpaymentasas}`} className={styles.btpayments}>
+                                            Ir para pagamento
+                                        </Link>
+                                    }
+
+                                    {(paymentValue.type === 'UNDEFINED' && paymentValue.linkboletoasas)
+                                        &&
+                                        <Link target='_BLANK' href={`${paymentValue.linkboletoasas}`} className={styles.btpayments}>
+                                            Ver boleto
+                                        </Link>
+                                    }
+
+                                    {(paymentValue.type === 'UNDEFINED' && paymentValue.linkpaymentasas)
+                                        &&
+                                        <Link target='_BLANK' href={`${paymentValue.linkpaymentasas}`} className={styles.btpayments}>
+                                            Ir para pagamento
+                                        </Link>
+                                    }
                                 </div>
 
 
