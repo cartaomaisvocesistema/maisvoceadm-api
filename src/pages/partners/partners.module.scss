@@ -262,6 +262,14 @@
     background-color: #ccc;
 }
 
+.modalButtons button:first-child:hover {
+    cursor: pointer;
+}
+
+.modalButtons button:last-child:hover {
+    cursor: pointer;
+}
+
 .formcontainer {
     width: 90%;
     margin: 0 auto;

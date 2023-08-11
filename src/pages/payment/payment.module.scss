@@ -114,6 +114,20 @@
     margin-top:10px;
 }
 
+.btconfirmpayment {
+    font-size: 17px;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 22px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.btconfirmpayment:hover {
+    cursor: pointer;
+}
+
 .btpayments {
     font-size: 17px;
     background-color: #d3d3df;

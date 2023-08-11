@@ -23,8 +23,10 @@ export default function Users() {
   const [AtrasadoQtdValue, setAtrasadoQtdValue] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSelectedUserOpen, setIsSelectedUserOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
     cardNumber: '',
     username: '',
@@ -43,7 +45,7 @@ export default function Users() {
 
   //     const canvas = document.getElementById('myChartCanvas');
   //     const ctx = chartRef.current.getContext('2d');
-      
+
 
   //     // Verifique se há um gráfico existente
   //     if (typeof myChart !== 'undefined' && myChart !== null) {
@@ -86,9 +88,9 @@ export default function Users() {
   const phoneMask = (value) => {
     if (!value) return ""
     return value
-    .replace(/\D/g, '')
-    .replace(/(\d{2})(\d)/, "($1) $2")
-    .replace(/(\d)(\d{4})$/, "$1-$2")
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
   }
 
   const getByFilter = async () => {
@@ -98,7 +100,6 @@ export default function Users() {
   };
 
   const filterEmdia = async () => {
-    console.log(filterValues);
     setFilterValues({ ...filterValues, paymentstatus: 'EM_DIA' })
     const response = await api.post('/api/usuarios/getbyfilter', filterValues)
     const result = (response).data;
@@ -106,7 +107,6 @@ export default function Users() {
   };
 
   const filterAtrasado = async () => {
-    console.log(filterValues);
     setFilterValues({ ...filterValues, paymentstatus: 'ATRASADO' })
     const response = await api.post('/api/usuarios/getbyfilter', filterValues)
     const result = (response).data;
@@ -149,27 +149,59 @@ export default function Users() {
   };
 
   useEffect(() => {
-    console.log("entrei aquiii")
     getListaUsuarios();
     getListaCardHeaders();
   }, []);
 
   const getListaUsuarios = async () => {
-    const response = await api.get('/api/usuarios/')
-    const result = (response).data;
-    setuserList(result.users.filter(user => user.type !== 'ADM'))
+    try {
+      const response = await api.get('/api/usuarios/')
+      const result = (response).data;
+      setuserList(result.users.filter(user => user.type !== 'ADM'))
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const getListaCardHeaders = async () => {
-    const response = await api.get('/api/usuarios/usercardsheaders/info')
-    const result = (response).data;
-    console.log(result);
-    setEmDiaQtdValue(result.emDiaNumber);
-    setAtrasadoQtdValue(result.atrasadoNumber);
+    try {
+      const response = await api.get('/api/usuarios/usercardsheaders/info')
+      const result = (response).data;
+      setEmDiaQtdValue(result.emDiaNumber);
+      setAtrasadoQtdValue(result.atrasadoNumber);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const deleteUsuarios = async () => {
-    const response = await api.delete(`/api/usuarios/${selectedUserId}`)
+    try {
+      const response = await api.delete(`/api/usuarios/${selectedUserId}`)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleRowClick = (user) => {
+    setSelectedUser(user);
+    setIsSelectedUserOpen(true);
+  };
+
+  const showType = (type) => {
+    const obj = {
+      C_TITULAR: 'Titular',
+      C_DEPENDENTE_GRATUITO: 'Gratuito',
+      C_DEPENDENTE_EXTRA: 'Extra'
+    }
+    return obj[type] || ''
+  }
+
+  const showAgreementType = (type) => {
+    const obj = {
+      STANDARD: 'Padrão',
+      PLUS: 'Plus'
+    }
+    return obj[type] || ''
   }
 
   return (
@@ -197,19 +229,6 @@ export default function Users() {
                   </div>
 
                   <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="nome">Nome:</label>
-                    <input
-                      className={styles.forminputtext}
-                      type="text"
-                      placeholder="Nome"
-                      value={filterValues.username}
-                      onChange={(e) =>
-                        setFilterValues({ ...filterValues, username: e.target.value })
-                      }
-                    />
-                  </div>
-
-                  <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">CPF:</label>
                     <input
                       className={styles.forminputtext}
@@ -218,6 +237,19 @@ export default function Users() {
                       value={filterValues.cpf}
                       onChange={(e) =>
                         setFilterValues({ ...filterValues, cpf: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="nome">Nome:</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      placeholder="Nome"
+                      value={filterValues.username}
+                      onChange={(e) =>
+                        setFilterValues({ ...filterValues, username: e.target.value })
                       }
                     />
                   </div>
@@ -300,6 +332,26 @@ export default function Users() {
               )}
 
             </div>
+            {isSelectedUserOpen && (
+              <div className={styles.selectedusermodal}>
+                <div className={styles.selectedusermodalcontent}>
+                  <div className={styles.ctselecteduser}>
+                    <p><b>Nº Cartão:</b> {selectedUser.cardNumber}</p>
+                    <p><b>Nome:</b> {selectedUser.username}</p>
+                    <p><b>CPF:</b> {cpfMask(selectedUser.cpf)}</p>
+                    <p><b>Email:</b> {selectedUser.email}</p>
+                    <p><b>Telefone:</b> {selectedUser.phone}</p>
+                    <p><b>Endereço:</b> {selectedUser.address}</p>                    
+                    <p><b>Tipo:</b> {showType(selectedUser.type)}</p>                    
+                    <p><b>Plano:</b> {showAgreementType(selectedUser.agreementType)}</p>                    
+                  </div>
+                  <div className={styles.ctbuttons}>
+                    <button className={styles.buttongray} onClick={() => setIsSelectedUserOpen(!isSelectedUserOpen)}>Fechar</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className={styles.containercards}>
               <div className={styles.card}>
                 <div className={styles.cardusers}>
@@ -345,7 +397,8 @@ export default function Users() {
                   <th className={styles.th}>Email</th>
                   <th className={styles.th}>Status</th>
                   <th className={styles.th}>Telefone</th>
-                  <th className={styles.th}>Endereço</th>
+                  <th className={styles.th}>Tipo</th>
+                  <th className={styles.th}>Plano</th>
                   <th className={styles.th}>Editar</th>
                   <th className={styles.th}>Dependentes</th>
                   <th className={styles.th}>Deletar</th>
@@ -354,17 +407,18 @@ export default function Users() {
               <tbody>
                 {userList.map((user) => (
                   <tr key={user.id} className={styles.tr}>
-                    <td className={styles.tdcenter}>{user.cardNumber}</td>
-                    <td className={styles.tdcenter}>{user.username}</td>
-                    <td className={styles.tdcenter}>{cpfMask(user.cpf)}</td>
-                    <td className={styles.tdcenter}>{user.email}</td>
-                    <td className={styles.tdcenter}>
-                      <div className={styles.containerdots}>
-                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsgreen}></div>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.cardNumber}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.username}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{cpfMask(user.cpf)}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.email}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>
+                      <div className={styles.containerdots} onClick={() => handleRowClick(user)}>
+                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsred}></div>
                       </div>
                     </td>
-                    <td className={styles.tdcenter}>{phoneMask(user.phone)}</td>
-                    <td className={styles.tdcenter}>{user.address}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{phoneMask(user.phone)}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{showType(user.type)}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{showAgreementType(user.agreementType)}</td>
                     <td className={`${styles.tdcenter} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>
                         <FaEdit />

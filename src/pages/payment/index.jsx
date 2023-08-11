@@ -1,14 +1,16 @@
 
 import { useEffect, useState } from 'react';
-import LayoutDashboard from "@/layouts/LayoutDashboard";
+
+import { MdCancel, MdCheckCircle, MdPending } from 'react-icons/md';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { parseCookies } from "nookies";
+
+import LayoutDashboard from "@/layouts/LayoutDashboard";
 import { getAPIClient } from "@/services/axios";
 import { api } from "../../services/api";
-import styles from './payment.module.scss';
-import Link from 'next/link';
-import { MdCancel, MdCheckCircle, MdCheckCircleOutline, MdPending } from 'react-icons/md';
 
+import styles from './payment.module.scss';
 
 export default function Payment() {
 
@@ -18,7 +20,6 @@ export default function Payment() {
     const [paymentValue, setPaymentValue] = useState([]);
     const [userValue, setUserValue] = useState({});
 
-
     useEffect(() => {
         getListaPagamento();
     }, [])
@@ -26,20 +27,39 @@ export default function Payment() {
     const getListaPagamento = async () => {
         try {
             const responsePayment = await api.get(`/api/pagamentos/${paymentid}`)
-            const resultPayment = (responsePayment).data;
-            console.log(resultPayment);
+            const resultPayment = responsePayment.data;
             setPaymentValue(resultPayment);
-            const responseUser = await api.get(`/api/usuarios/${userid}`)
-            const resultUser = (responseUser).data;
-            console.log(resultUser);
-            setUserValue(resultUser);
 
+            const responseUser = await api.get(`/api/usuarios/${userid}`)
+            const resultUser = responseUser.data;
+            setUserValue(resultUser);
         } catch (error) {
             console.log(error)
         }
     }
 
-    const showStatus = (status) => {
+    const confirmPayment = async () => {
+        try {
+            const payment = {
+                paymentid: paymentid
+            }
+            const responsePayment = await api.get(`/api/pagamentos/confirmpayment`, payment)
+            if (responsePayment.status == 200) {
+                alert('Pagamento confirmado');
+                router.push(`/userpayments?userid=${userid}`);
+            } else {
+                alert('Erro ao confirmar pagamento.');
+                router.push(`/userpayments?userid=${userid}`);
+            }
+        } catch (error) {
+            alert('Erro ao confirmar pagamento.');
+            router.push(`/userpayments?userid=${userid}`);
+            console.log(error)
+        }
+
+    }
+
+    /*const showStatus = (status) => {
         const obj = {
             CONFIRMED: 'Confirmado',
             PENDING: 'Aguardando pagamento',
@@ -47,7 +67,7 @@ export default function Payment() {
             OVERDUE: 'Vencido'
         }
         return obj[status] || ''
-    }
+    }*/
 
     const showType = (type) => {
         const obj = {
@@ -145,9 +165,14 @@ export default function Payment() {
                                             Ir para pagamento
                                         </Link>
                                     }
+
+                                    {(paymentValue.status === 'PENDING' || paymentValue.status === 'OVERDUE')
+                                        &&
+                                        <button target='_BLANK' onClick={confirmPayment} className={styles.btconfirmpayment}>
+                                            Confirmar pagamento
+                                        </button>
+                                    }
                                 </div>
-
-
                             </div>
                         </div>
                     </div>

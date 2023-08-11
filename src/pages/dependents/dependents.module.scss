@@ -117,8 +117,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.filterform {}
-
 .modal {
     position: fixed;
     top: 0;
@@ -169,6 +167,48 @@
 .modalButtons button:last-child {
     background-color: #ccc;
 }
+
+.modalButtons button:first-child:hover {
+    cursor: pointer;
+}
+
+.modalButtons button:last-child:hover {
+    cursor: pointer;
+}
+
+.ctselecteduser {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height:auto;
+    text-align: left;
+}
+
+.selectedusermodal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.selectedusermodalcontent {
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.selectedusermodalcontent p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
 
 .cardtitle {
     font-size: 40px;

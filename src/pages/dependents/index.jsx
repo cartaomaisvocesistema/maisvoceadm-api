@@ -28,8 +28,10 @@ export default function Dependents() {
   const [titularValue, setTitularValue] = useState({});
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [selectedDependentId, setSelectedDependentId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSelectedUserOpen, setIsSelectedUserOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
     cardNumber: '',
     username: '',
@@ -109,7 +111,6 @@ export default function Dependents() {
       setBtnNewDependentShow(true);
     }
 
-    console.log(result.users.filter(user => user.type == 'C_TITULAR')[0]);
     setTitularValue(result.users.filter(user => user.type == 'C_TITULAR')[0]);
   }
 
@@ -134,6 +135,10 @@ export default function Dependents() {
     return obj[type] || ''
   }
 
+  const handleRowClick = (user) => {
+    setSelectedUser(user);
+    setIsSelectedUserOpen(true);
+  };
 
   return (
     <>
@@ -233,6 +238,25 @@ export default function Dependents() {
               )}
 
             </div>
+            {isSelectedUserOpen && (
+              <div className={styles.selectedusermodal}>
+                <div className={styles.selectedusermodalcontent}>
+                  <div className={styles.ctselecteduser}>
+                    <p><b>Nº Cartão:</b> {selectedUser.cardNumber}</p>
+                    <p><b>Nome:</b> {selectedUser.username}</p>
+                    <p><b>CPF:</b> {cpfMask(selectedUser.cpf)}</p>
+                    <p><b>Email:</b> {selectedUser.email}</p>
+                    <p><b>Telefone:</b> {selectedUser.phone}</p>
+                    <p><b>Endereço:</b> {selectedUser.address}</p>
+                    <p><b>Tipo:</b> {showType(selectedUser.type)}</p>
+                  </div>
+                  <div className={styles.ctbuttons}>
+                    <button className={styles.buttongray} onClick={() => setIsSelectedUserOpen(!isSelectedUserOpen)}>Fechar</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className={styles.containercards}>
               <div className={styles.card}>
                 <div className={styles.cardphoto}>
@@ -293,7 +317,7 @@ export default function Dependents() {
                 <span className={styles.btnewuserdisabled}>Novo dependente</span>
               )}
 
-              <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
+              {/*<button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>*/}
             </div>
             <table className={styles.table}>
               <thead>
@@ -311,20 +335,20 @@ export default function Dependents() {
               <tbody>
                 {dependentsList.map((user) => (
                   <tr key={user.id} className={styles.tr}>
-                    <td className={styles.tdcenter}>{user.cardNumber}</td>
-                    <td className={styles.tdcenter}>{user.username}</td>
-                    <td className={styles.tdcenter}>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.cardNumber}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.username}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>
                       {user.cpf &&
                         cpfMask(user.cpf)
                       }
                     </td>
-                    <td className={styles.tdcenter}>{user.email}</td>
-                    <td className={styles.tdcenter}>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.email}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>
                       {user.phone &&
                         phoneMask(user.phone)
                       }
                     </td>
-                    <td className={styles.tdcenter}>{showType(user.type)}</td>
+                    <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{showType(user.type)}</td>
                     <td className={`${styles.tdcenter} ${styles.tdcenter}`}>
                       <Link href={`/edituser?id=${user.id}`}>
                         <FaEdit />

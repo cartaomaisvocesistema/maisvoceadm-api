@@ -12,7 +12,7 @@ export default function NewUser() {
 
   const router = useRouter();
 
-  const [opcaoSelecionada, setOpcaoSelecionada] = useState('UNDEFINED');
+  const [opcaoSelecionada, setOpcaoSelecionada] = useState('BOLETO');
 
   const [usernameValue, setUsernameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -22,7 +22,8 @@ export default function NewUser() {
   const [passwordValue, setPasswordValue] = useState('');
   const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
   const [typeUserValue, setTypeUserValue] = useState('C_TITULAR');
-  const [paymentTypeValue, setPaymentTypeValue] = useState('');
+
+  const [paymentTypeValue, setPaymentTypeValue] = useState('1');
   const [cardNumberValue, setCardNumberValue] = useState('');
   const [nameTitularValue, setNameTitularValue] = useState('');
   const [validadeValue, setValidadeValue] = useState('');
@@ -354,33 +355,6 @@ export default function NewUser() {
                     <div className={styles.checkboxgrouppayment}>
                       <label>
                         <input
-                          type="radio"
-                          name="typepayment"
-                          value="UNDEFINED"
-                          checked={opcaoSelecionada === 'UNDEFINED'}
-                          onChange={handleOptions}
-                        />
-                        <span className={styles.checkbox1comnegrito}>Pagamento no balcão</span>
-                      </label>
-                      <div className={styles.formgroup}>
-                        <label className={styles.formlabelsemnegrito} htmlFor="paymenttype1">Forma de pagamento:</label>
-                        <select
-                          className={styles.forminputtext}
-                          id="paymenttype1"
-                          name="paymenttype1"
-                          value={paymentTypeValue}
-                          onChange={e => setPaymentTypeValue(e.target.value)}
-                          required
-                          disabled={!(opcaoSelecionada === 'UNDEFINED')}
-                        >
-                          <option value="1">Cartão de Crédito</option>
-                          <option value="2">Cartão de Debito</option>
-                          <option value="3">Dinheiro</option>
-                          <option value="4">Pix</option>
-                        </select>
-                      </div>
-                      <label>
-                        <input
                           name="typepayment"
                           type="radio"
                           value="BOLETO"
@@ -389,6 +363,7 @@ export default function NewUser() {
                         />
                         <span className={styles.checkbox1comnegrito}>Pagamento via assinatura - Boleto</span>
                       </label>
+                      <br />
                       <label>
                         <input
                           name="typepayment"
@@ -453,7 +428,33 @@ export default function NewUser() {
                           disabled={!(opcaoSelecionada === 'CREDIT_CARD')}
                           required />
                       </div>
-
+                      <label>
+                        <input
+                          type="radio"
+                          name="typepayment"
+                          value="UNDEFINED"
+                          checked={opcaoSelecionada === 'UNDEFINED'}
+                          onChange={handleOptions}
+                        />
+                        <span className={styles.checkbox1comnegrito}>Pagamento no balcão</span>
+                      </label>
+                      <div className={styles.formgroup}>
+                        <label className={styles.formlabelsemnegrito} htmlFor="paymenttype1">Forma de pagamento:</label>
+                        <select
+                          className={styles.forminputtext}
+                          id="paymenttype1"
+                          name="paymenttype1"
+                          value={paymentTypeValue}
+                          onChange={e => setPaymentTypeValue(e.target.value)}
+                          required
+                          disabled={!(opcaoSelecionada === 'UNDEFINED')}
+                        >
+                          <option value="1">Cartão de Crédito</option>
+                          <option value="2">Cartão de Debito</option>
+                          <option value="3">Dinheiro</option>
+                          <option value="4">Pix</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
 

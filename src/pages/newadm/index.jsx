@@ -57,9 +57,9 @@ export default function NewAdm() {
         const response = await api.post(`/api/usuarios/postuseradm`, newAdm)
         if (response.status === 200) {
           alert('Usuario Administrador cadastrado com sucesso.');
-          router.push(`/dashboard`);
+          router.push(`/adms`);
         } else {
-          alert('Erro ao cadastrar dependente.');
+          alert('Erro ao cadastrar administrador.');
         }
       } catch (error) {
         console.log(error)

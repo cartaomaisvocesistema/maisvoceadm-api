@@ -65,8 +65,8 @@ export default function SideBar() {
                             </div>
                         </li>
                     </Link>
-                    <Link href='./newadm'>
-                        <li className={isCurrentRoute('/newadm')}>
+                    <Link href='./adms'>
+                        <li className={isCurrentRoute('/adms')}>
                             <div className={styles.linkgroup}>
                                 <MdKey className={styles.sideliicon} />
                                 <span className={styles.sidelilabel}>Adm</span>
