@@ -4,7 +4,6 @@ import { parseCookies } from 'nookies'
 //import { LocalStorage } from 'web-storage-ts';
 import localStorage from 'localStorage';
 
-
 export function getAPIClient(ctx) {
     const token = localStorage.getItem('userToken')
 
@@ -15,9 +14,20 @@ export function getAPIClient(ctx) {
     })
 
     api.interceptors.request.use(config => {
-        console.log(config);
+        //console.log(config);
         return config;
     })
+
+    api.interceptors.response.use(
+        (response) => response,
+        (error) => {
+            if (error.response && error.response.status === 401) {
+                // JWT expirado, redirecionar para a página de login
+                window.location = '/';
+            }
+            return Promise.reject(error);
+        }
+    );
 
     if (token) {
         api.defaults.headers['Authorization'] = `Bearer ${token}`;

@@ -51,8 +51,6 @@ export default function NewAdm() {
         type: typeValue
       }
 
-      console.log(newAdm);
-
       try {
         const response = await api.post(`/api/usuarios/postuseradm`, newAdm)
         if (response.status === 200) {

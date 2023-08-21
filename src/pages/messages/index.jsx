@@ -4,6 +4,8 @@ import styles from './messages.module.scss';
 import { BsFillExclamationTriangleFill } from "react-icons/bs";
 import Link from "next/link";
 import { MdOutlineSpatialAudio } from "react-icons/md";
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 
 export default function Messages() {
 
@@ -35,3 +37,22 @@ export default function Messages() {
     </>);
 
 }
+
+export const getServerSideProps = async (ctx) => {
+
+    const apiClient = getAPIClient(ctx);
+    const { ['nextAuth.token']: token } = parseCookies(ctx);
+    if (!token) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+  
+    //await apiClient.get('/users');
+    return {
+      props: {}
+    }
+  }

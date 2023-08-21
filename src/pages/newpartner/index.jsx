@@ -39,9 +39,9 @@ export default function NewPartner() {
   const phoneMask = (value) => {
     if (!value) return ""
     return value
-    .replace(/\D/g, '')
-    .replace(/(\d{2})(\d)/, "($1) $2")
-    .replace(/(\d)(\d{4})$/, "$1-$2")
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
   }
 
   const addParceiro = async (e) => {
@@ -74,16 +74,14 @@ export default function NewPartner() {
 
     }
 
-    console.log(newPartner);
-
     try {
       const response = await api.post(`/api/parceiros/`, newPartner)
       const id = response.data.id;
       if (response.status === 200) {
-        const formData = new FormData();
-        formData.append('image', partnerbannerValue);
 
-        if (partnerbannerValue) {
+        if (partnerbannerValue && (partnerbannerValue.type == 'image/jpeg' || partnerbannerValue.type == 'image/png') && partnerbannerValue.size <= 1100000) {
+          const formData = new FormData();
+          formData.append('image', partnerbannerValue);
           const res = await api.post(`/api/parceiros/${id}`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
@@ -121,7 +119,7 @@ export default function NewPartner() {
                     type="text"
                     id="partnername"
                     name="partnername"
-                    maxlength="70"
+                    maxLength="70"
                     placeholder="São João"
                     onChange={e => setPartnernameValue(e.target.value)}
                     required
@@ -164,7 +162,7 @@ export default function NewPartner() {
                     type="email"
                     id="partneremail"
                     name="partneremail"
-                    maxlength="70"
+                    maxLength="70"
                     placeholder="parceiro@gmail.com"
                     onChange={e => setPartneremailValue(e.target.value)}
                     required
@@ -197,7 +195,7 @@ export default function NewPartner() {
                     type="text"
                     id="partneraddress"
                     name="partneraddress"
-                    maxlength="70"
+                    maxLength="70"
                     placeholder="ex. Rua José Pedro da Silva"
                     onChange={e => setPartneraddressValue(e.target.value)}
                     required
@@ -213,7 +211,7 @@ export default function NewPartner() {
                     type="url"
                     id="partnerwebsite"
                     name="partnerwebsite"
-                    maxlength="70"
+                    maxLength="70"
                     placeholder="http://site.com"
                     onChange={e => setPartnerwebsiteValue(e.target.value)}
                     required

@@ -34,49 +34,54 @@ export default function EditPartner() {
   }, [])
 
   const recoveryUser = async () => {
-    const { id } = router.query;
-    const response = await api.get(`/api/parceiros/${id}`)
-    const data = (response).data;
+    try {
+      const { id } = router.query;
+      const response = await api.get(`/api/parceiros/${id}`)
+      const data = (response).data;
 
-    //console.log(data);
+      //console.log(data);
 
-    if (data.partnername)
-      setPartnernameValue(data.partnername);
+      if (data.partnername)
+        setPartnernameValue(data.partnername);
 
-    if (data.partnerdescription)
-      setPartnerdescriptionValue(data.partnerdescription);
+      if (data.partnerdescription)
+        setPartnerdescriptionValue(data.partnerdescription);
 
-    if (data.partneremail)
-      setPartneremailValue(data.partneremail);
+      if (data.partneremail)
+        setPartneremailValue(data.partneremail);
 
-    if (data.partnerphonenumber)
-      setPartnerphonenumberValue(data.partnerphonenumber);
+      if (data.partnerphonenumber)
+        setPartnerphonenumberValue(data.partnerphonenumber);
 
-    if (data.partneraddress)
-      setPartneraddressValue(data.partneraddress);
+      if (data.partneraddress)
+        setPartneraddressValue(data.partneraddress);
 
-    if (data.partnerwebsite)
-      setPartnerwebsiteValue(data.partnerwebsite);
+      if (data.partnerwebsite)
+        setPartnerwebsiteValue(data.partnerwebsite);
 
-    if (data.partnercategory)
-      setPartnercategoryValue(data.partnercategory);
+      if (data.partnercategory)
+        setPartnercategoryValue(data.partnercategory);
 
-    if (data.banner)
-      setPartnerbannerimgValue(data.banner);
+      if (data.banner)
+        setPartnerbannerimgValue(data.banner);
 
-    if (data.categorypartner)
-      setPartnercategoryValue(data.categorypartner);
+      if (data.categorypartner)
+        setPartnercategoryValue(data.categorypartner);
 
-    if (data.openinghours !== '') {
-      if (data.openinghours.includes('manhã')) {
-        setPeriodoManha(true);
+      if (data.openinghours !== '') {
+        if (data.openinghours.includes('manhã')) {
+          setPeriodoManha(true);
+        }
+        if (data.openinghours.includes('tarde')) {
+          setPeriodoTarde(true);
+        }
+        if (data.openinghours.includes('noite')) {
+          setPeriodoNoite(true);
+        }
       }
-      if (data.openinghours.includes('tarde')) {
-        setPeriodoTarde(true);
-      }
-      if (data.openinghours.includes('noite')) {
-        setPeriodoNoite(true);
-      }
+
+    } catch (error) {
+      console.log(error);
     }
 
   }
@@ -126,14 +131,13 @@ export default function EditPartner() {
 
     }
 
-    console.log(editPartner);
-
     try {
       const response = await api.patch(`/api/parceiros/`, editPartner)
       if (response.status === 200) {
-        const formData = new FormData();
-        formData.append('image', partnerbannerValue);
-        if (partnerbannerValue) {
+
+        if (partnerbannerValue && (partnerbannerValue.type == 'image/jpeg' || partnerbannerValue.type == 'image/png') && partnerbannerValue.size <= 1100000) {
+          const formData = new FormData();
+          formData.append('image', partnerbannerValue);
           const res = await api.post(`/api/parceiros/${id}`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
@@ -206,7 +210,7 @@ export default function EditPartner() {
                     Descrição:
                   </label>
                   <textarea
-                    className={`${styles.forminputtext} ${styles.forminputtextarea}`} 
+                    className={`${styles.forminputtext} ${styles.forminputtextarea}`}
                     id="partnerdescription"
                     name="partnerdescription"
                     value={partnerdescriptionValue}

@@ -12,9 +12,40 @@ import { api } from "../../services/api";
 import { RiDeleteBinLine } from 'react-icons/ri';
 
 import styles from './usersreport.module.scss';
-
+import { Chart } from "react-google-charts";
 
 export default function UsersReport() {
+
+    const [reportData, setReportData] = useState({});
+
+    const [options, setOptions] = useState({
+        title: 'Status de pagamento ( % )',
+        slices: {
+            0: { color: 'green' },
+            1: { color: 'red' }
+        }
+    })
+    const [data, setData] = useState([
+        ['Linguagens', 'Quantidade'],
+        ['React', 100],
+        ['Angula', 80],
+        ['Vue', 50],
+    ])
+
+    const [options2, setOptions2] = useState({
+        title: 'Tipo de usuário ( % )',
+        slices: {
+            0: { color: 'green' },
+            1: { color: 'red' }
+        }
+    })
+
+    const [data2, setData2] = useState([
+        ['Linguagens', 'Quantidade'],
+        ['React', 100],
+        ['Angula', 80],
+        ['Vue', 50],
+    ])
 
     const [userList, setuserList] = useState([]);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -48,36 +79,74 @@ export default function UsersReport() {
     }
 
     const handleFilterSubmit = async () => {
-        const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-        const result = (response).data;
-        setuserList(result.users)
-        setIsFilterOpen(!isFilterOpen);
+        try {
+            const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+            const result = (response).data;
+            setuserList(result.users)
+            setIsFilterOpen(!isFilterOpen);
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const handleFilterClear = async () => {
-        filterValues.username = '';
-        filterValues.cardNumber = '';
-        filterValues.cpf = '';
-        filterValues.email = '';
-        filterValues.phone = '';
-        filterValues.address = '';
-        filterValues.paymentstatus = '';
+        try {
+            filterValues.username = '';
+            filterValues.cardNumber = '';
+            filterValues.cpf = '';
+            filterValues.email = '';
+            filterValues.phone = '';
+            filterValues.address = '';
+            filterValues.paymentstatus = '';
 
-        const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-        const result = (response).data;
-        setuserList(result.users)
-        setIsFilterOpen(!isFilterOpen)
-
+            const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+            const result = (response).data;
+            setuserList(result.users)
+            setIsFilterOpen(!isFilterOpen)
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     useEffect(() => {
         getListaUsuarios();
+        getListaCardHeaders();
     }, []);
 
     const getListaUsuarios = async () => {
-        const response = await api.get('/api/usuarios/')
-        const result = (response).data;
-        setuserList(result.users.filter(user => user.type !== 'ADM'))
+        try {
+            const response = await api.get('/api/usuarios/')
+            const result = (response).data;
+            setuserList(result.users.filter(user => user.type !== 'ADM'))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getListaCardHeaders = async () => {
+        try {
+            const response = await api.get('/api/usuarios/usercardsheaders/info')
+            const result = response.data;
+
+            setReportData(result);
+
+            const d = [
+                ['Status', 'Quantidade'],
+                ['Em dia', result.emDiaNumber],
+                ['Atrasado', result.atrasadoNumber]
+            ];
+
+            const d2 = [
+                ['Status', 'Quantidade'],
+                ['Titulares', result.titulares],
+                ['Dependentes', result.dependentes]
+            ];
+
+            setData(d);
+            setData2(d2);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (<>
@@ -85,6 +154,62 @@ export default function UsersReport() {
             <div className={styles.container}>
                 <div className={styles.topbar}>
                     <span className={styles.topbartitle}>Relatório de usuários</span>
+                </div>
+                <div className={styles.containercards}>
+                    <div className={styles.card}>
+                        <div className={styles.carduserstitle}>Usuários (Status de pagamento)</div>
+                        <div className={styles.cardusers}>
+                            <div className={styles.cardusersleft}>
+                                <div className={styles.subcard}>
+                                    <div className={styles.carduserslabel}>Total (Titulares):</div>
+                                    <div className={styles.carduserslabelinfo}>{reportData.totalNumberTitular}</div>
+                                </div>
+                                <div className={styles.subcard}>
+                                    <div className={styles.carduserslabel}>Em dia:</div>
+                                    <div className={styles.carduserslabelinfo}>{reportData.emDiaNumber}</div>
+                                </div>
+                                <div className={styles.subcard}>
+                                    <div className={styles.carduserslabel}>Atrasados:</div>
+                                    <div className={styles.carduserslabelinfo}>{reportData.atrasadoNumber}</div>
+                                </div>
+                            </div>
+                            <div className={styles.cardusersright}>
+                                <Chart
+                                    width={'500px'}
+                                    height={'300px'}
+                                    chartType="PieChart"
+                                    data={data}
+                                    options={options}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.carduserstitle}>Usuários (Tipo de usuário)</div>
+                        <div className={styles.cardusers}>
+                            <div className={styles.cardusersleft}>
+                                <div className={styles.subcard}>
+                                    <div className={styles.carduserslabel}>Total de usuários:</div>
+                                    <div className={styles.carduserslabelinfo}>{reportData.totalNumber}</div>
+                                </div>
+                                <div className={styles.subcard}>
+                                    <div className={styles.carduserslabel}>Titulares:</div>
+                                    <div className={styles.carduserslabelinfo}>{reportData.titulares}</div>
+                                </div>
+                                <div className={styles.subcard}>
+                                    <div className={styles.carduserslabel}>Dependentes:</div>
+                                    <div className={styles.carduserslabelinfo}>{reportData.dependentes}</div>
+                                </div>
+                            </div>
+                            <div className={styles.cardusersright}>
+                                <Chart
+                                    width={'500px'}
+                                    height={'300px'}
+                                    chartType="PieChart"
+                                    data={data2}
+                                    options={options2}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.ctusertitle}>
                     Histórico de usuários
@@ -218,7 +343,7 @@ export default function UsersReport() {
                                 <td className={styles.tdcenter}>{user.email}</td>
                                 <td className={styles.tdcenter}>
                                     <div className={styles.containerdots}>
-                                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsgreen}></div>
+                                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : (user.paymentstatus == 'ATRASADO') ? styles.dotsred : styles.nodots}></div>
                                     </div>
                                 </td>
                                 <td className={styles.tdcenter}>{phoneMask(user.phone)}</td>
@@ -238,16 +363,16 @@ export const getServerSideProps = async (ctx) => {
     const apiClient = getAPIClient(ctx);
     const { ['nextAuth.token']: token } = parseCookies(ctx);
     if (!token) {
-      return {
-        redirect: {
-          destination: '/',
-          permanent: false
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
         }
-      }
     }
-  
+
     //await apiClient.get('/users');
     return {
-      props: {}
+        props: {}
     }
-  }
+}

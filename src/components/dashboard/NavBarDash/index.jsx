@@ -9,9 +9,12 @@ import logo from '../../../../public/images/logotipo.svg';
 import bannerlogin from '../../../../public/images/logotipo3.png';
 import { MdHelp, MdNotifications, MdLogout } from 'react-icons/md';
 import { api } from '@/services/api';
+
 import localStorage from 'localStorage';
+
 import { destroyCookie } from 'nookies'
 import { useRouter } from 'next/router';
+
 
 
 export default function NavBarDash() {
@@ -33,21 +36,25 @@ export default function NavBarDash() {
     }, [])
 
     const recoveryUser = async () => {
-        const response = await api.get(`/api/usuarios/${userId}`)
-        const data = (response).data;
-        setUsernameValue(data.username);
+        try {
+            const response = await api.get(`/api/usuarios/${userId}`)
+            const data = (response).data;
+            setUsernameValue(data.username);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (<>
         <nav className={styles.navbar}>
             <div className={styles.container}>
                 <div className={styles.ctlogoadm}>
-                    <Link href='./'>
+                    <Link href='./dashboard'>
                         <Image className={styles.logoimg} src={bannerlogin} alt='Cartão + Você' />
                     </Link>
                     <span className={styles.navlilogo}>ADM</span>
                 </div>
-                <span className={styles.cumprimento}>Olá, {usernameValue .split(' ')[0]}</span>
+                <span className={styles.cumprimento}>Olá, {usernameValue.split(' ')[0]}</span>
                 <div className={styles.ctmsglinks}>
                     <ul className={styles.navlinks}>
                         <button className={styles.btnlink} onClick={deleteToken}>

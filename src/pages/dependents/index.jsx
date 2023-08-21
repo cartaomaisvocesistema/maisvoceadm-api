@@ -42,37 +42,36 @@ export default function Dependents() {
   });
 
   const handleFilterSubmit = async () => {
-    // Lógica para lidar com o envio dos filtros
-    // ...
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setDependentsList(result.users)
-    setIsFilterOpen(!isFilterOpen)
+    try {
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = response.data;
+      setDependentsList(result.users)
+      setIsFilterOpen(!isFilterOpen)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFilterClear = async () => {
-    filterValues.username = '';
-    filterValues.cardNumber = '';
-    filterValues.cpf = '';
-    filterValues.email = '';
-    filterValues.phone = '';
-    filterValues.address = '';
-
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setDependentsList(result.users)
-    setIsFilterOpen(!isFilterOpen)
-
+    try {
+      filterValues.username = '';
+      filterValues.cardNumber = '';
+      filterValues.cpf = '';
+      filterValues.email = '';
+      filterValues.phone = '';
+      filterValues.address = '';
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setDependentsList(result.users)
+      setIsFilterOpen(!isFilterOpen)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDeleteUser = async () => {
-    // Remova o usuário da lista com base no selectedUserId
-    // Por exemplo:
     await deleteDependentes();
     await getListaDependentes();
-
-    // Feche a modal e redefina o ID do usuário selecionado
-
     setIsModalOpen(false);
     setSelectedDependentId(null);
   };
@@ -100,22 +99,30 @@ export default function Dependents() {
   }
 
   const getListaDependentes = async () => {
-    const { cardnumber } = router.query;
-    const response = await api.get(`/api/usuarios/getdependents/${cardnumber}`)
-    const result = (response).data;
-    const dpList = result.users.filter(user => user.type !== 'C_TITULAR')
-    setDependentsList(dpList)
-    if (dpList.length >= 4) {
-      setBtnNewDependentShow(false);
-    } else {
-      setBtnNewDependentShow(true);
-    }
+    try {
+      const { cardnumber } = router.query;
+      const response = await api.get(`/api/usuarios/getdependents/${cardnumber}`)
+      const result = (response).data;
+      const dpList = result.users.filter(user => user.type !== 'C_TITULAR')
+      setDependentsList(dpList)
+      if (dpList.length >= 4) {
+        setBtnNewDependentShow(false);
+      } else {
+        setBtnNewDependentShow(true);
+      }
 
-    setTitularValue(result.users.filter(user => user.type == 'C_TITULAR')[0]);
+      setTitularValue(result.users.filter(user => user.type == 'C_TITULAR')[0]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const deleteDependentes = async () => {
-    const response = await api.delete(`/api/usuarios/${selectedDependentId}`)
+    try {
+      const response = await api.delete(`/api/usuarios/${selectedDependentId}`)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const showType = (type) => {

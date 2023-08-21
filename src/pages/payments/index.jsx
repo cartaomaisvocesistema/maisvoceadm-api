@@ -1,12 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import Link from 'next/link';
 
-import { FaEdit } from 'react-icons/fa';
-import { RiDeleteBinLine } from 'react-icons/ri';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { parseCookies } from "nookies";
 
-import { AuthContext } from '@/contexts/AuthContext';
 import LayoutDashboard from "@/layouts/LayoutDashboard";
 import { getAPIClient } from "@/services/axios";
 import { api } from "../../services/api";
@@ -17,71 +13,65 @@ export default function Payments() {
 
   const [userList, setuserList] = useState([]);
 
-  /*const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);*/
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
     cardNumber: '',
     username: '',
-    paymentstatus: ''
+    paymentstatus: '',
+    type: 'C_TITULAR'
   });
-
-  /*const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [paymentToDelete, setPaymentToDelete] = useState(null);*/
 
   useEffect(() => {
     getListaUsuarios();
   }, [])
 
   const handleFilterClear = async () => {
-    filterValues.username = '';
-    filterValues.cardNumber = '';
-    filterValues.paymentstatus = '';
-
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
-    setIsFilterOpen(!isFilterOpen)
-  };
-
-  const handleFilterSubmit = async () => {
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
-    setIsFilterOpen(!isFilterOpen);
-  };
-
-  /*const handleFilterSubmit = async () => {
-    const response = await api.post('/api/pagamentos/getbyfilter', filterValues)
-    const result = (response).data;
-    setPaymentsList(result.payments)
-    setIsFilterOpen(!isFilterOpen);
-  };*/
-
-  const getListaUsuarios = async () => {
-    const response = await api.get('/api/usuarios/')
-    const result = (response).data;
-    setuserList(result.users.filter(user => user.type !== 'ADM'))
-  }
-
-  /*const handleDeletePayment = (paymentId) => {
-    setPaymentToDelete(paymentId);
-    setShowConfirmationModal(true);
-  };
-
-  const confirmDeletePayment = () => {
-    if (paymentToDelete) {
-      const updatedPayments = payments.filter(payment => payment.id !== paymentToDelete);
-      setPayments(updatedPayments);
-      setShowConfirmationModal(false);
-      setPaymentToDelete(null);
+    try {
+      filterValues.username = '';
+      filterValues.cardNumber = '';
+      filterValues.paymentstatus = '';
+      filterValues.type = 'C_TITULAR';
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+      setIsFilterOpen(!isFilterOpen)
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const cancelDeletePayment = () => {
-    setShowConfirmationModal(false);
-    setPaymentToDelete(null);
-  };*/
+  const handleFilterSubmit = async () => {
+    try {
+      filterValues.type = 'C_TITULAR';
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+      setIsFilterOpen(!isFilterOpen);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /*const getListaUsuarios = async () => {
+    try {
+      const response = await api.get('/api/usuarios/')
+      const result = (response).data;
+      setuserList(result.users.filter(user => user.type !== 'ADM'))
+    } catch (error) {
+      console.log(error);
+    }
+  }*/
+
+  const getListaUsuarios = async () => {
+    try {
+      filterValues.type = 'C_TITULAR';
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -138,51 +128,6 @@ export default function Payments() {
                     </select>
                   </div>
 
-                  {/*<div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="usuario">Usuário:</label>
-                    <select
-                      className={styles.forminputtext}
-                      value={filterValues.usuario}
-                      onChange={(e) =>
-                        setFilterValues({ ...filterValues, usuario: e.target.value })
-                      }
-                    >
-                      <option value="">Todos</option>
-                      <option value="usuario1">Usuário 1</option>
-                      <option value="usuario2">Usuário 2</option>
-                      <option value="usuario3">Usuário 3</option>
-                    </select>
-                  </div>
-
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="status">Status:</label>
-                    <select
-                      className={styles.forminputtext}
-                      value={filterValues.status}
-                      onChange={(e) =>
-                        setFilterValues({ ...filterValues, status: e.target.value })
-                      }
-                    >
-                      <option value="">Todos</option>
-                      <option value="quitado">Quitado</option>
-                      <option value="pendente">Pendente</option>
-                      <option value="atrasado">Atrasado</option>
-                    </select>
-                  </div>
-
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="valor">Valor:</label>
-                    <input
-                      className={styles.forminputtext}
-                      type="text"
-                      placeholder="Valor"
-                      value={filterValues.valor}
-                      onChange={(e) =>
-                        setFilterValues({ ...filterValues, valor: e.target.value })
-                      }
-                    />
-                    </div>*/}
-
                   <div className={styles.ctbuttons}>
                     <button className={styles.button} onClick={handleFilterClear}>Limpar</button>
                     <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
@@ -192,29 +137,8 @@ export default function Payments() {
               )}
 
             </div>
-            {/*<div className={styles.containercards}>
-              <div className={styles.card}>
-                <div className={styles.cardusers}>
-                  <span className={styles.cardtitle}>0</span>
-                  <div className={styles.ctactives}>
-                    <div className={styles.dotsgreen}></div>
-                    <span className={styles.carddescription}>Pagamentos em Aberto</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.card}>
-                <div className={styles.cardusers}>
-                  <span className={styles.cardtitle}>0</span>
-                  <div className={styles.ctactives}>
-                    <div className={styles.dotsred}></div>
-                    <span className={styles.carddescription}>Pagamentos Vencidos</span>
-                  </div>
-                </div>
-              </div>
-                    </div>*/}
-
+            
             <div className={styles.headtable}>
-              {/*<Link href='/newpayment' className={styles.btnewuser}>Novo pagamento</Link>*/}
               <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
             </div>
 
@@ -247,18 +171,6 @@ export default function Payments() {
               </tbody>
             </table>
 
-            {/*{showConfirmationModal && (
-              <div className={styles.modal}>
-                <div className={styles.modalContent}>
-                  <h3>Confirmar exclusão</h3>
-                  <p>Deseja realmente excluir este pagamento?</p>
-                  <div className={styles.modalButtons}>
-                    <button className={styles.confirmButton} onClick={confirmDeletePayment}>Confirmar</button>
-                    <button className={styles.cancelButton} onClick={cancelDeletePayment}>Cancelar</button>
-                  </div>
-                </div>
-              </div>
-            )}*/}
           </div>
         </LayoutDashboard>
       </main>

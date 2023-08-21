@@ -4,6 +4,8 @@ import styles from './messageall.module.scss';
 import { MdOutlineSpatialAudio } from "react-icons/md";
 import { BsFillExclamationTriangleFill } from "react-icons/bs";
 import { useState } from "react";
+import { parseCookies } from "nookies";
+import { getAPIClient } from "@/services/axios";
 
 export default function MessageAll() {
 
@@ -48,3 +50,22 @@ export default function MessageAll() {
     </>);
 
 }
+
+export const getServerSideProps = async (ctx) => {
+
+    const apiClient = getAPIClient(ctx);
+    const { ['nextAuth.token']: token } = parseCookies(ctx);
+    if (!token) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+  
+    //await apiClient.get('/users');
+    return {
+      props: {}
+    }
+  }

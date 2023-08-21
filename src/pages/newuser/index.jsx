@@ -178,8 +178,6 @@ export default function NewUser() {
 
       }
 
-      console.log(newUser);
-
       try {
         const response = await api.post(`/api/usuarios/`, newUser)
         if (response.status === 200) {
@@ -189,6 +187,7 @@ export default function NewUser() {
           alert('Erro ao cadastrar usuario.');
         }
       } catch (error) {
+        alert('Erro ao cadastrar usuario.');
         console.log(error)
       }
 
@@ -458,8 +457,7 @@ export default function NewUser() {
                     </div>
                   </div>
 
-
-                  <button className={styles.button} type="submit">Enviar</button>
+                  <button className={styles.button} type="submit">Cadastrar</button>
                 </form>
               </div>
             </div>

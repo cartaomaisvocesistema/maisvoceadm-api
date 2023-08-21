@@ -34,7 +34,6 @@ export default function Payments() {
             filterValues.userid = userid;
             const response = await api.post('/api/pagamentos/getbyfilter', filterValues)
             const result = (response).data;
-            console.log(result);
             setPaymentsList(result.payments)
         } catch (error) {
             console.log(error)
@@ -45,7 +44,6 @@ export default function Payments() {
         try {
             const responseUser = await api.get(`/api/usuarios/${userid}`)
             const resultUser = (responseUser).data;
-            console.log(resultUser);
             setUserValue(resultUser);
         } catch (error) {
             console.log(error)
@@ -149,6 +147,10 @@ export default function Payments() {
                                     }
 
                                     {item.status == 'RECEIVED' &&
+                                        <MdCheckCircle className={styles.iconreceived} />
+                                    }
+
+                                    {item.status == 'RECEIVED_IN_CASH' &&
                                         <MdCheckCircle className={styles.iconreceived} />
                                     }
 

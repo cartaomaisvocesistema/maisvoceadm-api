@@ -12,7 +12,6 @@ import { api } from "../../services/api";
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBinLine } from 'react-icons/ri';
-//import { Chart } from 'chart.js/auto';
 
 import styles from './users.module.scss';
 
@@ -37,44 +36,6 @@ export default function Users() {
     paymentstatus: ''
   });
 
-  // const PieChart = ({ EmDiaQtdValue, AtrasadoQtdValue }) => {
-
-  //   const chartRef = useRef(null);
-
-  //   useEffect(() => {
-
-  //     const canvas = document.getElementById('myChartCanvas');
-  //     const ctx = chartRef.current.getContext('2d');
-
-
-  //     // Verifique se há um gráfico existente
-  //     if (typeof myChart !== 'undefined' && myChart !== null) {
-  //       myChart.destroy(); // Destrua o gráfico existente
-  //     }
-
-  //     var myChart = new Chart(ctx, {
-  //       type: 'doughnut',
-  //       data: {
-  //         labels: [
-  //           'Em Dia',
-  //           'Atrasado'
-  //         ],
-  //         datasets: [{
-  //           label: 'Meu Grafico legal',
-  //           data: [EmDiaQtdValue, AtrasadoQtdValue],
-  //           backgroundColor: [
-  //             'rgb(255, 99, 132)',
-  //             'rgb(54, 162, 235)'
-  //           ],
-  //           hoverOffset: 4
-  //         }]
-  //       },
-  //     });
-  //   }, [EmDiaQtdValue, AtrasadoQtdValue]);
-
-  //   return <canvas ref={chartRef} />;
-  // };
-
   const cpfMask = value => {
     if (!value) return ""
     return value
@@ -94,46 +55,65 @@ export default function Users() {
   }
 
   const getByFilter = async () => {
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
+    try {
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const filterEmdia = async () => {
-    setFilterValues({ ...filterValues, paymentstatus: 'EM_DIA' })
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
+    try {
+      setFilterValues({ ...filterValues, paymentstatus: 'EM_DIA' })
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const filterAtrasado = async () => {
-    setFilterValues({ ...filterValues, paymentstatus: 'ATRASADO' })
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
+    try {
+      setFilterValues({ ...filterValues, paymentstatus: 'ATRASADO' })
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFilterSubmit = async () => {
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
-    setIsFilterOpen(!isFilterOpen);
+    try {
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+      setIsFilterOpen(!isFilterOpen);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFilterClear = async () => {
-    filterValues.username = '';
-    filterValues.cardNumber = '';
-    filterValues.cpf = '';
-    filterValues.email = '';
-    filterValues.phone = '';
-    filterValues.address = '';
-    filterValues.paymentstatus = '';
+    try {
+      filterValues.username = '';
+      filterValues.cardNumber = '';
+      filterValues.cpf = '';
+      filterValues.email = '';
+      filterValues.phone = '';
+      filterValues.address = '';
+      filterValues.paymentstatus = '';
 
-    const response = await api.post('/api/usuarios/getbyfilter', filterValues)
-    const result = (response).data;
-    setuserList(result.users)
-    setIsFilterOpen(!isFilterOpen)
-
+      const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+      const result = (response).data;
+      setuserList(result.users)
+      setIsFilterOpen(!isFilterOpen)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDeleteUser = async () => {
@@ -341,9 +321,9 @@ export default function Users() {
                     <p><b>CPF:</b> {cpfMask(selectedUser.cpf)}</p>
                     <p><b>Email:</b> {selectedUser.email}</p>
                     <p><b>Telefone:</b> {selectedUser.phone}</p>
-                    <p><b>Endereço:</b> {selectedUser.address}</p>                    
-                    <p><b>Tipo:</b> {showType(selectedUser.type)}</p>                    
-                    <p><b>Plano:</b> {showAgreementType(selectedUser.agreementType)}</p>                    
+                    <p><b>Endereço:</b> {selectedUser.address}</p>
+                    <p><b>Tipo:</b> {showType(selectedUser.type)}</p>
+                    <p><b>Plano:</b> {showAgreementType(selectedUser.agreementType)}</p>
                   </div>
                   <div className={styles.ctbuttons}>
                     <button className={styles.buttongray} onClick={() => setIsSelectedUserOpen(!isSelectedUserOpen)}>Fechar</button>
@@ -413,7 +393,7 @@ export default function Users() {
                     <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.email}</td>
                     <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>
                       <div className={styles.containerdots} onClick={() => handleRowClick(user)}>
-                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsred}></div>
+                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : (user.paymentstatus == 'ATRASADO') ? styles.dotsred : styles.nodots}></div>
                       </div>
                     </td>
                     <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{phoneMask(user.phone)}</td>

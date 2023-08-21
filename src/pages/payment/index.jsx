@@ -41,9 +41,9 @@ export default function Payment() {
     const confirmPayment = async () => {
         try {
             const payment = {
-                paymentid: paymentid
+                id: paymentid
             }
-            const responsePayment = await api.get(`/api/pagamentos/confirmpayment`, payment)
+            const responsePayment = await api.post(`/api/pagamentos/confirmpayment`, payment)
             if (responsePayment.status == 200) {
                 alert('Pagamento confirmado');
                 router.push(`/userpayments?userid=${userid}`);
@@ -99,6 +99,10 @@ export default function Payment() {
                                         }
 
                                         {paymentValue.status == 'RECEIVED' &&
+                                            <MdCheckCircle className={styles.iconreceived} />
+                                        }
+
+                                        {paymentValue.status == 'RECEIVED_IN_CASH' &&
                                             <MdCheckCircle className={styles.iconreceived} />
                                         }
 

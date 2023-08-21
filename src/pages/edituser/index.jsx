@@ -45,24 +45,28 @@ export default function EditUser() {
   };
 
   const recoveryUser = async () => {
-    const { id } = router.query;
-    const response = await api.get(`/api/usuarios/${id}`)
-    const data = (response).data;
+    try {
+      const { id } = router.query;
+      const response = await api.get(`/api/usuarios/${id}`)
+      const data = (response).data;
 
-    if (data.username)
-      setUsernameValue(data.username);
+      if (data.username)
+        setUsernameValue(data.username);
 
-    if (data.email)
-      setEmailValue(data.email);
+      if (data.email)
+        setEmailValue(data.email);
 
-    if (data.cpf)
-      setCpfValue(data.cpf);
+      if (data.cpf)
+        setCpfValue(data.cpf);
 
-    if (data.address)
-      setAddressValue(data.address);
+      if (data.address)
+        setAddressValue(data.address);
 
-    if (data.phone)
-      setPhoneValue(data.phone);
+      if (data.phone)
+        setPhoneValue(data.phone);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function resetSignatureCredit() {
@@ -205,14 +209,12 @@ export default function EditUser() {
       }
     }
 
-    console.log(updatedUser);
-
     try {
       const response = await api.patch(`/api/usuarios/admpatch`, updatedUser)
       console.log(response.status);
       if (response.status === 200) {
         alert('Usuario atualizado com sucesso.');
-        //router.push('/users/');
+        router.push('/users/');
       } else {
         alert('Erro ao atualizar usuario.');
       }
@@ -321,9 +323,9 @@ export default function EditUser() {
                     </div>
                   </div>
 
-                  <div className={alterPaymentTypeValue? styles.sectiontitle: styles.sectiontitleopacity}>Alterar forma de pagamento</div>
+                  <div className={alterPaymentTypeValue ? styles.sectiontitle : styles.sectiontitleopacity}>Alterar forma de pagamento</div>
 
-                  <div className={alterPaymentTypeValue? styles.formgrouppayment: styles.formgrouppaymentopacity}>
+                  <div className={alterPaymentTypeValue ? styles.formgrouppayment : styles.formgrouppaymentopacity}>
                     <div className={styles.checkboxgrouppayment}>
                       <label>
                         <input

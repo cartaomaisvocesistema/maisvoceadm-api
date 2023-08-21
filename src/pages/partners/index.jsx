@@ -39,48 +39,53 @@ export default function Partners() {
   }
 
   const handleFilterSubmit = async () => {
-    // Lógica para lidar com o envio dos filtros
-    // ...
-    console.log(filterValues);
-    const response = await api.post('/api/parceiros/getbyfilter', filterValues)
-    const result = (response).data;
-    setPartnerList(result.partners)
-    setIsFilterOpen(!isFilterOpen)
-    console.log(result)
+    try {
+      const response = await api.post('/api/parceiros/getbyfilter', filterValues)
+      const result = (response).data;
+      setPartnerList(result.partners)
+      setIsFilterOpen(!isFilterOpen)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFilterClear = async () => {
-    filterValues.partnername = '';
-    filterValues.categorypartner = '';
+    try {
+      filterValues.partnername = '';
+      filterValues.categorypartner = '';
 
-    const response = await api.post('/api/parceiros/getbyfilter', filterValues)
-    const result = (response).data;
-    setPartnerList(result.partners)
-    setIsFilterOpen(!isFilterOpen)
-
+      const response = await api.post('/api/parceiros/getbyfilter', filterValues)
+      const result = (response).data;
+      setPartnerList(result.partners)
+      setIsFilterOpen(!isFilterOpen)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDeletePartner = async () => {
-    // Remova o usuário da lista com base no selectedUserId
-    // Por exemplo:
     await deleteParceiros();
     await getListaParceiros();
-
-    // Feche a modal e redefina o ID do usuário selecionado
-
     setIsModalOpen(false);
     setSelectedPartnerId(null);
   };
 
   const getListaParceiros = async () => {
-    const response = await api.get('/api/parceiros/')
-    const result = (response).data;
-    setPartnerList(result.partners)
-    console.log(result)
+    try {
+      const response = await api.get('/api/parceiros/')
+      const result = (response).data;
+      setPartnerList(result.partners)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const deleteParceiros = async () => {
-    const response = await api.delete(`/api/parceiros/${selectedPartnerId}`)
+    try {
+      const response = await api.delete(`/api/parceiros/${selectedPartnerId}`)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -110,7 +115,7 @@ export default function Partners() {
                     />
                   </div>
 
-                  <div className={styles.formgroup}>
+                  {/*<div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="paymenttype1">Categoria:</label>
                     <select
                       className={styles.forminputtext}
@@ -122,10 +127,11 @@ export default function Partners() {
                       }
                     >
                       <option value="">Selecione</option>
-                      <option value="1">Funeraria</option>
-                      <option value="2">musica</option>
+                      <option value="1">Saúde</option>
+                      <option value="2">Comérico</option>
+                      <option value="2">Outros</option>
                     </select>
-                  </div>
+                    </div>*/}
 
                   <div className={styles.ctbuttons}>
                     <button className={styles.button} onClick={handleFilterClear}>Limpar</button>
