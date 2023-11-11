@@ -105,6 +105,10 @@
     background-color: #10122b;
   }
 
+  .button[type="submit"]:active {
+    background-color: #ff570d;
+  }
+
   .buttonupload {
     display: flex;
     width: auto;

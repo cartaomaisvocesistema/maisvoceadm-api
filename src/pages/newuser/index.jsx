@@ -12,6 +12,8 @@ export default function NewUser() {
 
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('BOLETO');
 
   const [usernameValue, setUsernameValue] = useState('');
@@ -127,7 +129,7 @@ export default function NewUser() {
 
   const addUsuario = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (passwordValue != confirmPasswordValue) {
       alert('Campos de senha e confirme sua senha estão diferentes');
     } else {
@@ -192,6 +194,7 @@ export default function NewUser() {
       }
 
     }
+    setLoading(false);
 
   }
 
@@ -338,9 +341,9 @@ export default function NewUser() {
                             checked={agreementTypeValue === 'PLUS'}
                             onChange={e => handleOptionsAgreement(e)}
                           />
-                          <span className={styles.checkbox1}><b>Plano Plus - R$149,90</b></span>
+                          <span className={styles.checkbox1}><b>Plano Plus - R$119,90</b></span>
                           <br />
-                          <span className={styles.paragraph2}>No Plano Plus do Cartão Mais Você, com uma mensalidade de R$149,90, o cliente tem direito a todos os descontos de parceiros e acesso livre às consultas na clinica Marmed, parceira do Cartão Mais Você. Neste plano é possível incluir até 4 dependentes extras, com o adicional de 49,90 na assinatura para cada dependente extra.</span>
+                          <span className={styles.paragraph2}>No Plano Plus do Cartão Mais Você, com uma mensalidade de R$119,90, o cliente tem direito a todos os descontos de parceiros e acesso livre às consultas na clinica Marmed, parceira do Cartão Mais Você. Neste plano é possível incluir até 4 dependentes extras, com o adicional de 49,90 na assinatura para cada dependente extra.</span>
                         </label>
                       </div>
                     </div>
@@ -457,7 +460,13 @@ export default function NewUser() {
                     </div>
                   </div>
 
-                  <button className={styles.button} type="submit">Cadastrar</button>
+                  <button
+                    className={styles.button}
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? 'Carregando...' : 'Cadastrar'}
+                  </button>
                 </form>
               </div>
             </div>

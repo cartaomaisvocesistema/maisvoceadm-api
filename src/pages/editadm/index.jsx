@@ -4,11 +4,13 @@ import { useContext, useEffect } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { parseCookies } from "nookies";
 import { getAPIClient } from "@/services/axios";
-import { api } from "../../services/api";
-import styles from './newadm.module.scss';
+import styles from './editadm.module.scss';
 import { useRouter } from 'next/router';
 
-export default function NewAdm() {
+import { api } from "../../services/api";
+
+
+export default function EditAdm() {
 
   const router = useRouter();
 
@@ -17,11 +19,36 @@ export default function NewAdm() {
   const [usernameValue, setUsernameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [cpfValue, setCpfValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
   const [typeValue, setypeValue] = useState('ADM');
 
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    recoveryUser()
+  }, [])
+
+  const recoveryUser = async () => {
+    try {
+      const { id } = router.query;
+      const response = await api.get(`/api/usuarios/${id}`)
+      const data = (response).data;
+
+      if (data.username)
+        setUsernameValue(data.username);
+
+      if (data.email)
+        setEmailValue(data.email);
+
+      if (data.cpf)
+        setCpfValue(data.cpf);
+
+      if (data.type)
+        setypeValue(data.type)
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function handleChangeMaskCpf(e) {
     const { value } = e.target;
@@ -37,41 +64,49 @@ export default function NewAdm() {
       .replace(/(\d{3})(\d{1,2})/, '$1-$2')
       .replace(/(-\d{2})\d+?$/, '$1')
   }
- 
-  const addAdminitrador = async (e) => {
+
+  const handleChangeMaskPhone = (e) => {
+    const { value } = e.target
+    setPhoneValue(phoneMask(value))
+  }
+
+  const phoneMask = (value) => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d)(\d{4})$/, "$1-$2")
+  }
+
+  const updateAdm = async (e) => {
     e.preventDefault();
-
     setLoading(true);
+    const { id } = router.query;
 
-    if (passwordValue != confirmPasswordValue) {
-      alert('Campos de senha e confirme sua senha estão diferentes');
-    } else {
-
-      const newAdm = {
-        username: usernameValue,
-        email: emailValue,
-        cpf: cpfValue.toString().replace(/\.|-/gm, ''),
-        password: passwordValue,
-        type: typeValue
-      }
-
-      try {
-        const response = await api.post(`/api/usuarios/postuseradm`, newAdm)
-        if (response.status === 200) {
-          alert('Usuario Administrador cadastrado com sucesso.');
-          router.push(`/adms`);
-        } else {
-          alert('Erro ao cadastrar administrador.');
-        }
-      } catch (error) {
-        alert('Erro ao cadastrar administrador.');
-        console.log(error)
-      }
-
+    const updatedUser = {
+      id: id,
+      username: usernameValue,
+      email: emailValue,
+      cpf: cpfValue.toString().replace(/\.|-/gm, ''),
+      type: typeValue
     }
 
-    setLoading(false);
+    console.log(updatedUser);
 
+    try {
+      const response = await api.patch(`/api/usuarios/admpatch`, updatedUser)
+      console.log(response.status);
+      if (response.status === 200) {
+        alert('Usuario atualizado com sucesso.');
+        router.push('/adms/');
+      } else {
+        alert('Erro ao atualizar usuario.');
+      }
+    } catch (error) {
+      alert('Erro ao atualizar usuario.');
+      console.log(error);
+    }
+    setLoading(false);
   }
 
   return (
@@ -80,12 +115,12 @@ export default function NewAdm() {
         <LayoutDashBoard>
           <div className={styles.container}>
             <div className={styles.topbar}>
-              <span className={styles.topbartitle}>Novo Administrador</span>
+              <span className={styles.topbartitle}>Edição de Administrador</span>
             </div>
             <div className={styles.card}>
               <div className={styles.formcontainer}>
-                <div className={styles.sectiontitle}>Dados do Administrador</div>
-                <form onSubmit={addAdminitrador}>
+                <div className={styles.sectiontitle}>Dados pessoais</div>
+                <form onSubmit={updateAdm}>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
                     <input
@@ -93,11 +128,12 @@ export default function NewAdm() {
                       type="text"
                       id="username"
                       name="username"
-                      maxLength='70'
+                      value={usernameValue}
+                      maxLength="70"
+                      placeholder="ex. João da Silva"
                       onChange={e => setUsernameValue(e.target.value)}
                       required />
                   </div>
-
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="email">Email:</label>
                     <input
@@ -105,7 +141,9 @@ export default function NewAdm() {
                       type="email"
                       id="email"
                       name="email"
-                      maxLength='70'
+                      value={emailValue}
+                      maxLength="70"
+                      placeholder="joao@gmail.com"
                       onChange={e => setEmailValue(e.target.value)}
                       required />
                   </div>
@@ -117,34 +155,15 @@ export default function NewAdm() {
                       type="text"
                       id="cpf"
                       name="cpf"
-                      value={cpfValue}
-                      maxLength='14'
+                      value={cpfMask(cpfValue)}
+                      placeholder="000.000.000-00"
                       onChange={e => handleChangeMaskCpf(e)}
-                      required />
+                      maxLength="14"
+                      disabled
+                      required
+                    />
                   </div>
 
-                  <div className={styles.formgroup}>
-                    <label className={styles.formlabel} htmlFor="senha">Senha:</label>
-                    <input
-                      className={styles.forminputtext}
-                      type="password"
-                      id="password"
-                      name="password"
-                      maxLength='70'
-                      onChange={e => setPasswordValue(e.target.value)}
-                      required
-                    />
-                    <label className={styles.formlabel} htmlFor="senha">Confirme sua senha:</label>
-                    <input
-                      className={styles.forminputtext}
-                      type="password"
-                      id="confirmpassword"
-                      name="confirmpassword"
-                      maxLength='70'
-                      onChange={e => setConfirmPasswordValue(e.target.value)}
-                      required
-                    />
-                  </div>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="tipo">Tipo:</label>
                     <select
@@ -164,15 +183,15 @@ export default function NewAdm() {
                     type="submit"
                     disabled={loading}
                   >
-                    {loading ? 'Carregando...' : 'Cadastrar'}
+                    {loading ? 'Carregando...' : 'Salvar'}
                   </button>
 
                 </form>
               </div>
             </div>
           </div>
-        </LayoutDashBoard >
-      </main >
+        </LayoutDashBoard>
+      </main>
     </>
   )
 }

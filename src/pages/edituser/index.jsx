@@ -16,6 +16,8 @@ export default function EditUser() {
 
   const [creditSelected, setCreditSelected] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('BOLETO');
 
   const [usernameValue, setUsernameValue] = useState('');
@@ -158,7 +160,7 @@ export default function EditUser() {
 
   const updateUsuario = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const { id } = router.query;
 
     let pt = '';
@@ -219,8 +221,10 @@ export default function EditUser() {
         alert('Erro ao atualizar usuario.');
       }
     } catch (error) {
+      alert('Erro ao atualizar usuario.');
       console.log(error);
     }
+    setLoading(false);
   }
 
   return (
@@ -435,7 +439,14 @@ export default function EditUser() {
                     </div>
                   </div>
 
-                  <button className={styles.button} type="submit">Enviar</button>
+                  <button
+                    className={styles.button}
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? 'Carregando...' : 'Salvar'}
+                  </button>
+
                 </form>
               </div>
             </div>

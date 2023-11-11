@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { api } from "../services/api";
 import localStorage from 'localStorage';
 
-
 export const AuthContext = createContext({});
 
 export function AuthProvider({ children }) {
@@ -16,8 +15,9 @@ export function AuthProvider({ children }) {
   const isAuthenticated = !!user;
 
   const fetchData = async (email, password) => {
+
     try {
-      const response = await fetch("http://localhost:3333/api/autenticacao/loginadm", {
+      const response = await fetch(process.env.BASE_URL_API+"/api/autenticacao/loginadm", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'

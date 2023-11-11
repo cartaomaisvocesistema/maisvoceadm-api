@@ -13,6 +13,8 @@ export default function EditPartner() {
 
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   const [partnernameValue, setPartnernameValue] = useState('');
   const [partnerbannerimgValue, setPartnerbannerimgValue] = useState('');
   const [partnerbannerValue, setPartnerbannerValue] = useState(null);
@@ -102,6 +104,8 @@ export default function EditPartner() {
   const updateParceiro = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const { id } = router.query;
 
     let oh = '';
@@ -150,8 +154,11 @@ export default function EditPartner() {
         alert('Erro ao atualizar o parceiro.');
       }
     } catch (error) {
+      alert('Erro ao atualizar o parceiro.');
       console.log(error)
     }
+
+    setLoading(false);
 
   }
 
@@ -344,9 +351,14 @@ export default function EditPartner() {
                   </select>
                 </div>
 
-                <button className={styles.button} type="submit">
-                  Enviar
+                <button
+                  className={styles.button}
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? 'Carregando...' : 'Salvar'}
                 </button>
+
               </form>
             </div>
           </div>

@@ -12,6 +12,8 @@ export default function NewPartner() {
 
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   const [partnernameValue, setPartnernameValue] = useState('');
   const [partnerbannerValue, setPartnerbannerValue] = useState(null);
   const [partnerdescriptionValue, setPartnerdescriptionValue] = useState('');
@@ -46,6 +48,7 @@ export default function NewPartner() {
 
   const addParceiro = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     let oh = '';
 
@@ -95,8 +98,11 @@ export default function NewPartner() {
         alert('Erro ao cadastrar parceiro.');
       }
     } catch (error) {
+      alert('Erro ao cadastrar parceiro.');
       console.log(error)
     }
+
+    setLoading(false);
 
   }
 
@@ -274,9 +280,14 @@ export default function NewPartner() {
                   </select>
                 </div>
 
-                <button className={styles.button} type="submit">
-                  Enviar
-                </button>
+                <button
+                    className={styles.button}
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? 'Carregando...' : 'Cadastrar'}
+                  </button>
+
               </form>
             </div>
           </div>

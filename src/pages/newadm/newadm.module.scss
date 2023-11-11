@@ -103,6 +103,10 @@
   background-color: #10122b;
 }
 
+.button[type="submit"]:active {
+  background-color: #ff570d;
+}
+
 .sectiontitle {
   display: flex;
   width: 100%;

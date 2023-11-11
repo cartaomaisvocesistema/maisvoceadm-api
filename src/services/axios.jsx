@@ -5,12 +5,13 @@ import { parseCookies } from 'nookies'
 import localStorage from 'localStorage';
 
 export function getAPIClient(ctx) {
+
     const token = localStorage.getItem('userToken')
 
     //const { 'nextauth.token': token } = parseCookies(ctx)
 
     const api = axios.create({
-        baseURL: 'http://localhost:3333'
+        baseURL: process.env.BASE_URL_API
     })
 
     api.interceptors.request.use(config => {

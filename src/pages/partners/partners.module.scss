@@ -179,7 +179,12 @@
 
 .btfilter:hover {
     cursor: pointer;
-    background-color: #1e204b;
+    background-color: #191b3c;
+}
+
+.btfilter:active {
+    cursor: pointer;
+    background-color: #191b3c;
 }
 
 .pagination {

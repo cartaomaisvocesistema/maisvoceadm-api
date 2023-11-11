@@ -105,7 +105,7 @@ export default function Users() {
         <LayoutDashBoard>
           <div className={styles.container}>
             <div className={styles.topbar}>
-              <span className={styles.topbartitle}>Usuários</span>
+              <span className={styles.topbartitle}>Administradores</span>
             </div>
             <div>
               {isFilterOpen && (
@@ -194,7 +194,7 @@ export default function Users() {
                     <td className={styles.tdcenter}>{cpfMask(user.cpf)}</td>
                     <td className={styles.tdcenter}>{user.email}</td>
                     <td className={`${styles.tdcenter} ${styles.tdcenter}`}>
-                      <Link href={`/edituser?id=${user.id}`}>
+                      <Link href={`/editadm?id=${user.id}`}>
                         <FaEdit />
                       </Link>
                     </td>
@@ -211,8 +211,8 @@ export default function Users() {
             {isModalOpen && (
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
-                  <h2>Excluir Usuário</h2>
-                  <p>Deseja realmente excluir este usuário?</p>
+                  <h2>Excluir Administrador</h2>
+                  <p>Deseja realmente excluir este administrador?</p>
                   <div className={styles.modalButtons}>
                     <button onClick={handleDeleteUser}>Excluir</button>
                     <button onClick={() => setIsModalOpen(false)}>Cancelar</button>
