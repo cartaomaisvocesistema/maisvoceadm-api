@@ -5,7 +5,7 @@ const nextConfig = {
     domains: ['partnersimages.s3.amazonaws.com']
   },
   env: {
-    BASE_URL_API: 'http://maisvoceapi.cartaomaisvcadm.com.br'
+    BASE_URL_API: 'https://maisvoceapi.cartaomaisvcadm.com.br'
   },
 }
 
