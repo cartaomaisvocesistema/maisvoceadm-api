@@ -341,9 +341,9 @@ export default function NewUser() {
                             checked={agreementTypeValue === 'PLUS'}
                             onChange={e => handleOptionsAgreement(e)}
                           />
-                          <span className={styles.checkbox1}><b>Plano Plus - R$119,90</b></span>
+                          <span className={styles.checkbox1}><b>Plano Plus - R$59,90</b></span>
                           <br />
-                          <span className={styles.paragraph2}>No Plano Plus do Cartão Mais Você, com uma mensalidade de R$119,90, o cliente tem direito a todos os descontos de parceiros e acesso livre às consultas na clinica Marmed, parceira do Cartão Mais Você. Neste plano é possível incluir até 4 dependentes extras, com o adicional de 49,90 na assinatura para cada dependente extra.</span>
+                          <span className={styles.paragraph2}>No Plano Plus do Cartão Mais Você, com uma mensalidade de R$59,90, o cliente tem direito a todos os descontos de parceiros e acesso livre às consultas na clinica Marmed, parceira do Cartão Mais Você. Neste plano é possível incluir até 4 dependentes extras, com o adicional de 29,90 na assinatura para cada dependente extra.</span>
                         </label>
                       </div>
                     </div>
