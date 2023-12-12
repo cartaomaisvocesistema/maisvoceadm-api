@@ -91,6 +91,27 @@ export default function NewDependent() {
       .replace(/(\d)(\d{4})$/, "$1-$2")
   }
 
+
+  const [birthDateValue, setBirthDateValue] = useState('');
+  
+  const handleChangeMaskBirthDate = (e) => {
+    const { value } = e.target;
+    setBirthDateValue(maskBirthDate(value));
+  };
+
+  const maskBirthDate = (value) => {
+    if (!value) return '';
+
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, '$1/$2')
+      .replace(/(\d{2})(\d)/, '$1/$2')
+      .replace(/(\d{4})\d+?$/, '$1');
+  };
+
+
+
+
   const addDependente = async (e) => {
     e.preventDefault();
 
@@ -106,7 +127,8 @@ export default function NewDependent() {
         phone: phoneValue.toString().replace(/\D/g, ''),
         password: passwordValue,
         type: typeValue,
-        cartaotitular: cardnumber
+        cartaotitular: cardnumber,
+        dateOfBirth: birthDateValue
       }
 
       console.log(newDependent);
@@ -161,7 +183,7 @@ export default function NewDependent() {
                       name="email"
                       maxLength='70'
                       onChange={e => setEmailValue(e.target.value)}
-                      required />
+                       />
                   </div>
 
                   <div className={styles.formgroup}>
@@ -178,6 +200,21 @@ export default function NewDependent() {
                   </div>
 
                   <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="birthDate">Data de Nascimento</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="birthDate"
+                      name="birthDate"
+                      maxLength="10"
+                      value={birthDateValue}
+                      placeholder="DD/MM/YYYY"
+                      onChange={(e) => handleChangeMaskBirthDate(e)}
+                      required
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="endereco">Endereço:</label>
                     <input
                       className={styles.forminputtext}
@@ -186,7 +223,7 @@ export default function NewDependent() {
                       name="address"
                       maxLength='70'
                       onChange={e => setAddressValue(e.target.value)}
-                      required />
+                       />
                   </div>
 
                   <div className={styles.formgroup}>
@@ -199,7 +236,7 @@ export default function NewDependent() {
                       value={phoneValue}
                       maxLength='15'
                       onChange={e => handleChangeMaskPhone(e)}
-                      required />
+                       />
                   </div>
 
                   <div className={styles.formgroup}>

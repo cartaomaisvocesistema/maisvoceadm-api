@@ -20,6 +20,7 @@ export default function Users() {
   const [userList, setuserList] = useState([]);
   const [EmDiaQtdValue, setEmDiaQtdValue] = useState(null);
   const [AtrasadoQtdValue, setAtrasadoQtdValue] = useState(null);
+  const [deleteReason, setDeleteReason] = useState(''); // Adicionado estado para a razão
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -156,7 +157,9 @@ export default function Users() {
 
   const deleteUsuarios = async () => {
     try {
-      const response = await api.delete(`/api/usuarios/${selectedUserId}`)
+      const response = await api.delete(`/api/usuarios/${selectedUserId}`, {
+        data: { reason: deleteReason },
+      });    
     } catch (error) {
       console.log(error);
     }
@@ -423,6 +426,27 @@ export default function Users() {
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
                   <h2>Excluir Usuário</h2>
+                  <div className={styles.formgroup}>
+                  <label className={styles.formlabel} htmlFor="partnerdescription">
+                    Motivo de exclusão de usuário:
+                  </label>
+                  <textarea
+                    className={`${styles.forminputtext} ${styles.forminputtextarea}`}
+                    id="partnerdescription"
+                    name="partnerdescription"
+                    value={deleteReason}
+                    maxLength='250'
+                    onChange={e => setDeleteReason(e.target.value)}
+                    required
+                  />
+                </div>
+                  
+                  {/* <input
+                    type="text"
+                    placeholder="Digite a razão da deleção"
+                    value={deleteReason}
+                    onChange={(e) => setDeleteReason(e.target.value)}
+                  /> */}
                   <p>Deseja realmente excluir este usuário?</p>
                   <div className={styles.modalButtons}>
                     <button onClick={handleDeleteUser}>Excluir</button>

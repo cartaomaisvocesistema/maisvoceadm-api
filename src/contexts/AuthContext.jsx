@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
 
   const isAuthenticated = !!user;
 
-  const fetchData = async (email, password) => {
+  const fetchData = async (cpf, password) => {
 
     try {
       const response = await fetch(process.env.BASE_URL_API+"/api/autenticacao/loginadm", {
@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: email,
+          cpf: cpf.toString().replace(/\.|-/gm, ''),
           password: password
         })
       });
@@ -48,9 +48,9 @@ export function AuthProvider({ children }) {
 
   }, [])
   // seria o lugar correto para fazer a chamada na api, trazer o token e dados do usuario
-  async function signIn({ email, password }) {
+  async function signIn({ cpf, password }) {
     try {
-      const response = await fetchData(email, password);
+      const response = await fetchData(cpf, password);
       const data = await response.json();
       if (data) {
         setCookie(undefined, 'nextAuth.token', data.token, {
@@ -59,7 +59,7 @@ export function AuthProvider({ children }) {
         api.defaults.headers['Authorization'] = `Bearer ${data.token}`;
         localStorage.setItem('userToken', data.token);
         localStorage.setItem('userId', data.id);
-        setUser(data.email)
+        setUser(data.cpf)
         setToken(data.token)
         Router.push('/dashboard')
       } else {

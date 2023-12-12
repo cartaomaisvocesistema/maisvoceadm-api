@@ -127,7 +127,25 @@ export default function NewUser() {
       .replace(/(\d)(\d{4})$/, "$1-$2")
   }
 
-  const addUsuario = async (e) => {
+    const [birthDateValue, setBirthDateValue] = useState('');
+  
+    const handleChangeMaskBirthDate = (e) => {
+      const { value } = e.target;
+      setBirthDateValue(maskBirthDate(value));
+    };
+  
+    const maskBirthDate = (value) => {
+      if (!value) return '';
+  
+      return value
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .replace(/(\d{4})\d+?$/, '$1');
+    };
+
+
+  const confirmarDadosEPagamento = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (passwordValue != confirmPasswordValue) {
@@ -155,9 +173,10 @@ export default function NewUser() {
         phone: phoneValue.toString().replace(/\D/g, ''),
         password: passwordValue,
         type: typeUserValue,
-        selectedoption: opcaoSelecionada,
+        selectedOption: opcaoSelecionada,
         paymenttype: pt,
-        agreementType: agreementTypeValue
+        agreementType: agreementTypeValue,
+        dateOfBirth: birthDateValue
       }
 
       let newUser = {
@@ -197,7 +216,78 @@ export default function NewUser() {
     setLoading(false);
 
   }
+  
+  const cadastrarApenasDados = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (passwordValue != confirmPasswordValue) {
+      alert('Campos de senha e confirme sua senha estão diferentes');
+    } else {
 
+      let pt = '';
+      if (opcaoSelecionada === 'UNDEFINED') {
+        pt = paymentTypeValue;
+      } else {
+        if (opcaoSelecionada === 'BOLETO') {
+          pt = '5';
+        } else {
+          if (opcaoSelecionada === 'CREDIT_CARD') {
+            pt = '6';
+          }
+        }
+      }
+
+      const newUser1 = {
+        username: usernameValue,
+        email: emailValue,
+        cpf: cpfValue.toString().replace(/\.|-/gm, ''),
+        address: addressValue,
+        phone: phoneValue.toString().replace(/\D/g, ''),
+        password: passwordValue,
+        type: typeUserValue,
+        selectedOption: opcaoSelecionada,
+        paymenttype: pt,
+        agreementType: agreementTypeValue,
+        dateOfBirth: birthDateValue
+      }
+
+      let newUser = {
+        ...newUser1
+      };
+
+
+      if (opcaoSelecionada === 'CREDIT_CARD') {
+        const newUserCredit = {
+          cardnumber: cardNumberValue.replace(/\s/g, ""),
+          nametitular: nameTitularValue,
+          validade: validadeValue,
+          ccv: cvvValue
+        }
+
+        newUser = {
+          ...newUser1,
+          ...newUserCredit
+        };
+
+      }
+
+      try {
+        const response = await api.post(`/api/usuarios/userdata`, newUser)
+        if (response.status === 200) {
+          alert('Dados do Usuario cadastrados com sucesso.');
+          router.push('/users/');
+        } else {
+          alert('Erro ao cadastrar usuario.');
+        }
+      } catch (error) {
+        alert('Erro ao cadastrar usuario.');
+        console.log(error)
+      }
+
+    }
+    setLoading(false);
+
+  }
   return (
     <>
       <main>
@@ -209,7 +299,7 @@ export default function NewUser() {
             <div className={styles.card}>
               <div className={styles.formcontainer}>
                 <div className={styles.sectiontitle}>Dados pessoais</div>
-                <form onSubmit={addUsuario}>
+                <form>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
                     <input
@@ -233,7 +323,7 @@ export default function NewUser() {
                       maxLength="70"
                       placeholder="joao@gmail.com"
                       onChange={e => setEmailValue(e.target.value)}
-                      required />
+                      />
                   </div>
 
                   <div className={styles.formgroup}>
@@ -251,6 +341,21 @@ export default function NewUser() {
                   </div>
 
                   <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="birthDate">Data de Nascimento</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="birthDate"
+                      name="birthDate"
+                      maxLength="10"
+                      value={birthDateValue}
+                      placeholder="DD/MM/YYYY"
+                      onChange={(e) => handleChangeMaskBirthDate(e)}
+                      required
+                    />
+                  </div>
+
+                  <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="address">Endereço:</label>
                     <input
                       className={styles.forminputtext}
@@ -260,7 +365,7 @@ export default function NewUser() {
                       maxLength="70"
                       placeholder="ex. Rua José Pedro da Silva"
                       onChange={e => setAddressValue(e.target.value)}
-                      required />
+                      />
                   </div>
 
                   <div className={styles.formgroup}>
@@ -274,7 +379,7 @@ export default function NewUser() {
                       value={phoneValue}
                       placeholder="(53)99999-9999"
                       onChange={e => handleChangeMaskPhone(e)}
-                      required />
+                      />
                   </div>
 
                   <div className={styles.formgroup}>
@@ -459,13 +564,22 @@ export default function NewUser() {
                       </div>
                     </div>
                   </div>
-
                   <button
                     className={styles.button}
                     type="submit"
+                    onClick={cadastrarApenasDados}
                     disabled={loading}
                   >
-                    {loading ? 'Carregando...' : 'Cadastrar'}
+                    {loading ? 'Carregando...' : 'Cadastrar Apenas Dados'}
+                  </button>
+                  <br/>
+                  <button
+                    className={styles.button}
+                    type="submit"
+                    onClick={confirmarDadosEPagamento}
+                    disabled={loading}
+                  >
+                    {loading ? 'Carregando...' : 'Confirmar Dados e Forma de Pagamento'}
                   </button>
                 </form>
               </div>

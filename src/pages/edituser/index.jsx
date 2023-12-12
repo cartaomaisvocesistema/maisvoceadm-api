@@ -25,7 +25,9 @@ export default function EditUser() {
   const [cpfValue, setCpfValue] = useState('');
   const [addressValue, setAddressValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
+  const [paymentstatus, setPaymentstatus] = useState('');
 
+  
   const [alterPaymentTypeValue, setAlterPaymentTypeValue] = useState(false);
 
   const [paymentTypeValue, setPaymentTypeValue] = useState('1');
@@ -46,12 +48,19 @@ export default function EditUser() {
     setCreditSelected(!creditSelected);
   };
 
+  
+  const getPaymentStatus = async () => {
+    try {
+        return paymentstatus;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const recoveryUser = async () => {
     try {
       const { id } = router.query;
       const response = await api.get(`/api/usuarios/${id}`)
       const data = (response).data;
-
       if (data.username)
         setUsernameValue(data.username);
 
@@ -64,8 +73,14 @@ export default function EditUser() {
       if (data.address)
         setAddressValue(data.address);
 
+      if (data.paymentstatus)
+      setPaymentstatus(data.paymentstatus);
+        
+
       if (data.phone)
         setPhoneValue(data.phone);
+
+
     } catch (error) {
       console.log(error);
     }
@@ -226,6 +241,7 @@ export default function EditUser() {
     }
     setLoading(false);
   }
+  
 
   return (
     <>
@@ -438,15 +454,24 @@ export default function EditUser() {
                       </div>
                     </div>
                   </div>
-
+                 
+                  
                   <button
                     className={styles.button}
                     type="submit"
                     disabled={loading}
                   >
-                    {loading ? 'Carregando...' : 'Salvar'}
+                    {loading ? 'Carregando...' : 'Salvar Alterações'}
                   </button>
-
+                  <br/>
+                  
+                  <button
+                    className={styles.button}
+                    type="submit"
+                    disabled={loading || getPaymentStatus !== "NAO_CONFIRMADO"}
+                  >
+                    {loading ? 'Carregando...' : 'Confirmar Forma De Pagamento'}
+                  </button>
                 </form>
               </div>
             </div>

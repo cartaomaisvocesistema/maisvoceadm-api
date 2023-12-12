@@ -54,10 +54,7 @@ export default function UsersReport() {
         cardNumber: '',
         username: '',
         cpf: '',
-        email: '',
-        phone: '',
-        address: '',
-        paymentstatus: ''
+        reasonForRemoval: ''
     });
 
     const cpfMask = value => {
@@ -94,10 +91,7 @@ export default function UsersReport() {
             filterValues.username = '';
             filterValues.cardNumber = '';
             filterValues.cpf = '';
-            filterValues.email = '';
-            filterValues.phone = '';
-            filterValues.address = '';
-            filterValues.paymentstatus = '';
+            filterValues.reasonForRemoval = '';
 
             const response = await api.post('/api/usuarios/getbyfilter', filterValues)
             const result = (response).data;
@@ -115,7 +109,7 @@ export default function UsersReport() {
 
     const getListaUsuarios = async () => {
         try {
-            const response = await api.get('/api/usuarios/')
+            const response = await api.get('/api/usuarios/deletedusers')
             const result = (response).data;
             setuserList(result.users.filter(user => user.type !== 'ADM'))
         } catch (error) {
@@ -212,7 +206,7 @@ export default function UsersReport() {
                     </div>
                 </div>
                 <div className={styles.ctusertitle}>
-                    Histórico de usuários
+                    Histórico de usuários Removidos
                 </div>
                 <div>
                     {isFilterOpen && (
@@ -254,63 +248,20 @@ export default function UsersReport() {
                                         setFilterValues({ ...filterValues, cpf: e.target.value })
                                     }
                                 />
-                            </div>
-
+                            </div>   
                             <div className={styles.formgroup}>
-                                <label className={styles.formlabel} htmlFor="email">Email:</label>
+                                <label className={styles.formlabel} htmlFor="nome">Motivo da Deleção do usuário:</label>
                                 <input
                                     className={styles.forminputtext}
                                     type="text"
-                                    placeholder="Email"
-                                    value={filterValues.email}
+                                    placeholder="Motivo"
+                                    value={filterValues.reasonForRemoval}
                                     onChange={(e) =>
-                                        setFilterValues({ ...filterValues, email: e.target.value })
+                                        setFilterValues({ ...filterValues, reasonForRemoval: e.target.value })
                                     }
                                 />
-                            </div>
+                            </div>                          
 
-                            <div className={styles.formgroup}>
-                                <label className={styles.formlabel} htmlFor="paymenttype1">Status de pagamento:</label>
-                                <select
-                                    className={styles.forminputtext}
-                                    id="paymenttype1"
-                                    name="paymenttype1"
-                                    value={filterValues.paymentstatus}
-                                    onChange={(e) =>
-                                        setFilterValues({ ...filterValues, paymentstatus: e.target.value })
-                                    }
-                                >
-                                    <option value="">Selecione</option>
-                                    <option value="EM_DIA">Em dia</option>
-                                    <option value="ATRASADO">Atrasado</option>
-                                </select>
-                            </div>
-
-                            <div className={styles.formgroup}>
-                                <label className={styles.formlabel} htmlFor="nome">Telefone:</label>
-                                <input
-                                    className={styles.forminputtext}
-                                    type="text"
-                                    placeholder="Telefone"
-                                    value={filterValues.phone}
-                                    onChange={(e) =>
-                                        setFilterValues({ ...filterValues, phone: e.target.value })
-                                    }
-                                />
-                            </div>
-
-                            <div className={styles.formgroup}>
-                                <label className={styles.formlabel} htmlFor="nome">Endereço:</label>
-                                <input
-                                    className={styles.forminputtext}
-                                    type="text"
-                                    placeholder="Endereço"
-                                    value={filterValues.address}
-                                    onChange={(e) =>
-                                        setFilterValues({ ...filterValues, address: e.target.value })
-                                    }
-                                />
-                            </div>
                             <div className={styles.ctbuttons}>
                                 <button className={styles.button} onClick={handleFilterClear}>Limpar</button>
                                 <button className={styles.buttongray} onClick={() => setIsFilterOpen(!isFilterOpen)}>Cancelar</button>
@@ -328,10 +279,7 @@ export default function UsersReport() {
                             <th className={styles.th}>Nº Cartão</th>
                             <th className={styles.th}>Nome</th>
                             <th className={styles.th}>CPF</th>
-                            <th className={styles.th}>Email</th>
-                            <th className={styles.th}>Status</th>
-                            <th className={styles.th}>Telefone</th>
-                            <th className={styles.th}>Endereço</th>
+                            <th className={styles.th}>Motivo da Deleção do usuário:</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -340,14 +288,7 @@ export default function UsersReport() {
                                 <td className={styles.tdcenter}>{user.cardNumber}</td>
                                 <td className={styles.tdcenter}>{user.username}</td>
                                 <td className={styles.tdcenter}>{cpfMask(user.cpf)}</td>
-                                <td className={styles.tdcenter}>{user.email}</td>
-                                <td className={styles.tdcenter}>
-                                    <div className={styles.containerdots}>
-                                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : (user.paymentstatus == 'ATRASADO') ? styles.dotsred : styles.nodots}></div>
-                                    </div>
-                                </td>
-                                <td className={styles.tdcenter}>{phoneMask(user.phone)}</td>
-                                <td className={styles.tdcenter}>{user.address}</td>
+                                <td className={styles.tdcenter}>{user.reasonForRemoval}</td>
                             </tr>
                         ))}
                     </tbody>

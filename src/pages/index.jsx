@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 {/*import { Inter } from '@next/font/google';*/ }
+import React, { useState } from "react";
 
 import LayoutLandingPage from '@/layouts/LayoutLandingpage';
 import SectionSlider from '@/components/landingpage/SectionSlider';
@@ -24,13 +25,30 @@ import { useContext, useEffect } from 'react';
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
-  const { signIn } = useContext(AuthContext)
+  const [cpfValue, setCpfValue] = useState('');
+
+  const { signIn } = useContext(AuthContext);
 
   //aqui seria o melhor lugar para fazer o tratamento de erros do backend , senha ou email invalido, essas coisas
   async function handleSignIn(data) {
     await signIn(data)
   }
 
+
+  function handleChangeMaskCpf(e) {
+    const { value } = e.target;
+    setCpfValue(cpfMask(value))
+  }
+
+  const cpfMask = value => {
+    if (!value) return ""
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+  }
   return (
     <>
       <Head>
@@ -53,8 +71,9 @@ export default function Home() {
                 <form className={styles.loginleft} onSubmit={handleSubmit(handleSignIn)}>
                   <span className={styles.logintitle}><span className={styles.logintitlename}>Login</span></span>
                   <input
-                    {...register('email')}
-                    className={styles.logininput} type="text" name="email" placeholder="login" required />
+                    {...register('cpf')}
+                    className={styles.logininput} type="text" id="cpf" maxLength="14" 
+                    name="cpf" value={cpfValue} placeholder="000.000.000-00" onChange={e => handleChangeMaskCpf(e)} required />
                   <input
                     {...register('password')}
                     className={styles.logininput} type="password" name="password" placeholder="senha" required />

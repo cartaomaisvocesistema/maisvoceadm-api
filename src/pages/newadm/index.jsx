@@ -37,6 +37,26 @@ export default function NewAdm() {
       .replace(/(\d{3})(\d{1,2})/, '$1-$2')
       .replace(/(-\d{2})\d+?$/, '$1')
   }
+
+
+  const [birthDateValue, setBirthDateValue] = useState('');
+  
+  const handleChangeMaskBirthDate = (e) => {
+    const { value } = e.target;
+    setBirthDateValue(maskBirthDate(value));
+  };
+
+  const maskBirthDate = (value) => {
+    if (!value) return '';
+
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d)/, '$1/$2')
+      .replace(/(\d{2})(\d)/, '$1/$2')
+      .replace(/(\d{4})\d+?$/, '$1');
+  };
+
+
  
   const addAdminitrador = async (e) => {
     e.preventDefault();
@@ -52,7 +72,8 @@ export default function NewAdm() {
         email: emailValue,
         cpf: cpfValue.toString().replace(/\.|-/gm, ''),
         password: passwordValue,
-        type: typeValue
+        type: typeValue,
+        dateOfBirth: birthDateValue
       }
 
       try {
@@ -107,7 +128,7 @@ export default function NewAdm() {
                       name="email"
                       maxLength='70'
                       onChange={e => setEmailValue(e.target.value)}
-                      required />
+                      />
                   </div>
 
                   <div className={styles.formgroup}>
@@ -121,6 +142,21 @@ export default function NewAdm() {
                       maxLength='14'
                       onChange={e => handleChangeMaskCpf(e)}
                       required />
+                  </div>
+
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="birthDate">Data de Nascimento</label>
+                    <input
+                      className={styles.forminputtext}
+                      type="text"
+                      id="birthDate"
+                      name="birthDate"
+                      maxLength="10"
+                      value={birthDateValue}
+                      placeholder="DD/MM/YYYY"
+                      onChange={(e) => handleChangeMaskBirthDate(e)}
+                      required
+                    />
                   </div>
 
                   <div className={styles.formgroup}>
