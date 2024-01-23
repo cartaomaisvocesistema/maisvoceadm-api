@@ -241,8 +241,77 @@ export default function EditUser() {
     }
     setLoading(false);
   }
-  
 
+  const confirmUsuario = async (e) => {
+    console.log("cheguei aaaquiiii");
+    e.preventDefault();
+    setLoading(true);
+    const { id } = router.query;
+
+    let pt = '';
+    if (opcaoSelecionada === 'UNDEFINED') {
+      pt = paymentTypeValue;
+    } else {
+      if (opcaoSelecionada === 'BOLETO') {
+        pt = '5';
+      } else {
+        if (opcaoSelecionada === 'CREDIT_CARD') {
+          pt = '6';
+        }
+      }
+    }
+
+    const updatedUser1 = {
+      id: id,
+      username: usernameValue,
+      email: emailValue,
+      cpf: cpfValue.toString().replace(/\.|-/gm, ''),
+      address: addressValue,
+      phone: phoneValue.toString().replace(/\D/g, ''),
+      alterPaymentType: alterPaymentTypeValue
+    }
+
+    let updatedUser = {
+      ...updatedUser1
+    };
+
+    if (alterPaymentTypeValue) {
+      updatedUser.paymenttype = pt
+      updatedUser.newPaymentType = opcaoSelecionada
+
+      if (opcaoSelecionada === 'CREDIT_CARD') {
+        const updatedUserCredit = {
+          cardnumber: cardNumberValue.replace(/\s/g, ""),
+          nametitular: nameTitularValue,
+          validade: validadeValue,
+          ccv: cvvValue
+        }
+
+        updatedUser = {
+          ...updatedUser,
+          ...updatedUser1,
+          ...updatedUserCredit
+        };
+
+      }
+    }
+
+    try {
+      const response = await api.post(`/api/usuarios/confirmpayment/${id}`, updatedUser)
+      console.log(response.status);
+      if (response.status === 200) {
+        alert('Usuario atualizado com sucesso.');
+        router.push('/users/');
+      } else {
+        alert('Erro ao atualizar usuario.');
+      }
+    } catch (error) {
+      alert('Erro ao atualizar usuario.');
+      console.log(error);
+    }
+    setLoading(false);
+  }
+  
   return (
     <>
       <main>
@@ -254,7 +323,7 @@ export default function EditUser() {
             <div className={styles.card}>
               <div className={styles.formcontainer}>
                 <div className={styles.sectiontitle}>Dados pessoais</div>
-                <form onSubmit={updateUsuario}>
+                <form>
                   <div className={styles.formgroup}>
                     <label className={styles.formlabel} htmlFor="nome">Nome:</label>
                     <input
@@ -459,6 +528,7 @@ export default function EditUser() {
                   <button
                     className={styles.button}
                     type="submit"
+                    onClick={updateUsuario}
                     disabled={loading}
                   >
                     {loading ? 'Carregando...' : 'Salvar Alterações'}
@@ -468,7 +538,8 @@ export default function EditUser() {
                   <button
                     className={styles.button}
                     type="submit"
-                    disabled={loading || getPaymentStatus !== "NAO_CONFIRMADO"}
+                    onClick={confirmUsuario}
+                    disabled={loading}
                   >
                     {loading ? 'Carregando...' : 'Confirmar Forma De Pagamento'}
                   </button>

@@ -77,7 +77,7 @@ export default function UsersReport() {
 
     const handleFilterSubmit = async () => {
         try {
-            const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+            const response = await api.post('/api/usuarios/deletedusers', filterValues)
             const result = (response).data;
             setuserList(result.users)
             setIsFilterOpen(!isFilterOpen);
@@ -93,7 +93,7 @@ export default function UsersReport() {
             filterValues.cpf = '';
             filterValues.reasonForRemoval = '';
 
-            const response = await api.post('/api/usuarios/getbyfilter', filterValues)
+            const response = await api.post('/api/usuarios/deletedusers', filterValues)
             const result = (response).data;
             setuserList(result.users)
             setIsFilterOpen(!isFilterOpen)
@@ -109,7 +109,7 @@ export default function UsersReport() {
 
     const getListaUsuarios = async () => {
         try {
-            const response = await api.get('/api/usuarios/deletedusers')
+            const response = await api.post('/api/usuarios/deletedusers')
             const result = (response).data;
             setuserList(result.users.filter(user => user.type !== 'ADM'))
         } catch (error) {

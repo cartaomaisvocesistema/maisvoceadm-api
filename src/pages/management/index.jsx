@@ -32,12 +32,12 @@ export default function Management() {
                             </div>
                         </div>
                     </Link>
-                    <Link href={'/messages'}>
+                    <Link href={'/activityreport'}>
                         <div className={styles.card}>
                             <div className={styles.cardusers}>
                                 <div className={styles.ctactives}>
                                     <MdOutlineMessage className={styles.mainlistitemicon} />
-                                    <span className={styles.mainlistitemdescription}>Enviar mensagens para clientes</span>
+                                    <span className={styles.mainlistitemdescription}>Relatório de Atividades</span>
                                 </div>
                             </div>
                         </div>
