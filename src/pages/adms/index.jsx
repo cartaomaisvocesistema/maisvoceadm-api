@@ -20,6 +20,8 @@ export default function Users() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [deleteReason, setDeleteReason] = useState(''); // Adicionado estado para a razão
+
   const [filterValues, setFilterValues] = useState({
     cardNumber: '',
     username: '',
@@ -93,7 +95,9 @@ export default function Users() {
 
   const deleteUsuarios = async () => {
     try {
-      const response = await api.delete(`/api/usuarios/${selectedUserId}`)
+      const response = await api.delete(`/api/usuarios/${selectedUserId}`, {
+        data: { reason: deleteReason },
+      })
     } catch (error) {
       console.log(error);
     }
@@ -211,8 +215,21 @@ export default function Users() {
             {isModalOpen && (
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
-                  <h2>Excluir Administrador</h2>
-                  <p>Deseja realmente excluir este administrador?</p>
+                <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="partnerdescription">
+                      Motivo de exclusão de usuário:
+                    </label>
+                    <textarea
+                      className={`${styles.forminputtext} ${styles.forminputtextarea}`}
+                      id="partnerdescription"
+                      name="partnerdescription"
+                      value={deleteReason}
+                      maxLength='250'
+                      onChange={e => setDeleteReason(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <p>Deseja realmente excluir este usuário?</p>
                   <div className={styles.modalButtons}>
                     <button onClick={handleDeleteUser}>Excluir</button>
                     <button onClick={() => setIsModalOpen(false)}>Cancelar</button>

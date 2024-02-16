@@ -42,10 +42,10 @@ export default function NewDependent() {
       const titular = result.users.filter(user => user.type == 'C_TITULAR')[0];
 
       if (titular.agreementType === 'STANDARD') {
-        let message = `${titular.username} possui ${dependentFree.length} dependente(s) gratuito(s) do total de 2`;
+        let message = `${titular.username} possui ${dependentFree.length} dependente(s) gratuito(s) do total de 4`;
         let type = 'C_DEPENDENTE_GRATUITO';
-        if (dependentFree.length == 2) {
-          message = `${titular.username} já possui 2 dependentes gratuitos, e possui ${dependentExtra.length} dependentes extra do total de 2.`;
+        if (dependentFree.length == 4) {
+          message = `${titular.username} já possui 4 dependentes gratuitos, e possui ${dependentExtra.length} dependentes extra.`;
           type = 'C_DEPENDENTE_EXTRA';
         }
         setypeValue(type);

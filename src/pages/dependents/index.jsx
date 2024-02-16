@@ -32,6 +32,7 @@ export default function Dependents() {
   const [selectedDependentId, setSelectedDependentId] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSelectedUserOpen, setIsSelectedUserOpen] = useState(false);
+  const [deleteReason, setDeleteReason] = useState(''); // Adicionado estado para a razão
   const [filterValues, setFilterValues] = useState({
     cardNumber: '',
     username: '',
@@ -105,12 +106,7 @@ export default function Dependents() {
       const result = (response).data;
       const dpList = result.users.filter(user => user.type !== 'C_TITULAR')
       setDependentsList(dpList)
-      if (dpList.length >= 4) {
-        setBtnNewDependentShow(false);
-      } else {
-        setBtnNewDependentShow(true);
-      }
-
+      setBtnNewDependentShow(true);  
       setTitularValue(result.users.filter(user => user.type == 'C_TITULAR')[0]);
     } catch (error) {
       console.log(error);
@@ -119,7 +115,9 @@ export default function Dependents() {
 
   const deleteDependentes = async () => {
     try {
-      const response = await api.delete(`/api/usuarios/${selectedDependentId}`)
+      const response = await api.delete(`/api/usuarios/${selectedDependentId}`, {
+        data: { reason: deleteReason },
+      })
     } catch (error) {
       console.log(error);
     }
@@ -375,6 +373,20 @@ export default function Dependents() {
               <div className={styles.modal}>
                 <div className={styles.modalContent}>
                   <h2>Excluir Usuário</h2>
+                  <div className={styles.formgroup}>
+                    <label className={styles.formlabel} htmlFor="partnerdescription">
+                      Motivo de exclusão de usuário:
+                    </label>
+                    <textarea
+                      className={`${styles.forminputtext} ${styles.forminputtextarea}`}
+                      id="partnerdescription"
+                      name="partnerdescription"
+                      value={deleteReason}
+                      maxLength='250'
+                      onChange={e => setDeleteReason(e.target.value)}
+                      required
+                    />
+                  </div>
                   <p>Deseja realmente excluir este usuário?</p>
                   <div className={styles.modalButtons}>
                     <button onClick={handleDeleteUser}>Excluir</button>

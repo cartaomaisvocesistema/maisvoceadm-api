@@ -78,7 +78,7 @@ export default function DashBoard({ props }) {
             <div className={styles.topbar}>
               <span className={styles.topbartitle}>Home</span>
             </div>
-            {/* <div className={styles.containercards}>
+            <div className={styles.containercards}>
               <Link href={'/users'} className={styles.card}>
                 <div className={styles.cardusers}>
                   <span className={styles.cardtitle}>Usuários</span>
@@ -97,7 +97,7 @@ export default function DashBoard({ props }) {
                   </div>
                 </div>
               </Link>
-            </div> */}
+            </div>
             <div className={styles.containercards}>
               {userValue.type === 'ADM' &&
                 <>
@@ -110,7 +110,7 @@ export default function DashBoard({ props }) {
                       </div>
                     </div>
                   </Link>
-                  <Link href={'/partners'} className={styles.card}>
+                  <Link href={'/management'} className={styles.card}>
                     <div className={styles.cardfinancial}>
                       <span className={styles.cardtitle}>Gestão</span>
                     </div>

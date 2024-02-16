@@ -54,7 +54,7 @@ export default function SideBar() {
                             </div>
                         </li>
                     </Link>
-                    {/* <Link href='/users/'>
+                    <Link href='/users/'>
                         <li className={isCurrentRoute('/users')}>
                             <div className={styles.linkgroup}>
                                 <MdPerson className={styles.sideliicon} />
@@ -69,7 +69,7 @@ export default function SideBar() {
                                 <span className={styles.sidelilabel}>Pagamentos</span>
                             </div>
                         </li>
-                    </Link> */}
+                    </Link>
                     {userValue.type === 'ADM' &&
                         <Link href='./partners'>
                             <li className={isCurrentRoute('/partners')}>
@@ -80,7 +80,7 @@ export default function SideBar() {
                             </li>
                         </Link>
                     }
-                    {/* {userValue.type === 'ADM' &&
+                    {userValue.type === 'ADM' &&
                         <Link href='./management'>
                             <li className={isCurrentRoute('/management')}>
                                 <div className={styles.linkgroup}>
@@ -89,7 +89,7 @@ export default function SideBar() {
                                 </div>
                             </li>
                         </Link>
-                    } */}
+                    }
                     {userValue.type === 'ADM' &&
                         <Link href='./adms'>
                             <li className={isCurrentRoute('/adms')}>

@@ -159,7 +159,7 @@ export default function Users() {
     try {
       const response = await api.delete(`/api/usuarios/${selectedUserId}`, {
         data: { reason: deleteReason },
-      });    
+      });
     } catch (error) {
       console.log(error);
     }
@@ -395,8 +395,9 @@ export default function Users() {
                     <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{cpfMask(user.cpf)}</td>
                     <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{user.email}</td>
                     <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>
-                      <div className={styles.containerdots} onClick={() => handleRowClick(user)}>
-                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : (user.paymentstatus == 'ATRASADO') ? styles.dotsred : styles.nodots}></div>
+                      <div className={(user.paymentstatus === 'EM_DIA') ? styles.dotsgreen : (user.paymentstatus === 'ATRASADO') ? styles.dotsred : styles.nodots}>
+                        {(user.paymentstatus === 'NAO_CONFIRMADO') && 'NCF'}
+                        {(user.paymentstatus !== 'EM_DIA' && user.paymentstatus !== 'ATRASADO' && user.paymentstatus !== 'NAO_CONFIRMADO') && 'DEP'}
                       </div>
                     </td>
                     <td className={styles.tdcenter} onClick={() => handleRowClick(user)}>{phoneMask(user.phone)}</td>
@@ -427,20 +428,20 @@ export default function Users() {
                 <div className={styles.modalContent}>
                   <h2>Excluir Usuário</h2>
                   <div className={styles.formgroup}>
-                  <label className={styles.formlabel} htmlFor="partnerdescription">
-                    Motivo de exclusão de usuário:
-                  </label>
-                  <textarea
-                    className={`${styles.forminputtext} ${styles.forminputtextarea}`}
-                    id="partnerdescription"
-                    name="partnerdescription"
-                    value={deleteReason}
-                    maxLength='250'
-                    onChange={e => setDeleteReason(e.target.value)}
-                    required
-                  />
-                </div>
-                  
+                    <label className={styles.formlabel} htmlFor="partnerdescription">
+                      Motivo de exclusão de usuário:
+                    </label>
+                    <textarea
+                      className={`${styles.forminputtext} ${styles.forminputtextarea}`}
+                      id="partnerdescription"
+                      name="partnerdescription"
+                      value={deleteReason}
+                      maxLength='250'
+                      onChange={e => setDeleteReason(e.target.value)}
+                      required
+                    />
+                  </div>
+
                   {/* <input
                     type="text"
                     placeholder="Digite a razão da deleção"

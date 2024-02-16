@@ -137,7 +137,7 @@ export default function Payments() {
               )}
 
             </div>
-            
+
             <div className={styles.headtable}>
               <button className={styles.btfilter} onClick={() => setIsFilterOpen(!isFilterOpen)}>Filtros</button>
             </div>
@@ -157,8 +157,8 @@ export default function Payments() {
                     <td className={styles.tdcenter}>{user.cardNumber}</td>
                     <td className={styles.tdcenter}>{user.username}</td>
                     <td className={styles.tdcenter}>
-                      <div className={styles.containerdots}>
-                        <div className={(user.paymentstatus == 'EM_DIA') ? styles.dotsgreen : styles.dotsred}></div>
+                      <div className={(user.paymentstatus === 'EM_DIA') ? styles.dotsgreen : (user.paymentstatus === 'ATRASADO') ? styles.dotsred : styles.nodots}>
+                        {(user.paymentstatus !== 'EM_DIA' && user.paymentstatus !== 'ATRASADO') && 'NCF'}
                       </div>
                     </td>
                     <td className={styles.tdcenter}>
