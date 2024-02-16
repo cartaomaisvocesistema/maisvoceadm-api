@@ -52,8 +52,12 @@ export default function NewDependent() {
         setMessageDependentValue(message);
       } else {
         if (titular.agreementType === 'PLUS') {
-          let message = `${titular.username} possui ${dependentExtra.length} dependente(s) extra(s) do total de 4`;
-          const type = 'C_DEPENDENTE_EXTRA';
+          let message = `${titular.username} possui ${dependentFree.length} dependente(s) gratuito(s) do total de 4`;
+          let type = 'C_DEPENDENTE_GRATUITO';
+          if (dependentFree.length == 4) {
+            message = `${titular.username} já possui 4 dependentes gratuitos, e possui ${dependentExtra.length} dependentes extra.`;
+            type = 'C_DEPENDENTE_EXTRA';
+          }
           setypeValue(type);
           setMessageDependentValue(message);
         }
