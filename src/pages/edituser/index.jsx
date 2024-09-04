@@ -26,6 +26,7 @@ export default function EditUser() {
   const [addressValue, setAddressValue] = useState('');
   const [phoneValue, setPhoneValue] = useState('');
   const [paymentstatus, setPaymentstatus] = useState('');
+  const [paymentDateValue, setPaymentDateValue] = useState('');
 
   
   const [alterPaymentTypeValue, setAlterPaymentTypeValue] = useState(false);
@@ -39,7 +40,19 @@ export default function EditUser() {
 
 
   const { user } = useContext(AuthContext)
+  const [opcaoDateSelecionada, setOpcaoDateSelecionada] = useState('PADRAO');
 
+  function handleDateOptions(event) {
+    const { value } = event.target;
+    if (value === 'PADRAO') {
+      resetNewDate();
+    }
+    setOpcaoDateSelecionada(value);
+  }
+
+  function resetNewDate() {
+    setPaymentDateValue('');
+  }
   useEffect(() => {
     recoveryUser()
   }, [])
@@ -227,14 +240,16 @@ export default function EditUser() {
     }
 
     try {
-      const response = await api.patch(`/api/usuarios/admpatch`, updatedUser)
-      console.log(response.status);
-      if (response.status === 200) {
-        alert('Usuario atualizado com sucesso.');
-        router.push('/users/');
-      } else {
-        alert('Erro ao atualizar usuario.');
-      }
+      // const response = await api.patch(`/api/usuarios/admpatch`, updatedUser)
+      // console.log(response.status);
+      // if (response.status === 200) {
+      //   alert('Usuario atualizado com sucesso.');
+      //   router.push('/users/');
+      // } else {
+      //   alert('Erro ao atualizar usuario.');
+      // }
+      console.log(updatedUser)
+
     } catch (error) {
       alert('Erro ao atualizar usuario.');
       console.log(error);
@@ -297,14 +312,16 @@ export default function EditUser() {
     }
 
     try {
-      const response = await api.post(`/api/usuarios/confirmpayment/${id}`, updatedUser)
-      console.log(response.status);
-      if (response.status === 200) {
-        alert('Usuario atualizado com sucesso.');
-        router.push('/users/');
-      } else {
-        alert('Erro ao atualizar usuario.');
-      }
+      // const response = await api.post(`/api/usuarios/confirmpayment/${id}`, updatedUser)
+      // console.log(response.status);
+      // if (response.status === 200) {
+      //   alert('Usuario atualizado com sucesso.');
+      //   router.push('/users/');
+      // } else {
+      //   alert('Erro ao atualizar usuario.');
+      // }
+      console.log(updatedUser)
+
     } catch (error) {
       alert('Erro ao atualizar usuario.');
       console.log(error);
@@ -394,6 +411,50 @@ export default function EditUser() {
                       onChange={e => handleChangeMaskPhone(e)}
                       required />
                   </div>
+
+                  <label className={styles.formlabel} htmlFor="paymentDate">Data de Pagamento</label>
+                      <br/>
+
+                      <label>
+                        <input
+                          name="datepayment"
+                          type="radio"
+                          value="PADRAO"
+                          checked={opcaoDateSelecionada === 'PADRAO'}
+                          onChange={handleDateOptions}
+                        />
+                        <span className={styles.checkbox1comnegrito}>Pagamento na Data Padrão - (3 DIAS APÓS O CADASTRO DO USUÁRIO)</span>
+                      </label>
+                      <br/>
+                      <br/>
+                      <label>
+                        <input
+                          name="datenewpayment"
+                          type="radio"
+                          value="NEWDATE"
+                          checked={opcaoDateSelecionada === 'NEWDATE'}
+                          onChange={handleDateOptions}
+                        />
+                        
+                        <span className={styles.checkbox1comnegrito}>DIGITE A DATA DA COBRANÇA - (ATÉ 1 MES APÓS O CADASTRO DO USUÁRIO )</span>
+                      </label>
+                      <div className={styles.formgroup}>
+                        <label className={styles.formlabel} htmlFor="paymentDate">Data de Pagamento</label>
+                        <input
+                          className={styles.forminputtext}
+                          type="text"
+                          id="paymentDate"
+                          name="paymentDate"
+                          maxLength="10"
+                          value={paymentDateValue}
+                          placeholder="DD/MM/YYYY"
+                          disabled={!(opcaoDateSelecionada === 'NEWDATE')}
+
+                          onChange={(e) => handleChangeMaskPaymentDate(e)}
+                          required
+                        />
+                      </div>
+
 
                   <div className={styles.formgrouppayment}>
                     <div className={styles.checkboxgrouppayment}>

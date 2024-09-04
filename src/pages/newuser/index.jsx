@@ -15,6 +15,7 @@ export default function NewUser() {
   const [loading, setLoading] = useState(false);
 
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('BOLETO');
+  const [opcaoDateSelecionada, setOpcaoDateSelecionada] = useState('PADRAO');
 
   const [usernameValue, setUsernameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -46,12 +47,24 @@ export default function NewUser() {
     setCvvValue('');
   }
 
+  function resetNewDate() {
+    setPaymentDateValue('');
+  }
+
   function handleOptions(event) {
     const { value } = event.target;
     if (value === 'UNDEFINED' || value === 'BOLETO') {
       resetSignatureCredit();
     }
     setOpcaoSelecionada(value);
+  }
+
+  function handleDateOptions(event) {
+    const { value } = event.target;
+    if (value === 'PADRAO') {
+      resetNewDate();
+    }
+    setOpcaoDateSelecionada(value);
   }
 
   function handleOptionsAgreement(event) {
@@ -128,7 +141,8 @@ export default function NewUser() {
   }
 
     const [birthDateValue, setBirthDateValue] = useState('');
-  
+    const [paymentDateValue, setPaymentDateValue] = useState('');
+
     const handleChangeMaskBirthDate = (e) => {
       const { value } = e.target;
       setBirthDateValue(maskBirthDate(value));
@@ -144,6 +158,20 @@ export default function NewUser() {
         .replace(/(\d{4})\d+?$/, '$1');
     };
 
+    const handleChangeMaskPaymentDate = (e) => {
+      const { value } = e.target;
+      setPaymentDateValue(maskPaymentDate(value));
+    };
+  
+    const maskPaymentDate = (value) => {
+      if (!value) return '';
+  
+      return value
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .replace(/(\d{4})\d+?$/, '$1');
+    };
 
   const confirmarDadosEPagamento = async (e) => {
     e.preventDefault();
@@ -174,9 +202,12 @@ export default function NewUser() {
         password: passwordValue,
         type: typeUserValue,
         selectedOption: opcaoSelecionada,
+        selectedDateOption: opcaoDateSelecionada,
         paymenttype: pt,
         agreementType: agreementTypeValue,
-        dateOfBirth: birthDateValue
+        dateOfBirth: birthDateValue,
+        paymentDate: paymentDateValue
+
       }
 
       let newUser = {
@@ -200,13 +231,15 @@ export default function NewUser() {
       }
 
       try {
-        const response = await api.post(`/api/usuarios/`, newUser)
-        if (response.status === 200) {
-          alert('Usuario cadastrado com sucesso.');
-          router.push('/users/');
-        } else {
-          alert('Erro ao cadastrar usuario.');
-        }
+        // const response = await api.post(`/api/usuarios/`, newUser)
+        // if (response.status === 200) {
+        //   alert('Usuario cadastrado com sucesso.');
+        //   router.push('/users/');
+        // } else {
+        //   alert('Erro ao cadastrar usuario.');
+        // }
+        console.log(newUser)
+
       } catch (error) {
         alert('Erro ao cadastrar usuario.');
         console.log(error)
@@ -248,7 +281,8 @@ export default function NewUser() {
         selectedOption: opcaoSelecionada,
         paymenttype: pt,
         agreementType: agreementTypeValue,
-        dateOfBirth: birthDateValue
+        dateOfBirth: birthDateValue,
+        paymentDate: paymentDateValue
       }
 
       let newUser = {
@@ -272,13 +306,15 @@ export default function NewUser() {
       }
 
       try {
-        const response = await api.post(`/api/usuarios/userdata`, newUser)
-        if (response.status === 200) {
-          alert('Dados do Usuario cadastrados com sucesso.');
-          router.push('/users/');
-        } else {
-          alert('Erro ao cadastrar usuario.');
-        }
+        // const response = await api.post(`/api/usuarios/userdata`, newUser)
+        // if (response.status === 200) {
+        //   alert('Dados do Usuario cadastrados com sucesso.');
+        //   router.push('/users/');
+        // } else {
+        //   alert('Erro ao cadastrar usuario.');
+        // }
+        console.log(newUser)
+
       } catch (error) {
         alert('Erro ao cadastrar usuario.');
         console.log(error)
@@ -562,8 +598,52 @@ export default function NewUser() {
                           <option value="4">Pix</option>
                         </select>
                       </div>
+
+                     
                     </div>
                   </div>
+                  <label className={styles.formlabel} htmlFor="paymentDate">Data de Pagamento</label>
+                      <br/>
+
+                      <label>
+                        <input
+                          name="datepayment"
+                          type="radio"
+                          value="PADRAO"
+                          checked={opcaoDateSelecionada === 'PADRAO'}
+                          onChange={handleDateOptions}
+                        />
+                        <span className={styles.checkbox1comnegrito}>Pagamento na Data Padrão - (3 DIAS APÓS O CADASTRO DO USUÁRIO)</span>
+                      </label>
+                      <br/>
+                      <br/>
+                      <label>
+                        <input
+                          name="datenewpayment"
+                          type="radio"
+                          value="NEWDATE"
+                          checked={opcaoDateSelecionada === 'NEWDATE'}
+                          onChange={handleDateOptions}
+                        />
+                        
+                        <span className={styles.checkbox1comnegrito}>DIGITE A DATA DA COBRANÇA - (ATÉ 1 MES APÓS O CADASTRO DO USUÁRIO )</span>
+                      </label>
+                      <div className={styles.formgroup}>
+                        <label className={styles.formlabel} htmlFor="paymentDate">Data de Pagamento</label>
+                        <input
+                          className={styles.forminputtext}
+                          type="text"
+                          id="paymentDate"
+                          name="paymentDate"
+                          maxLength="10"
+                          value={paymentDateValue}
+                          placeholder="DD/MM/YYYY"
+                          disabled={!(opcaoDateSelecionada === 'NEWDATE')}
+
+                          onChange={(e) => handleChangeMaskPaymentDate(e)}
+                          required
+                        />
+                      </div>
                   <button
                     className={styles.button}
                     type="submit"
